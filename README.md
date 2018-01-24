@@ -1,4 +1,4 @@
-## Sourcetree - Initial Setup**
+## Sourcetree - Initial Setup
 
 1. Start Sourcetree
 2. Click “Remote” tab
@@ -6,6 +6,7 @@
 4. Set authentication to “basic” and enter your bitbucket email/username, then click refresh password and enter your password in the pop-up prompt
 5. Clone the repository “ET Phones Home”, wherever you clone it to is where you will work from on your computer
 6. Don’t change any settings just browse and set the directory to wherever you want your project files to be on your computer (Ex. Final Project/ET Phones Home)
+
 
 **OR**
 
