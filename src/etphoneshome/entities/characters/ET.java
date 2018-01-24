@@ -1,4 +1,4 @@
 package etphoneshome.entities.characters;
 
-public class ET {
+public class ET extends Character {
 }

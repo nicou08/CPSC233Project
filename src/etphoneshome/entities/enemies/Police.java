@@ -1,4 +1,4 @@
 package etphoneshome.entities.enemies;
 
-public class Police {
+public class Police extends Enemy {
 }
