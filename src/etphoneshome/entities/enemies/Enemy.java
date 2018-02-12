@@ -1,4 +1,8 @@
 package etphoneshome.entities.enemies;
 
-public class Enemy {
+import etphoneshome.entities.actor.Actor;
+
+public class Enemy extends Actor
+{
+
 }

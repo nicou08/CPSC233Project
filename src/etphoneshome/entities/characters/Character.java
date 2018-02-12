@@ -1,4 +1,8 @@
 package etphoneshome.entities.characters;
 
-public class Character {
+import etphoneshome.entities.actor.Actor;
+
+public class Character extends Actor
+{
+
 }
