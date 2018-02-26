@@ -1,5 +1,6 @@
 package etphoneshome.entities.characters;
 
+<<<<<<< HEAD
 import etphoneshome.objects.Location;
 
 /**
@@ -99,4 +100,11 @@ public class Character {
         System.out.println("testLoc y coordinate (should be 234): " + testLoc.getYcord());
 
     }
+=======
+import etphoneshome.entities.actor.Actor;
+
+public class Character extends Actor
+{
+
+>>>>>>> 6a80703f5d8e78b191f81c6ed2715c357af2861e
 }

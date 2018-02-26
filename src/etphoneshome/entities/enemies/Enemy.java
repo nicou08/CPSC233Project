@@ -1,5 +1,6 @@
 package etphoneshome.entities.enemies;
 
+<<<<<<< HEAD
 import etphoneshome.objects.Location;
 
 /**
@@ -98,4 +99,11 @@ public class Enemy {
         System.out.println("testLoc y coordinate (should be 233): " + testLoc.getYcord());
 
     }
+=======
+import etphoneshome.entities.actor.Actor;
+
+public class Enemy extends Actor
+{
+
+>>>>>>> 6a80703f5d8e78b191f81c6ed2715c357af2861e
 }

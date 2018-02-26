@@ -1,4 +1,5 @@
 *.iml
+<<<<<<< HEAD
 /bin/
 *.project
 *.classpath
@@ -15,3 +16,8 @@ out/production/et-phones-home-text/etphoneshome/entities/characters/Character.cl
 .idea/modules.xml
 .idea/misc.xml
 out/production/et-phones-home-text/etphoneshome/entities/enemies/Police.class
+=======
+.idea/modules.xml
+.idea/misc.xml
+.idea/workspace.xml
+>>>>>>> 6a80703f5d8e78b191f81c6ed2715c357af2861e
