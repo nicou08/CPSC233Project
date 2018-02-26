@@ -1,6 +1,5 @@
 package etphoneshome.entities.characters;
 
-<<<<<<< HEAD
 import etphoneshome.objects.Location;
 
 /**
@@ -15,67 +14,66 @@ public class Character {
     /**
      * Status of whether this character is dead
      */
-	private boolean isDead = false;	//Should be set to true if the character dies
+    private boolean isDead = false;    //Should be set to true if the character dies
 
     /**
      * Location associated with the {@code Character}
      */
-	private Location location = new Location(0, 0);
+    private Location location = new Location(0, 0);
 
     /**
      * Returns the location object associated with the {@code Character}
+     *
      * @return The location object associated with the {@code Character}
      */
-	public Location getLocation()
-	{
+    public Location getLocation() {
 
-		return this.location;
-	}
+        return this.location;
+    }
 
     /**
      * Sets the location object associated with the {@code Character}
+     *
      * @param newLocation The new {@code location} object
      */
-	public void setLocation(Location newLocation)
-	{
+    public void setLocation(Location newLocation) {
 
-	    this.location = newLocation;
-	}
+        this.location = newLocation;
+    }
 
     /**
      * Returns the status of whether the character is dead
+     *
      * @return The current {@code isDead} status of the character
      */
-	public boolean getIsDead()
-	{
+    public boolean getIsDead() {
 
-	    return this.isDead;
-	}
+        return this.isDead;
+    }
 
     /**
      * Sets the status of whether the character is dead to a new status
+     *
      * @param newStatus The new status of whether the {@code Character} is dead
      */
-	public void setIsDead(boolean newStatus)
-	{
+    public void setIsDead(boolean newStatus) {
 
-	    this.isDead = newStatus;
-	}
+        this.isDead = newStatus;
+    }
 
-	//main tests the class methods
-	public static void main(String[] args)
-	{
-		Character c = new Character();
-		//test the getter and setter for isDead
+    //main tests the class methods
+    public static void main(String[] args) {
+        Character c = new Character();
+        //test the getter and setter for isDead
 
-        if(c.getIsDead()) //should be false originally
+        if (c.getIsDead()) //should be false originally
             System.out.println("This should not have been printed. Character should be alive (but is dead here)");
         else
             System.out.println("Character is alive. This is the correct outcome");
 
         c.setIsDead(true);
 
-        if(c.getIsDead()) //should be true
+        if (c.getIsDead()) //should be true
             System.out.println("Character is dead. This is the correct outcome.");
         else
             System.out.println("Character is alive. This is not the correct outcome");
@@ -100,11 +98,4 @@ public class Character {
         System.out.println("testLoc y coordinate (should be 234): " + testLoc.getYcord());
 
     }
-=======
-import etphoneshome.entities.actor.Actor;
-
-public class Character extends Actor
-{
-
->>>>>>> 6a80703f5d8e78b191f81c6ed2715c357af2861e
 }

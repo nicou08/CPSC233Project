@@ -1,6 +1,5 @@
 package etphoneshome.entities.enemies;
 
-<<<<<<< HEAD
 import etphoneshome.objects.Location;
 
 /**
@@ -14,67 +13,66 @@ public class Enemy {
     /**
      * Status of whether this enemy is dead
      */
-	private boolean isDead = false;	//Not sure if needed for text based version. Should be set to true when he gets hit
+    private boolean isDead = false;    //Not sure if needed for text based version. Should be set to true when he gets hit
 
     /**
      * Location associated with the {@code Enemy}
      */
-	private Location location;
+    private Location location;
 
     /**
      * Returns the location object associated with the {@code Enemy}
+     *
      * @return The location object associated with the {@code Enemy}
      */
-	public Location getLocation()
-	{
+    public Location getLocation() {
 
-		return this.location;
-	}
+        return this.location;
+    }
 
     /**
      * Sets the location object associated with the {@code Enemy}
+     *
      * @param newLocation The new {@code location} object
      */
-	public void setLocation(Location newLocation)
-	{
+    public void setLocation(Location newLocation) {
 
-	    this.location = newLocation;
-	}
+        this.location = newLocation;
+    }
 
     /**
      * Returns the status of whether the enemy is dead
+     *
      * @return The current {@code isDead} status of the enemy
      */
-	public boolean getIsDead()
-	{
+    public boolean getIsDead() {
 
-	    return this.isDead;
-	}
+        return this.isDead;
+    }
 
     /**
      * Sets the status of whether the enemy is dead to a new status
+     *
      * @param newStatus The new status of whether the {@code Enemy} is dead
      */
-	public void setIsDead(boolean newStatus)
-	{
-		this.isDead = newStatus;
-	}
+    public void setIsDead(boolean newStatus) {
+        this.isDead = newStatus;
+    }
 
-	//main tests the class methods
-    public static void main(String[] args)
-    {
+    //main tests the class methods
+    public static void main(String[] args) {
         Enemy c = new Enemy();
         c.location = new Location(0, 0);    //Set the enemy class to a location of 0,0 for testing
         //test the getter and setter for isDead
 
-        if(c.getIsDead()) //should be false originally
+        if (c.getIsDead()) //should be false originally
             System.out.println("This should not have been printed. Enemy should be alive (but is dead here)");
         else
             System.out.println("Enemy is alive. This is the correct outcome");
 
         c.setIsDead(true);
 
-        if(c.getIsDead()) //should be true
+        if (c.getIsDead()) //should be true
             System.out.println("Enemy is dead. This is the correct outcome.");
         else
             System.out.println("Enemy is alive. This is not the correct outcome");
@@ -99,11 +97,4 @@ public class Enemy {
         System.out.println("testLoc y coordinate (should be 233): " + testLoc.getYcord());
 
     }
-=======
-import etphoneshome.entities.actor.Actor;
-
-public class Enemy extends Actor
-{
-
->>>>>>> 6a80703f5d8e78b191f81c6ed2715c357af2861e
 }
