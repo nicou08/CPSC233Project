@@ -1,64 +1,58 @@
 package etphoneshome.objects;
 
 public class Location {
-	/* This is the location class that holds 2-Dimensional coordinates and
-	 * calculates distances between objects of this particular class
-	 */
+    /* This is the location class that holds 2-Dimensional coordinates and
+     * calculates distances between objects of this particular class
+     */
     private int xcord;
     private int ycord;
-    
-    public Location(){}
+
     public Location(int xCord, int yCord) {
         this.xcord = xCord;
         this.ycord = yCord;
     }
 
-    public int getXcord()
-    {
+    public int getXcord() {
         return xcord;
     }
-    public int getYcord()
-    {
+
+    public int getYcord() {
         return ycord;
     }
-    public void setXcord(int x)
-    {
+
+    public void setXcord(int x) {
         xcord = x;
     }
-    public void setYcord(int y)
-    {
+
+    public void setYcord(int y) {
         ycord = y;
     }
-    public double getDistance(Location m)
-    {
-    	/* The if statements are used to determine which value in the same axis is bigger 
+
+    public double getDistance(Location m) {
+        /* The if statements are used to determine which value in the same axis is bigger
     	 * in order to not obtain negative differences
     	 */
         double xdif, ydif, distance;
         double x1 = m.getXcord();
         double y1 = m.getYcord();
-        if(x1>xcord)
-        {
+        if (x1 > xcord) {
             xdif = x1 - xcord;
-        }else if(xcord > x1)
-        {
+        } else if (xcord > x1) {
             xdif = xcord - x1;
-        }else // x1 ==x2
+        } else // x1 ==x2
         {
             xdif = 0;
         }
-        if(y1>ycord)
-        {
+        if (y1 > ycord) {
             ydif = y1 - ycord;
-        }else if(ycord > y1)
-        {
+        } else if (ycord > y1) {
             ydif = ycord - y1;
-        }else // y1 == y2
+        } else // y1 == y2
         {
             ydif = 0;
         }
         //Using Pythagoras' theorem
-        distance = Math.sqrt(xdif*xdif + ydif*ydif);
+        distance = Math.sqrt(xdif * xdif + ydif * ydif);
         return distance;
 
 
@@ -74,7 +68,11 @@ public class Location {
         Location loc3 = new Location(3, 4);
         double distance2to3 = loc2.getDistance(loc3);
         System.out.println("The distance from ObjectTwo to ObjectThree is: " + distance2to3);
-        
+
+    }
+
+    public Location clone() {
+        return new Location(this.xcord, this.ycord);
     }
 
 
