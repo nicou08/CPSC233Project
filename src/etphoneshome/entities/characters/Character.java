@@ -1,79 +1,28 @@
 package etphoneshome.entities.characters;
 
+import etphoneshome.entities.actor.Actor;
 import etphoneshome.objects.Location;
 
 /**
- * This class is used as the parent class for the player character and any non-enemy characters. Using the
- * getLocation method returns a location object. Using setLocation allows you to set the character's
- * location to a specified location. Using getIsDead checks if this character is currently dead. Using
- * setIsDead allows you to set whether this character is currently dead.
+ * This is used for a generic character (non-enemy) class. It is derived from the {@code Actor} class.
  */
 
-public class Character {
-
-    /**
-     * Status of whether this character is dead
-     */
-    private boolean isDead = false;    //Should be set to true if the character dies
-
-    /**
-     * Location associated with the {@code Character}
-     */
-    private Location location = new Location(0, 0);
-
-    /**
-     * Returns the location object associated with the {@code Character}
-     *
-     * @return The location object associated with the {@code Character}
-     */
-    public Location getLocation() {
-
-        return this.location;
-    }
-
-    /**
-     * Sets the location object associated with the {@code Character}
-     *
-     * @param newLocation The new {@code location} object
-     */
-    public void setLocation(Location newLocation) {
-
-        this.location = newLocation;
-    }
-
-    /**
-     * Returns the status of whether the character is dead
-     *
-     * @return The current {@code isDead} status of the character
-     */
-    public boolean getIsDead() {
-
-        return this.isDead;
-    }
-
-    /**
-     * Sets the status of whether the character is dead to a new status
-     *
-     * @param newStatus The new status of whether the {@code Character} is dead
-     */
-    public void setIsDead(boolean newStatus) {
-
-        this.isDead = newStatus;
-    }
+public class Character extends Actor {
 
     //main tests the class methods
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Character c = new Character();
         //test the getter and setter for isDead
 
-        if (c.getIsDead()) //should be false originally
+        if(c.getIsDead()) //should be false originally
             System.out.println("This should not have been printed. Character should be alive (but is dead here)");
         else
             System.out.println("Character is alive. This is the correct outcome");
 
         c.setIsDead(true);
 
-        if (c.getIsDead()) //should be true
+        if(c.getIsDead()) //should be true
             System.out.println("Character is dead. This is the correct outcome.");
         else
             System.out.println("Character is alive. This is not the correct outcome");
