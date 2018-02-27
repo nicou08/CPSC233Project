@@ -19,7 +19,7 @@ public class GraphicsRepainter {
 
 	private final int W = 933;
 	private final int H = 700;
-	private final Image BACKGROUND = new Image("background.jpg");
+	private final Image BACKGROUND = new Image("/etphoneshome/graphics/background.jpg");
 	private Canvas canvas = new Canvas(W,H);
 	private GraphicsContext gc = canvas.getGraphicsContext2D();
 	private Group root = new Group();
