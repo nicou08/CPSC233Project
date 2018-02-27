@@ -1,6 +1,9 @@
 package etphoneshome.entities.actor;
 
 import etphoneshome.objects.Location;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.image.Image;
+
 
 /**
  * This class is used as the parent class for the {@code Character} and the {@code Enemy}. Using the getLocation method
@@ -10,7 +13,7 @@ import etphoneshome.objects.Location;
  */
 public class Actor
 {
-
+    JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
     /**
      * Status of whether this actor is dead
      */
@@ -20,6 +23,16 @@ public class Actor
      * Location associated with the {@code Actor}
      */
     private Location location = new Location(0, 0);
+
+    /**
+     * Amount of lives/health associated with the {@code Actor}
+     */
+    private int health = 1;     //can be used for both characters and enemies. A default value of 1 is given
+
+    /**
+     * A placeholder image associated with a generic {@code Actor}
+     */
+    Image entitySprite = new Image("etphoneshome/entities/actor/PlaceholderSpriteTexture80X120.jpg");
 
     /**
      * Returns the location object associated with the {@code Actor}
@@ -45,7 +58,7 @@ public class Actor
      * Returns the status of whether the actor is dead
      * @return The current {@code isDead} status of the actor
      */
-    public boolean getIsDead()
+    public boolean getIsDead()      //true means the actor is dead
     {
 
         return this.isDead;
@@ -55,10 +68,68 @@ public class Actor
      * Sets the status of whether the actor is dead to a new status
      * @param newStatus The new status of whether the {@code Actor} is dead
      */
-    public void setIsDead(boolean newStatus)
+    public void setIsDead(boolean newStatus)        //true means the actor is dead
     {
 
         this.isDead = newStatus;
+    }
+
+    /**
+     * Returns the current health amount of the {@code Actor}
+     * @return The current {@code health} of the {@code Actor}
+     */
+    public int getHealth()
+    {
+        return this.health;
+    }
+
+    /**
+     * Sets the health of the {@code Actor} to a new amount which must be non negative.
+     * @param newHealth The new {@code health} amount for the {@code Actor}
+     */
+    public void setHealth(int newHealth)    //This could be useful for instantly killing an enemy, setting initial-
+    {                                       //-health or if we implement healing in the future
+
+        if(newHealth >= 0)      //we can only have non negative health
+            this.health = newHealth;
+        else
+            System.out.println("Health cannot be negative! Heatlh is unchanged");
+
+        if(this.getHealth() <= 0)
+            this.setIsDead(true);
+        else
+            this.setIsDead(false);
+    }
+
+    /**
+     * Applies 1 point of damage to the {@code Actor} and checks if the actor is dead
+     */
+    public void takeSinglePointOfDamage()
+    {
+        this.health = this.health - 1;
+
+        if(this.health <= 0)    //indicates the actor is dead
+            setIsDead(true);
+        else
+            setIsDead(false);
+    }
+
+    /**
+     * Returns the image/sprite object associated with the {@code Actor}
+     * @return The image/sprite object associated with the {@code Actor}
+     */
+    public Image getEntitySprite()
+    {
+        return this.entitySprite;
+    }
+
+    /**
+     * Assigns a new image/sprite to the {@code Actor}
+     * @param newSpriteURL The URL/file address of the new imagee/sprite
+     */
+    public void setEntitySprite(String newSpriteURL)
+    {
+        this.entitySprite = new Image(newSpriteURL);
     }
 
     //main tests the class methods
@@ -84,7 +155,7 @@ public class Actor
         //test the getter and setters for location
 
         Location testLoc;
-        Location placeIntoTestLoc = new Location(123, 234);
+        Location placeIntoTestLoc = new Location(153, 238);
 
         testLoc = a.getLocation();  //Sets the initial (0,0) location to the testLoc location
 
@@ -95,8 +166,37 @@ public class Actor
 
         testLoc = a.getLocation();  //gets the location from a which is now changed
 
-        System.out.println("testLoc x coordinate (should be 123): " + testLoc.getXcord());
-        System.out.println("testLoc y coordinate (should be 234): " + testLoc.getYcord());
+        System.out.println("testLoc x coordinate (should be 153): " + testLoc.getXcord());
+        System.out.println("testLoc y coordinate (should be 238): " + testLoc.getYcord());
+
+     //tests for health, getHealth, setHealth and takeSinglePointOfDamage
+        System.out.println("Testing health. Should be 1: " + a.getHealth());
+        a.setHealth(8);
+        System.out.println("Testing health. Should be 8: " + a.getHealth());
+        a.takeSinglePointOfDamage();
+        a.takeSinglePointOfDamage();
+        a.takeSinglePointOfDamage();
+        System.out.println("Testing health. Should be 5: " + a.getHealth());
+        a.setHealth(-1);
+        System.out.println("Testing health. Should be 5:" + a.getHealth());
+        a.setHealth(1);
+        System.out.println("Testing health. Should be 1:" + a.getHealth());
+        System.out.println("Should be false: " + a.getIsDead());
+        a.setHealth(0);
+        System.out.println("Testing health. Should be 0:" + a.getHealth());
+        System.out.println("Should be true: " + a.getIsDead());
+        a.setHealth(1);
+        System.out.println("Testing health. Should be 1:" + a.getHealth());
+        System.out.println("Should be false: " + a.getIsDead());
+        a.setHealth(-1);
+        System.out.println("Testing health. Should be 1:" + a.getHealth());
+        System.out.println("Should be false: " + a.getIsDead());
+        a.takeSinglePointOfDamage();
+        System.out.println("Testing health. Should be 0:" + a.getHealth());
+        System.out.println("Should be true: " + a.getIsDead());
+
+        //entitySprite methods can't be tested until we setup the display window
+
 
     }
 }
