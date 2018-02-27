@@ -3,7 +3,7 @@ package etphoneshome.entities.actor;
 import etphoneshome.objects.Location;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
-
+import etphoneshome.entities.entityVelocity.Velocity;
 
 /**
  * This class is used as the parent class for the {@code Character} and the {@code Enemy}. Using the getLocation method
@@ -33,10 +33,16 @@ public class Actor
      */
     private int health = 1;     //can be used for both characters and enemies. A default value of 1 is given
 
+
     /**
      * A placeholder image associated with a generic {@code Actor}
      */
-    Image entitySprite = new Image("etphoneshome/entities/actor/PlaceholderSpriteTexture80X120.jpg");
+    private Image entitySprite = new Image("etphoneshome/entities/actor/PlaceholderSpriteTexture80X120.jpg");
+
+    /**
+     * The velocity object associated with the {@code Actor} with the default values of 0
+     */
+    private Velocity actorVelocity = new Velocity();
 
     /**
      * Returns the location object associated with the {@code Actor}
@@ -117,6 +123,7 @@ public class Actor
         else
             setIsDead(false);
     }
+
 
     /**
      * Returns the image/sprite object associated with the {@code Actor}
@@ -201,6 +208,20 @@ public class Actor
 
         //entitySprite methods can't be tested until we setup the display window
 
+        System.out.println("Testing velocity. Should be 0.0: " + a.actorVelocity.getHorizontalVelocity());
+        System.out.println("Testing velocity. Should be 0.0: " + a.actorVelocity.getVerticalVelocity());
+
+        a.actorVelocity.setHorizontalVelocity(200);
+        a.actorVelocity.setVerticalVelocity(-125);
+
+        System.out.println("Testing velocity. Should be 200.0: " + a.actorVelocity.getHorizontalVelocity());
+        System.out.println("Testing velocity. Should be -125.0: " + a.actorVelocity.getVerticalVelocity());
+
+        a.actorVelocity.changeHorizontalVelocity(-250);
+        a.actorVelocity.changeVerticalVelocity(126);
+
+        System.out.println("Testing velocity. Should be -50.0: " + a.actorVelocity.getHorizontalVelocity());
+        System.out.println("Testing velocity. Should be 1.0: " + a.actorVelocity.getVerticalVelocity());
 
     }
 }

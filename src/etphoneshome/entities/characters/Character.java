@@ -3,6 +3,7 @@ package etphoneshome.entities.characters;
 import etphoneshome.entities.actor.Actor;
 import etphoneshome.objects.Location;
 
+
 /**
  * This is used for a generic character (non-enemy) class. It is derived from the {@code Actor} class.
  */
