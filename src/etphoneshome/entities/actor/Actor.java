@@ -9,7 +9,11 @@ import javafx.scene.image.Image;
  * This class is used as the parent class for the {@code Character} and the {@code Enemy}. Using the getLocation method
  * returns a location object. Using setLocation allows you to set the actor's location to a specified
  * location. Using getIsDead checks if this actor is currently dead. Using setIsDead allows you to
- * set whether this actor is currently dead.
+ * set whether this actor is currently dead. Using getHealth returns the current health of the {@code Actor}.
+ * Using setHealth allows you to set the health of the {@code Actor} and updates isDead status accordingly.
+ * Using takeSinglePointOfDamage applies a single point of damage to the {@code Actor} health and updates isDead
+ * status accordingly. Using getEntitySprite returns the image object of the {@code Actor}. Using setEntitySprite allows
+ * you to change the image object of the {@code Actor} using a URL/file path address.
  */
 public class Actor
 {
