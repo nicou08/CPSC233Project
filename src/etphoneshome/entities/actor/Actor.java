@@ -40,7 +40,7 @@ public class Actor {
     /**
      * The velocity object associated with the {@code Actor} with the default values of 0
      */
-    private Velocity actorVelocity = new Velocity();
+    private Velocity velocity = new Velocity();
 
     /**
      * Returns the location object associated with the {@code Actor}
@@ -137,6 +137,15 @@ public class Actor {
         this.entitySprite = new Image(newSpriteURL);
     }
 
+    /**
+     * Returns velocity of the {@code Actor}
+     *
+     * @return The velocity of the {@code Actor}
+     */
+    public Velocity getVelocity() {
+        return this.velocity;
+    }
+
     //main tests the class methods
     public static void main(String[] args) {
         Actor a = new Actor();
@@ -201,20 +210,20 @@ public class Actor {
 
         //entitySprite methods can't be tested until we setup the display window
 
-        System.out.println("Testing velocity. Should be 0.0: " + a.actorVelocity.getHorizontalVelocity());
-        System.out.println("Testing velocity. Should be 0.0: " + a.actorVelocity.getVerticalVelocity());
+        System.out.println("Testing velocity. Should be 0.0: " + a.velocity.getHorizontalVelocity());
+        System.out.println("Testing velocity. Should be 0.0: " + a.velocity.getVerticalVelocity());
 
-        a.actorVelocity.setHorizontalVelocity(200);
-        a.actorVelocity.setVerticalVelocity(-125);
+        a.velocity.setHorizontalVelocity(200);
+        a.velocity.setVerticalVelocity(-125);
 
-        System.out.println("Testing velocity. Should be 200.0: " + a.actorVelocity.getHorizontalVelocity());
-        System.out.println("Testing velocity. Should be -125.0: " + a.actorVelocity.getVerticalVelocity());
+        System.out.println("Testing velocity. Should be 200.0: " + a.velocity.getHorizontalVelocity());
+        System.out.println("Testing velocity. Should be -125.0: " + a.velocity.getVerticalVelocity());
 
-        a.actorVelocity.changeHorizontalVelocity(-250);
-        a.actorVelocity.changeVerticalVelocity(126);
+        a.velocity.changeHorizontalVelocity(-250);
+        a.velocity.changeVerticalVelocity(126);
 
-        System.out.println("Testing velocity. Should be -50.0: " + a.actorVelocity.getHorizontalVelocity());
-        System.out.println("Testing velocity. Should be 1.0: " + a.actorVelocity.getVerticalVelocity());
+        System.out.println("Testing velocity. Should be -50.0: " + a.velocity.getHorizontalVelocity());
+        System.out.println("Testing velocity. Should be 1.0: " + a.velocity.getVerticalVelocity());
 
     }
 }

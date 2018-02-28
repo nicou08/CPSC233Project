@@ -7,10 +7,9 @@ import etphoneshome.listeners.InputListener;
 import etphoneshome.managers.EntityManager;
 import etphoneshome.managers.GameManager;
 
-public class ETPhonesHomeMain {
+public class UILauncher {
 
     public static void main(String[] args) {
-        ETPhonesHomeMain main = new ETPhonesHomeMain();
         Character character = new ET();
         EntityManager entityManager = new EntityManager(character);
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();

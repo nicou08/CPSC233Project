@@ -28,6 +28,19 @@ public class Location {
         ycord = y;
     }
 
+    public void addX(int x) {
+        this.add(x, 0);
+    }
+
+    public void addY(int y) {
+        this.add(0, y);
+    }
+
+    public void add(int x, int y) {
+        this.xcord += x;
+        this.ycord += y;
+    }
+
     public double getDistance(Location m) {
         /* The if statements are used to determine which value in the same axis is bigger
     	 * in order to not obtain negative differences
