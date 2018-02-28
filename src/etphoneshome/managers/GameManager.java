@@ -86,7 +86,7 @@ public class GameManager {
         Character character = new ET();
         InputListener inputListener = new InputListener(character);
         EntityManager entityManager = new EntityManager(character);
-        GraphicsRepainter graphicsRepainter = new GraphicsRepainter(character, entityManager);
+        GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
         GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
 
         System.out.println("Testing out wasCharacterHurt");

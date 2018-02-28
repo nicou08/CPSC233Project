@@ -13,11 +13,11 @@ public class ETPhonesHomeMain {
         ETPhonesHomeMain main = new ETPhonesHomeMain();
         Character character = new ET();
         EntityManager entityManager = new EntityManager(character);
-        GraphicsRepainter graphicsRepainter = new GraphicsRepainter(character, entityManager);
+        GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
         InputListener inputListener = new InputListener(character);
         GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
         entityManager.spawnRandomEntities(10);
-        graphicsRepainter.goLaunch(args);
+        graphicsRepainter.goLaunch(args, character, entityManager);
         while (!gameManager.getGameOver()) {
             gameManager.nextTurn();
         }
