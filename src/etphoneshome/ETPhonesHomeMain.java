@@ -17,11 +17,11 @@ public class ETPhonesHomeMain {
         InputListener inputListener = new InputListener(character);
         GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
         entityManager.spawnRandomEntities(10);
+        graphicsRepainter.goLaunch(args);
         while (!gameManager.getGameOver()) {
             gameManager.nextTurn();
         }
         System.out.println("Gameover, you died!");
-        graphicsRepainter.goLaunch(args);
     }
 
 }

@@ -35,8 +35,6 @@ public class GameManager {
             character.setIsDead(true);
             this.setGameOver(true);
         }
-        this.graphicsRepainter.printState();
-        System.out.println("");
     }
 
     /**
