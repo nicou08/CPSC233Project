@@ -4,7 +4,7 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.managers.EntityManager;
-
+import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 /**
  * Class responsible for repainting the graphics of the game
  */
-public class GraphicsRepainter {
+public class GraphicsRepainter extends Application {
 
 	private final int W = 933;
 	private final int H = 700;
@@ -50,13 +50,8 @@ public class GraphicsRepainter {
         }
     }
     
-    public void createWindow(Stage stage) {
-    	
- 	    root.getChildren().add(canvas);
- 	    stage.setScene(scene);
- 	    gc.drawImage(BACKGROUND, 0, 0);
- 	    stage.show();
-    }
+    
+    
 
     public static void main(String[] args) {
         Character character = new ET();
@@ -74,7 +69,24 @@ public class GraphicsRepainter {
             graphicsRepainter.printState();
             System.out.println("");
         }
-
+        	launch(args);
+    }
+    public void start(Stage stage) {
+    	
+    	createWindow(stage);
+    
+    }
+    
+    public void createWindow(Stage stage) {
+    	
+ 	    root.getChildren().add(canvas);
+ 	    stage.setScene(scene);
+ 	    gc.drawImage(BACKGROUND, 0, 0);
+ 	    stage.show();
+	
+}
+    public static void goLaunch(String[] args) {
+    	launch(args);
     }
 
 }

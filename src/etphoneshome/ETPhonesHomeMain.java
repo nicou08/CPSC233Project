@@ -21,6 +21,7 @@ public class ETPhonesHomeMain {
             gameManager.nextTurn();
         }
         System.out.println("Gameover, you died!");
+        graphicsRepainter.goLaunch(args);
     }
 
 }
