@@ -5,6 +5,8 @@ import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
+import etphoneshome.objects.Location;
+import etphoneshome.objects.Hitbox;
 
 /**
  * Class in charge of all checks within the game, checkpoints, R+P pickups, enemy kills, character damage, etc.
@@ -43,10 +45,22 @@ public class GameManager {
      * @return true if the character was hurt, else false
      */
     public boolean wasCharacterHurt() {
-        for (Enemy enemy : this.entityManager.getEnemyList()) {
-            if (enemy.getLocation().getDistance(character.getLocation()) == 0) {
+    	int height = (int)this.character.getEntitySprite().getHeight();
+    	int width = (int)this.character.getEntitySprite().getWidth();
+    	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
+    	
+    	for (Enemy enemy : this.entityManager.getEnemyList()) {
+    		int enHeight = (int)enemy.getEntitySprite().getHeight();
+    		int enWidth = (int)enemy.getEntitySprite().getWidth();
+    		Hitbox ene = new Hitbox(enemy.getLocation(), enHeight, enWidth);
+    		boolean x = ET.areColliding(ene);
+    		if(x == true){
+    			return x;
+    		}
+            /*if (enemy.getLocation().getDistance(character.getLocation()) == 0) {
                 return true;
             }
+            */
         }
         return false;
     }

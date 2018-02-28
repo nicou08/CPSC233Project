@@ -20,7 +20,7 @@ public class Hitbox {
 		return height;
 	}
 	//Collision
-	boolean areColliding(Hitbox otherObject)
+	public boolean areColliding(Hitbox otherObject)
 	{
 		boolean colliding = false;
 		
