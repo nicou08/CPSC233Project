@@ -3,8 +3,7 @@ package etphoneshome.entities.entityVelocity;
 /**
  * This class is used to control the horizontal and vertical velocity for any actor (characters and enemies).
  */
-public class Velocity
-{
+public class Velocity {
     /**
      * The amount of horizontal velocity. A negative or positive will indicate direction
      */
@@ -25,72 +24,71 @@ public class Velocity
 
     /**
      * Constructor to immediately set both vertical and horzontal velocity
+     *
      * @param horizontalVelocity The amount of horizontal velocity
-     * @param verticalVelocity The amount of vertical velocity
+     * @param verticalVelocity   The amount of vertical velocity
      */
-    public Velocity(double horizontalVelocity, double verticalVelocity)
-    {
+    public Velocity(double horizontalVelocity, double verticalVelocity) {
         this.horizontalVelocity = horizontalVelocity;
         this.verticalVelocity = verticalVelocity;
     }
 
     /**
      * Returns the amount of horizontal velocity
+     *
      * @return the amount of horizontal velocity
      */
-    public double getHorizontalVelocity()
-    {
+    public double getHorizontalVelocity() {
         return this.horizontalVelocity;
     }
 
     /**
      * Returns the amount of vertical velocity
+     *
      * @return the amount of vertical velocity
      */
-    public double getVerticalVelocity()
-    {
+    public double getVerticalVelocity() {
         return this.verticalVelocity;
     }
 
     /**
      * Sets the amount of horizontal velocity
+     *
      * @param amount the amount of horizontal velocity
      */
-    public void setHorizontalVelocity(double amount)
-    {
+    public void setHorizontalVelocity(double amount) {
         this.horizontalVelocity = amount;
     }
 
     /**
      * Sets the amount of vertical velocity
+     *
      * @param amount the amount of vertical velocity
      */
-    public void setVerticalVelocity(double amount)
-    {
+    public void setVerticalVelocity(double amount) {
         this.verticalVelocity = amount;
     }
 
     /**
      * Changes the horizontal velocity by amount and the sign of amount
+     *
      * @param amount The amount the horizontal velocity changes and in which direction
      */
-    public void changeHorizontalVelocity(double amount)
-    {
+    public void changeHorizontalVelocity(double amount) {
         this.horizontalVelocity += amount;
     }
 
     /**
      * Changes the vertical velocity by amount and the sign of amount
+     *
      * @param amount The amount the vertical velocity changes and in which direction
      */
-    public void changeVerticalVelocity(double amount)
-    {
+    public void changeVerticalVelocity(double amount) {
         this.verticalVelocity += amount;
     }
 
     //main method used for testing
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Velocity v1 = new Velocity();
         Velocity v2 = new Velocity(10, -1);
 

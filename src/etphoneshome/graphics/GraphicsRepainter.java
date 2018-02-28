@@ -24,13 +24,8 @@ public class GraphicsRepainter extends Application {
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Group root = new Group();
     private Scene scene = new Scene(root);
-    private final EntityManager entityManager;
-    private final Character character;
-
-    public GraphicsRepainter(Character character, EntityManager entityManager) {
-        this.character = character;
-        this.entityManager = entityManager;
-    }
+    private EntityManager entityManager;
+    private Character character;
 
     public void start(Stage stage) {
         createWindow(stage);
@@ -44,7 +39,9 @@ public class GraphicsRepainter extends Application {
         stage.show();
     }
 
-    public void goLaunch(String[] args) {
+    public void goLaunch(String[] args, Character character, EntityManager entityManager) {
+        this.character =character;
+        this.entityManager = entityManager;
         super.launch(args);
     }
 
