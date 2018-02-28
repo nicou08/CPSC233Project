@@ -1,8 +1,6 @@
 package etphoneshome.graphics;
 
 import etphoneshome.entities.characters.Character;
-import etphoneshome.entities.characters.ET;
-import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.managers.EntityManager;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -17,10 +15,10 @@ import javafx.stage.Stage;
  */
 public class GraphicsRepainter extends Application {
 
-    private final int W = 933;
-    private final int H = 700;
-    private final Image BACKGROUND = new Image("/etphoneshome/graphics/background.jpg");
-    private Canvas canvas = new Canvas(W, H);
+    private final int WIDTH = 1728;
+    private final int HEIGHT = 972;
+    private final Image BACKGROUND = new Image("/images/backgrounds/background.jpg");
+    private Canvas canvas = new Canvas(this.WIDTH, this.HEIGHT);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Group root = new Group();
     private Scene scene = new Scene(root);
@@ -33,19 +31,28 @@ public class GraphicsRepainter extends Application {
 
     public void createWindow(Stage stage) {
 
-        root.getChildren().add(canvas);
-        stage.setScene(scene);
-        gc.drawImage(BACKGROUND, 0, 0);
+        this.root.getChildren().add(this.canvas);
+        stage.setScene(this.scene);
+        this.gc.drawImage(this.BACKGROUND, 0, 0);
         stage.show();
     }
 
     public void goLaunch(String[] args, Character character, EntityManager entityManager) {
-        this.character =character;
+        this.character = character;
         this.entityManager = entityManager;
         super.launch(args);
     }
 
     public void repaint() {
+        this.repaintCharacter();
+        this.repaintEnemies();
+    }
+
+    public void repaintCharacter() {
+
+    }
+
+    public void repaintEnemies() {
 
     }
 

@@ -1,4 +1,4 @@
-package etphoneshome.entities.entityVelocity;
+package etphoneshome.objects;
 
 /**
  * This class is used to control the horizontal and vertical velocity for any actor (characters and enemies).
