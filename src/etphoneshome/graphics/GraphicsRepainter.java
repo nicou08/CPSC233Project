@@ -25,7 +25,7 @@ public class GraphicsRepainter extends Application {
 
     private final int WIDTH = 1728;
     private final int HEIGHT = 972;
-    private final Image BACKGROUND = new Image("/images/backgrounds/background.jpg");
+    private final Image BACKGROUND = new Image("/images/backgrounds/backgroundRESIZED.jpg");
     private Canvas canvas = new Canvas(this.WIDTH, this.HEIGHT);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Group root = new Group();
@@ -35,6 +35,9 @@ public class GraphicsRepainter extends Application {
     private Character character;
     private int tick;
     private Stage stage;
+
+
+
 
     public void setCharacter(Character character) {
         this.character = character;
