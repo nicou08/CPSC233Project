@@ -3,16 +3,21 @@ package etphoneshome.listeners;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.objects.Location;
-
+import etphoneshome.objects.Velocity;
+import etphoneshome.graphics.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  * This class gets input from the user and updates the character based on that input
  */
 
-public class InputListener {
-
+public class InputListener implements ActionListener, KeyListener {
+	
     /**
      * character associated with {@code InputLIstener}
      */
@@ -23,7 +28,19 @@ public class InputListener {
      */
     private Location location;
 
-
+    private Velocity velocity;
+    
+    private GraphicsRepainter graphicsRepainter;
+    
+    private int x = location.getXcord();
+    
+	 private int y = location.getYcord();
+	
+	private double velx = velocity.getHorizontalVelocity();
+	
+	private double vely = velocity.getVerticalVelocity();
+	
+	
     /**
      * Constructor for the class
      *
@@ -33,12 +50,12 @@ public class InputListener {
         this.character = character;
         location = character.getLocation();
     }
-
-
+   	
+    
     /**
      * Uses method nextMove to get input from the user and processes the input and updates the character based on it
      */
-    public void processInput() {
+    /**
 
         char move = nextMove();
 
@@ -76,7 +93,7 @@ public class InputListener {
      * @return direction the user wants to move
      */
 
-    private char nextMove() {
+    /**private char nextMove() {
 
         //sets basic values
         char move = 'q';
@@ -122,8 +139,8 @@ public class InputListener {
         return move;
 
     }
-
-    public static void main(String[] args) {
+*/
+    /**public static void main(String[] args) {
 
         Character tester = new ET();
         Location locate = tester.getLocation();
@@ -155,6 +172,51 @@ public class InputListener {
         }
 
     }
+     * 
+     * 
+     */
+    	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+    		x = location.setXcord(x+velx);
+    		y = location.setYcord(y+vely);
+    		graphicsRepainter.repaint();
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int c = e.getKeyCode();
+		if (c == KeyEvent.VK_W) {
+			velx= 1;
+			vely= -1;
+			
+		}
+		if(c == KeyEvent.VK_A) {
+			velx= -1;
+			vely= 0;
+		}
+		if(c == KeyEvent.VK_D) {
+			velx= 1;
+			vely = 0;
+		}
+	}
+
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		velx = 0;
+		vely = 0;
+	}
+
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }
