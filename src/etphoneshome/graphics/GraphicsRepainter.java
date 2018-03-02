@@ -46,6 +46,7 @@ public class GraphicsRepainter extends Application {
     public void start(Stage stage) {
         this.stage = stage;
         this.createWindow(stage);
+        startTimeline();
     }
 
     public void createWindow(Stage stage) {
