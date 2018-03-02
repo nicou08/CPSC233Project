@@ -32,13 +32,13 @@ public class InputListener implements ActionListener, KeyListener {
     
     private GraphicsRepainter graphicsRepainter;
     
-    private int x = location.getXcord();
-    
-	 private int y = location.getYcord();
+    //private int x = location.getXcord();
+
+    //private int y = location.getYcord();
 	
-	private double velx = velocity.getHorizontalVelocity();
+	//private double velx = velocity.getHorizontalVelocity();
 	
-	private double vely = velocity.getVerticalVelocity();
+	//private double vely = velocity.getVerticalVelocity();
 	
 	
     /**
@@ -178,8 +178,8 @@ public class InputListener implements ActionListener, KeyListener {
     	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-    		x = location.setXcord(x+velx);
-    		y = location.setYcord(y+vely);
+    		//x = location.setXcord(x+velx);
+    		//y = location.setYcord(y+vely);
     		graphicsRepainter.repaint();
 	}
 
@@ -189,17 +189,14 @@ public class InputListener implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		int c = e.getKeyCode();
 		if (c == KeyEvent.VK_W) {
-			velx= 1;
-			vely= -1;
+			// update character.getVelocity()
 			
 		}
 		if(c == KeyEvent.VK_A) {
-			velx= -1;
-			vely= 0;
+            // update character.getVelocity()
 		}
 		if(c == KeyEvent.VK_D) {
-			velx= 1;
-			vely = 0;
+            // update character.getVelocity()
 		}
 	}
 
@@ -207,8 +204,10 @@ public class InputListener implements ActionListener, KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		velx = 0;
-		vely = 0;
+		// update character.getVelocity()
+        // NOTE: You cant just set the vertical velocity to 0, what if they press the W key and then release, your old code
+        // (if working) would've set the velocity to 0 instantly leaving the character stuck in the air without coming back down,
+        // gravity is handled in the GraphicsRepainter so you dont have to worry about that, but dont touch the verticalVelocity in this method
 	}
 
 

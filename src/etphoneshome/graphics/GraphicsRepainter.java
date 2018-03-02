@@ -16,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.plaf.nimbus.State;
+
 /**
  * Class responsible for repainting the graphics of the game
  */
@@ -32,10 +34,15 @@ public class GraphicsRepainter extends Application {
     private EntityManager entityManager;
     private Character character;
     private int tick;
+    private Stage stage;
+
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 
     public void start(Stage stage) {
+        this.stage = stage;
         this.createWindow(stage);
-        this.startTimeline(stage);
     }
 
     public void createWindow(Stage stage) {
@@ -48,19 +55,18 @@ public class GraphicsRepainter extends Application {
 
     public void goLaunch(String[] args, Character character, EntityManager entityManager) {
         this.character = character;
+        if (character == null) {System.out.print("character is null RIGHT FROM THE JUMP");}
         this.entityManager = entityManager;
         super.launch(args);
     }
 
-    private void startTimeline(Stage stage) {
+    public void startTimeline() {
+        System.out.print("timeline start");
         this.timeline.setCycleCount(Animation.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(Duration.millis(20), e -> {
 
             this.tick++;
-            if (character == null) {
-                System.out.println("character null");
-            }
             Velocity velocity = character.getVelocity();
             Location characterLocation = this.character.getLocation();
 
@@ -98,8 +104,11 @@ public class GraphicsRepainter extends Application {
                 xposition = (rand.nextInt(3)+7)*200;
             }*/
 
+            System.out.print("drawing background");
             gc.drawImage(this.BACKGROUND, 0, 0);
+            System.out.print("drawing chracter");
             gc.drawImage(this.character.getEntitySprite(), characterLocation.getXcord(), characterLocation.getYcord());
+            gc.drawImage(this.character.getEntitySprite(), 200, 200);
             //gc.drawImage(police, xposition, y);
             stage.show();
 

@@ -32,7 +32,6 @@ public class GameManager {
      * If the character is hurt then it is set to dead and {@code gameOver} is set to true. Next the game state is printed.
      */
     public void nextTurn() {
-        this.inputListener.processInput();
         if (this.wasCharacterHurt()) {
             character.setIsDead(true);
             this.setGameOver(true);
