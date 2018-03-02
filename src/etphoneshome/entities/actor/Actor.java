@@ -35,7 +35,7 @@ public class Actor {
     /**
      * A placeholder image associated with a generic {@code Actor}
      */
-    private Image entitySprite = new Image("/images/sprites/PlaceholderSpriteTexture80X120.jpg");
+    private Image entitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
 
     /**
      * The velocity object associated with the {@code Actor} with the default values of 0
