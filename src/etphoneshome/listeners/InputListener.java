@@ -188,15 +188,17 @@ public class InputListener implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		int c = e.getKeyCode();
-		if (c == KeyEvent.VK_W) {
+		if (c == KeyEvent.VK_W || c == KeyEvent.VK_UP) {
 			// update character.getVelocity()
-			
+			character.getVelocity().changeVerticalVelocity(-10);
 		}
-		if(c == KeyEvent.VK_A) {
+		if(c == KeyEvent.VK_A ||c == KeyEvent.VK_LEFT) {
             // update character.getVelocity()
+			character.getVelocity().changeHorizontalVelocity(-10);
 		}
-		if(c == KeyEvent.VK_D) {
+		if(c == KeyEvent.VK_D || c == KeyEvent.VK_RIGHT) {
             // update character.getVelocity()
+			character.getVelocity().changeHorizontalVelocity(10);
 		}
 	}
 
@@ -207,7 +209,8 @@ public class InputListener implements ActionListener, KeyListener {
 		// update character.getVelocity()
         // NOTE: You cant just set the vertical velocity to 0, what if they press the W key and then release, your old code
         // (if working) would've set the velocity to 0 instantly leaving the character stuck in the air without coming back down,
-        // gravity is handled in the GraphicsRepainter so you dont have to worry about that, but dont touch the verticalVelocity in this method
+       // gravity is handled in the GraphicsRepainter so you dont have to worry about that, but dont touch the verticalVelocity in this method
+		character.getVelocity().changeHorizontalVelocity(0);
 	}
 
 
