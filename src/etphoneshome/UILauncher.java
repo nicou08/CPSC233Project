@@ -21,7 +21,7 @@ public class UILauncher {
         UILauncher.inputListener = new InputListener(character);
         UILauncher.graphicsRepainter = new GraphicsRepainter();
         GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
-        entityManager.spawnRandomEntities(10);
+        entityManager.spawnRandomEntities(50);
         graphicsRepainter.goLaunch(args);
         System.out.println("Gameover, you died!");
     }

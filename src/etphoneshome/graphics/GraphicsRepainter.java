@@ -3,6 +3,7 @@ package etphoneshome.graphics;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
+import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.listeners.InputListener;
 import etphoneshome.managers.EntityManager;
 import etphoneshome.objects.Location;
@@ -86,7 +87,10 @@ public class GraphicsRepainter extends Application {
             }
 
             gc.drawImage(this.BACKGROUND, 0, 0);
-            gc.drawImage(character.getEntitySprite(), characterLocation.getXcord(), characterLocation.getYcord());
+            gc.drawImage(character.getEntitySprite(), WIDTH/2 - character.getEntitySprite().getWidth()/2, character.getLocation().getYcord());
+            for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
+                gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - characterLocation.getXcord(), enemy.getLocation().getYcord());
+            }
 
             stage.show();
 

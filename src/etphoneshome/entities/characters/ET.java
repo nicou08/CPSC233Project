@@ -7,8 +7,6 @@ import javafx.scene.image.Image;
  */
 public class ET extends Character {
 
-    private Image entitySprite = new Image("/images/sprites/et_sprite_right.png");
-
     public ET() {
         this.setEntitySprite("images/sprites/et_sprite_right.png");
     }
