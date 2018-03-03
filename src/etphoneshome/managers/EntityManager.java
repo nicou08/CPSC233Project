@@ -37,34 +37,36 @@ public class EntityManager {
     }
 
     /**
-     * Adds the given enemy associated with {@Code enemy) to the list enemies.
+     * Adds the given {@code Enemy} to the list enemies.
      *
-     * @param enemy the {@Code enemy} that is added to the list.
+     * @param enemy the {@code Enemy} that is added to the list.
      */
     public void addEnemy(Enemy enemy) {
         enemies.add(enemy);
     }
 
     /**
-     * Method to remove the given enemy associated with {@Code enemy} from the list enemies.
+     * Method to remove the given {@code Enemy} from the list enemies.
      *
-     * @param enemy the {@Code enemy} that is removed from the list.
+     * @param enemy the {@code Enemy} that is removed from the list.
      */
     public void removeEnemy(Enemy enemy) {
         enemies.remove(enemy);
     }
 
     /**
-     * Method to return the list {@Code enemies}.
+     * Method to return the list.
      *
-     * @return The current list {@Code enemies}.
+     * @return The current list.
      */
     public List<Enemy> getEnemyList() {
         return this.enemies;
     }
 
     /**
-     * Method to print out enemies in random locations
+     * Spawns {@code Enemy} in random locations around the map
+     *
+     * @param amount The amount of {@code Enemy} to be spawned
      */
     public void spawnRandomEntities(int amount) {
         Random random = new Random();
@@ -82,10 +84,11 @@ public class EntityManager {
         }
     }
 
-    public Character getCharacter() {
-        return this.character;
-    }
-
+    /**
+     * Update {@code Character} variable
+     *
+     * @param character new {@code Character} variable
+     */
     public void setCharacter(Character character) {
         this.character = character;
     }

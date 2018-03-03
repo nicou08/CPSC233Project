@@ -157,6 +157,12 @@ public class InputListener {
      * }
      */
 
+
+    /**
+     * Generate {@code EventHandler} for the key pressed down event
+     *
+     * @return {@code EventHandler} for the key pressed down event
+     */
     public EventHandler<KeyEvent> getKeyPressedEvent() {
 
         return new EventHandler<KeyEvent>() {
@@ -176,6 +182,11 @@ public class InputListener {
         };
     }
 
+    /**
+     * Generate {@code EventHandler} for the key released event
+     *
+     * @return {@code EventHandler} for the key released event
+     */
     public EventHandler<KeyEvent> getKeyReleasedEvent() {
 
         return new EventHandler<KeyEvent>() {
@@ -196,6 +207,11 @@ public class InputListener {
         };
     }
 
+    /**
+     * Update thecharacter's velocity based on the tick of the game
+     *
+     * @param tick Current given tick of the animation
+     */
     public void updateVelocities(int tick) {
         Velocity velocity = character.getVelocity();
         if (character.isHoldingRight() && velocity.getHorizontalVelocity() <= 10) {
@@ -224,6 +240,12 @@ public class InputListener {
 
     }
 
+
+    /**
+     * Checks if player is on the ground or not
+     *
+     * @return whether the player is on the ground or not
+     */
     public boolean onGround() {
         return character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getEntitySprite().getHeight();
     }
