@@ -27,6 +27,10 @@ public class GameManager {
         this.character = character;
     }
 
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+
     /**
      * Invokes the {@code processInput} method from the {@code InputListener} class and checks if the character is hurt.
      * If the character is hurt then it is set to dead and {@code gameOver} is set to true. Next the game state is printed.
@@ -56,10 +60,6 @@ public class GameManager {
     		if(x == true){
     			return x;
     		}
-            /*if (enemy.getLocation().getDistance(character.getLocation()) == 0) {
-                return true;
-            }
-            */
         }
         return false;
     }

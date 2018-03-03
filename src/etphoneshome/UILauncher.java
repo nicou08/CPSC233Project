@@ -14,15 +14,17 @@ public class UILauncher {
     private static EntityManager entityManager;
     private static InputListener inputListener;
     private static GraphicsRepainter graphicsRepainter;
+    private static GameManager gameManager;
 
     public static void main(String[] args) {
         UILauncher.character = new ET();
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.inputListener = new InputListener(character);
         UILauncher.graphicsRepainter = new GraphicsRepainter();
-        GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
-        entityManager.spawnRandomEntities(50);
-        graphicsRepainter.goLaunch(args);
+        UILauncher.gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
+
+        UILauncher.entityManager.spawnRandomEntities(50);
+        UILauncher.graphicsRepainter.goLaunch(args);
         System.out.println("Gameover, you died!");
     }
 
@@ -34,6 +36,7 @@ public class UILauncher {
         UILauncher.character = character;
         UILauncher.entityManager.setCharacter(character);
         UILauncher.inputListener.setCharacter(character);
+        UILauncher.gameManager.setCharacter(character);
     }
 
     public static EntityManager getEntityManager() {
@@ -46,5 +49,9 @@ public class UILauncher {
 
     public static GraphicsRepainter getGraphicsRepainter() {
         return UILauncher.graphicsRepainter;
+    }
+
+    public static GameManager getGameManager() {
+        return UILauncher.gameManager;
     }
 }

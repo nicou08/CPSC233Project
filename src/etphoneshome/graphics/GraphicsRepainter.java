@@ -30,6 +30,7 @@ public class GraphicsRepainter extends Application {
     public final int WIDTH = 1728;
     public final int HEIGHT = 972;
     private final Image BACKGROUND = new Image("/images/backgrounds/backgroundRESIZED.jpg");
+    private final Image GAMEOVER = new Image("/images/sprites/gameover.png");
     private Canvas canvas = new Canvas(this.WIDTH, this.HEIGHT);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Group root = new Group();
@@ -39,12 +40,12 @@ public class GraphicsRepainter extends Application {
     private Stage stage;
 
     public void start(Stage stage) {
-        System.out.println("start");
         this.stage = stage;
         this.createWindow(stage);
 
         Character character = new ET();
         UILauncher.setCharacter(character);
+        character.getLocation().setXcord(this.WIDTH/2 - (int) character.getEntitySprite().getWidth()/2);
         character.getLocation().setYcord(this.HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
         this.registerKeyEvents();
         this.startTimeline(character);
@@ -62,7 +63,6 @@ public class GraphicsRepainter extends Application {
     }
 
     public void registerKeyEvents() {
-        System.out.println("registering key events");
         this.scene.setOnKeyPressed(UILauncher.getInputListener().getKeyPressedEvent());
         this.scene.setOnKeyReleased(UILauncher.getInputListener().getKeyReleasedEvent());
     }
@@ -87,9 +87,17 @@ public class GraphicsRepainter extends Application {
             }
 
             gc.drawImage(this.BACKGROUND, 0, 0);
-            gc.drawImage(character.getEntitySprite(), WIDTH/2 - character.getEntitySprite().getWidth()/2, character.getLocation().getYcord());
+            gc.drawImage(character.getEntitySprite(), WIDTH / 2 - character.getEntitySprite().getWidth() / 2, character.getLocation().getYcord());
             for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
-                gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - characterLocation.getXcord(), enemy.getLocation().getYcord());
+                gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - characterLocation.getXcord() + (this.WIDTH/2 - (int) character.getEntitySprite().getWidth()/2), enemy.getLocation().getYcord());
+            }
+
+            if (UILauncher.getGameManager().wasCharacterHurt()) {
+                character.setHealth(character.getHealth() - 1);
+                if (character.getIsDead()) {
+                    gc.drawImage(GAMEOVER, WIDTH/2 - GAMEOVER.getWidth()/2, HEIGHT/2 - GAMEOVER.getHeight()/2);
+                    timeline.stop();
+                }
             }
 
             stage.show();
@@ -98,19 +106,6 @@ public class GraphicsRepainter extends Application {
 
         timeline.getKeyFrames().add(kf);
         timeline.play();
-    }
-
-    public void repaint() {
-        this.repaintCharacter();
-        this.repaintEnemies();
-    }
-
-    public void repaintCharacter() {
-
-    }
-
-    public void repaintEnemies() {
-
     }
 
 }

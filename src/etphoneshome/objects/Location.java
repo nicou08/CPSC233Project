@@ -67,8 +67,10 @@ public class Location {
         //Using Pythagoras' theorem
         distance = Math.sqrt(xdif * xdif + ydif * ydif);
         return distance;
+    }
 
-
+    public String toString() {
+        return "Location{x = " + xcord + ", y = " + ycord + "}";
     }
 
     public static void main(String args[]) {
