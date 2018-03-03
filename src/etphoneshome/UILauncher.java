@@ -13,12 +13,13 @@ public class UILauncher {
     private static Character character;
     private static EntityManager entityManager;
     private static InputListener inputListener;
+    private static GraphicsRepainter graphicsRepainter;
 
     public static void main(String[] args) {
-        Character character = new ET();
+        UILauncher.character = new ET();
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.inputListener = new InputListener(character);
-        GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
+        UILauncher.graphicsRepainter = new GraphicsRepainter();
         GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
         entityManager.spawnRandomEntities(10);
         graphicsRepainter.goLaunch(args);
@@ -41,5 +42,9 @@ public class UILauncher {
 
     public static InputListener getInputListener() {
         return UILauncher.inputListener;
+    }
+
+    public static GraphicsRepainter getGraphicsRepainter() {
+        return UILauncher.graphicsRepainter;
     }
 }

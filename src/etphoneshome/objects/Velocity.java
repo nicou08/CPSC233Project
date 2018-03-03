@@ -7,12 +7,12 @@ public class Velocity {
     /**
      * The amount of horizontal velocity. A negative or positive will indicate direction
      */
-    private double horizontalVelocity = 0;  //Velocity is a vector so negative velocity is possible
+    private int horizontalVelocity = 0;  //Velocity is a vector so negative velocity is possible
 
     /**
      * The amount of vertical velocity. A negative or positive will indicate direction
      */
-    private double verticalVelocity = 0;
+    private int verticalVelocity = 0;
 
     /**
      * Simple default constructor which will use the default horizontal/vertical velocity values of 0
@@ -28,7 +28,7 @@ public class Velocity {
      * @param horizontalVelocity The amount of horizontal velocity
      * @param verticalVelocity   The amount of vertical velocity
      */
-    public Velocity(double horizontalVelocity, double verticalVelocity) {
+    public Velocity(int horizontalVelocity, int verticalVelocity) {
         this.horizontalVelocity = horizontalVelocity;
         this.verticalVelocity = verticalVelocity;
     }
@@ -38,7 +38,7 @@ public class Velocity {
      *
      * @return the amount of horizontal velocity
      */
-    public double getHorizontalVelocity() {
+    public int getHorizontalVelocity() {
         return this.horizontalVelocity;
     }
 
@@ -47,7 +47,7 @@ public class Velocity {
      *
      * @return the amount of vertical velocity
      */
-    public double getVerticalVelocity() {
+    public int getVerticalVelocity() {
         return this.verticalVelocity;
     }
 
@@ -56,7 +56,7 @@ public class Velocity {
      *
      * @param amount the amount of horizontal velocity
      */
-    public void setHorizontalVelocity(double amount) {
+    public void setHorizontalVelocity(int amount) {
         this.horizontalVelocity = amount;
     }
 
@@ -65,7 +65,7 @@ public class Velocity {
      *
      * @param amount the amount of vertical velocity
      */
-    public void setVerticalVelocity(double amount) {
+    public void setVerticalVelocity(int amount) {
         this.verticalVelocity = amount;
     }
 
@@ -74,7 +74,7 @@ public class Velocity {
      *
      * @param amount The amount the horizontal velocity changes and in which direction
      */
-    public void changeHorizontalVelocity(double amount) {
+    public void changeHorizontalVelocity(int amount) {
         this.horizontalVelocity += amount;
     }
 
@@ -83,31 +83,32 @@ public class Velocity {
      *
      * @param amount The amount the vertical velocity changes and in which direction
      */
-    public void changeVerticalVelocity(double amount) {
+    public void changeVerticalVelocity(int amount) {
         this.verticalVelocity += amount;
     }
+
 
     //main method used for testing
     public static void main(String[] args) {
         Velocity v1 = new Velocity();
         Velocity v2 = new Velocity(10, -1);
 
-        System.out.println("Should be 0.0: " + v1.getHorizontalVelocity());
-        System.out.println("Should be 0.0: " + v1.getVerticalVelocity());
+        System.out.println("Should be 0: " + v1.getHorizontalVelocity());
+        System.out.println("Should be 0: " + v1.getVerticalVelocity());
 
-        System.out.println("Should be 10.0: " + v2.getHorizontalVelocity());
-        System.out.println("Should be -1.0: " + v2.getVerticalVelocity());
+        System.out.println("Should be 10: " + v2.getHorizontalVelocity());
+        System.out.println("Should be -1: " + v2.getVerticalVelocity());
 
         v1.setHorizontalVelocity(100);
-        v1.setVerticalVelocity(15.6);
+        v1.setVerticalVelocity(15);
 
-        System.out.println("Should be 100.0: " + v1.getHorizontalVelocity());
-        System.out.println("Should be 15.6: " + v1.getVerticalVelocity());
+        System.out.println("Should be 100: " + v1.getHorizontalVelocity());
+        System.out.println("Should be 15: " + v1.getVerticalVelocity());
 
         v1.changeHorizontalVelocity(20);
         v1.changeVerticalVelocity(-16);
 
-        System.out.println("Should be 120.0: " + v1.getHorizontalVelocity());
-        System.out.println("Should be -0.4: " + v1.getVerticalVelocity());
+        System.out.println("Should be 120: " + v1.getHorizontalVelocity());
+        System.out.println("Should be -0: " + v1.getVerticalVelocity());
     }
 }

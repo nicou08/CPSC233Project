@@ -3,6 +3,7 @@ package etphoneshome.graphics;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
+import etphoneshome.listeners.InputListener;
 import etphoneshome.managers.EntityManager;
 import etphoneshome.objects.Location;
 import etphoneshome.objects.Velocity;
@@ -25,8 +26,8 @@ import javax.swing.plaf.nimbus.State;
  */
 public class GraphicsRepainter extends Application {
 
-    private final int WIDTH = 1728;
-    private final int HEIGHT = 972;
+    public final int WIDTH = 1728;
+    public final int HEIGHT = 972;
     private final Image BACKGROUND = new Image("/images/backgrounds/backgroundRESIZED.jpg");
     private Canvas canvas = new Canvas(this.WIDTH, this.HEIGHT);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -43,6 +44,7 @@ public class GraphicsRepainter extends Application {
 
         Character character = new ET();
         UILauncher.setCharacter(character);
+        character.getLocation().setYcord(this.HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
         this.registerKeyEvents();
         this.startTimeline(character);
     }
@@ -61,6 +63,7 @@ public class GraphicsRepainter extends Application {
     public void registerKeyEvents() {
         System.out.println("registering key events");
         this.scene.setOnKeyPressed(UILauncher.getInputListener().getKeyPressedEvent());
+        this.scene.setOnKeyReleased(UILauncher.getInputListener().getKeyReleasedEvent());
     }
 
     public void startTimeline(Character character) {
@@ -71,54 +74,22 @@ public class GraphicsRepainter extends Application {
             this.tick++;
             Velocity velocity = character.getVelocity();
             Location characterLocation = character.getLocation();
+            InputListener inputListener = UILauncher.getInputListener();
+            inputListener.updateVelocities(this.tick);
 
-            if (this.tick % 2 == 0) {
-                characterLocation.add((int) Math.round(velocity.getHorizontalVelocity()), (int) Math.round(velocity.getVerticalVelocity()));
+            characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
+
+            if (inputListener.onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
+                characterLocation.setYcord(HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
+                character.setJumping(false);
+                velocity.setVerticalVelocity(0);
             }
-
-            if (this.tick % 4 == 0 && velocity.getVerticalVelocity() != 0) {
-                velocity.changeVerticalVelocity(-1);
-            }
-
-            /*scene.setOnKeyReleased( k -> {
-                String code = k.getCode().toString();
-                if (ETy==480 && code == "UP"){
-                    ymotion= -50;
-                }
-
-            });*/
-
-            /*if(isdead()){
-                time.pause();
-                root.getChildren().add(button);
-                button.setOnMouseClicked( k -> {
-                    drawInitial(scene, gc, primaryStage);
-                    ETy = 480;
-                    xposition = (rand.nextInt(3)+7)*200;
-                    root.getChildren().remove(button);
-                    time.play();
-
-                });
-
-            }*/
-
-            /*if (xposition == 0) {
-                xposition = (rand.nextInt(3)+7)*200;
-            }*/
 
             gc.drawImage(this.BACKGROUND, 0, 0);
             gc.drawImage(character.getEntitySprite(), characterLocation.getXcord(), characterLocation.getYcord());
-            //gc.drawImage(police, xposition, y);
+
             stage.show();
 
-            /*if(ETy > 480 && ymotion !=0){
-                ymotion = 0;
-                ETy = 480;
-                gc.drawImage(background, 0, 0);
-                gc.drawImage(ET, ETx, ETy);
-                gc.drawImage(police, xposition, y);
-                primaryStage.show();
-            }*/
         });
 
         timeline.getKeyFrames().add(kf);

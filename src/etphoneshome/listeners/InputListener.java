@@ -1,5 +1,6 @@
 package etphoneshome.listeners;
 
+import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.objects.Location;
 import etphoneshome.objects.Velocity;
@@ -20,31 +21,12 @@ public class InputListener {
     private Character character;
 
     /**
-     * location associated with the character
-     */
-    private Location location;
-
-    private Velocity velocity;
-
-    private GraphicsRepainter graphicsRepainter;
-
-    //private int x = location.getXcord();
-
-    //private int y = location.getYcord();
-
-    //private double velx = velocity.getHorizontalVelocity();
-
-    //private double vely = velocity.getVerticalVelocity();
-
-
-    /**
      * Constructor for the class
      *
      * @param character gives InputListener the character associated with InputListener
      */
     public InputListener(Character character) {
         this.character = character;
-        location = character.getLocation();
     }
 
     public void setCharacter(Character character) {
@@ -175,53 +157,76 @@ public class InputListener {
      * }
      */
 
-    public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        //x = location.setXcord(x+velx);
-        //y = location.setYcord(y+vely);
-        graphicsRepainter.repaint();
-    }
-
     public EventHandler<KeyEvent> getKeyPressedEvent() {
-        // TODO Auto-generated method stub
+
         return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
                 String input = e.getText().toLowerCase();
-                System.out.println("key event: " + input);
                 if (input.equals("w") || input.equals("up")) {
-                    // update character.getVelocity()
-                    character.getVelocity().changeVerticalVelocity(-10);
+                    character.setHoldingUp(true);
                 }
                 if (input.equals("a") || input.equals("left")) {
-                    // update character.getVelocity()
-                    character.getVelocity().changeHorizontalVelocity(-10);
+                    character.setHoldingLeft(true);
                 }
                 if (input.equals("d") || input.equals("right")) {
-                    // update character.getVelocity()
-                    character.getVelocity().changeHorizontalVelocity(10);
+                    character.setHoldingRight(true);
                 }
             }
         };
     }
 
+    public EventHandler<KeyEvent> getKeyReleasedEvent() {
 
-    public void keyReleased(KeyEvent e) {
-        // TODO Auto-generated method stub
-        // update character.getVelocity()
-        // NOTE: You cant just set the vertical velocity to 0, what if they press the W key and then release, your old code
-        // (if working) would've set the velocity to 0 instantly leaving the character stuck in the air without coming back down,
-        // gravity is handled in the GraphicsRepainter so you dont have to worry about that, but dont touch the verticalVelocity in this method
-        character.getVelocity().changeHorizontalVelocity(0);
+        return new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent e) {
+                String input = e.getText().toLowerCase();
+                if (input.equals("w") || input.equals("up")) {
+                    character.setHoldingUp(false);
+                }
+                if (input.equals("a") || input.equals("left")) {
+                    character.setHoldingLeft(false);
+                }
+                if (input.equals("d") || input.equals("right")) {
+                    character.setHoldingRight(false);
+
+                }
+            }
+        };
     }
 
+    public void updateVelocities(int tick) {
+        Velocity velocity = character.getVelocity();
+        if (character.isHoldingRight() && velocity.getHorizontalVelocity() <= 10) {
+            velocity.changeHorizontalVelocity(1);
+        } else if (!character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
+            int newVelocity = velocity.getHorizontalVelocity() - 1 < 0 ? 0 : velocity.getHorizontalVelocity() - 1;
+            velocity.setHorizontalVelocity(newVelocity);
+        }
 
-    public void keyTyped(KeyEvent arg0) {
-        // TODO Auto-generated method stub
+        if (character.isHoldingLeft() && velocity.getHorizontalVelocity() >= -10) {
+            velocity.changeHorizontalVelocity(-1);
+        } else if (!character.isHoldingLeft() && velocity.getHorizontalVelocity() < 0) {
+            int newVelocity = velocity.getHorizontalVelocity() + 1 > 0 ? 0 : velocity.getHorizontalVelocity() + 1;
+            velocity.setHorizontalVelocity(newVelocity);
+        }
+
+        // gravity
+        if (character.isJumping()) {
+            velocity.changeVerticalVelocity(1);
+        }
+
+        if (character.isHoldingUp() && !character.isJumping()) {
+            character.setJumping(true);
+            velocity.setVerticalVelocity(-20);
+        }
 
     }
 
-
+    public boolean onGround() {
+        return character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getEntitySprite().getHeight();
+    }
 }
 
 
