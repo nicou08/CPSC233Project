@@ -45,7 +45,7 @@ public class GraphicsRepainter extends Application {
 
         Character character = new ET();
         UILauncher.setCharacter(character);
-        character.getLocation().setXcord(this.WIDTH/2 - (int) character.getEntitySprite().getWidth()/2);
+        character.getLocation().setXcord(this.WIDTH / 2 - (int) character.getEntitySprite().getWidth() / 2);
         character.getLocation().setYcord(this.HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
         this.registerKeyEvents();
         this.startTimeline(character);
@@ -89,16 +89,21 @@ public class GraphicsRepainter extends Application {
             gc.drawImage(this.BACKGROUND, 0, 0);
             gc.drawImage(character.getEntitySprite(), WIDTH / 2 - character.getEntitySprite().getWidth() / 2, character.getLocation().getYcord());
             for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
-                gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - characterLocation.getXcord() + (this.WIDTH/2 - (int) character.getEntitySprite().getWidth()/2), enemy.getLocation().getYcord());
+                gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - characterLocation.getXcord() + (this.WIDTH / 2 - (int) character.getEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
             }
 
             if (UILauncher.getGameManager().wasCharacterHurt()) {
                 character.setHealth(character.getHealth() - 1);
                 if (character.getIsDead()) {
-                    gc.drawImage(GAMEOVER, WIDTH/2 - GAMEOVER.getWidth()/2, HEIGHT/2 - GAMEOVER.getHeight()/2);
+                    gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
                     timeline.stop();
                 }
             }
+
+            if (!character.getIsDead()) {
+                this.gc.drawImage(new Image("/images/sprites/heart.png"), 50, 50);
+            }
+                
 
             stage.show();
 
