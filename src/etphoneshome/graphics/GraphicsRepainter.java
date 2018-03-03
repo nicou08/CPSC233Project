@@ -1,6 +1,8 @@
 package etphoneshome.graphics;
 
+import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
+import etphoneshome.entities.characters.ET;
 import etphoneshome.managers.EntityManager;
 import etphoneshome.objects.Location;
 import etphoneshome.objects.Velocity;
@@ -31,50 +33,46 @@ public class GraphicsRepainter extends Application {
     private Group root = new Group();
     private Scene scene = new Scene(root);
     private Timeline timeline = new Timeline();
-    private EntityManager entityManager;
-    private Character character;
     private int tick;
     private Stage stage;
 
-
-
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
-
     public void start(Stage stage) {
+        System.out.println("start");
         this.stage = stage;
         this.createWindow(stage);
-        startTimeline();
+
+        Character character = new ET();
+        UILauncher.setCharacter(character);
+        this.registerKeyEvents();
+        this.startTimeline(character);
     }
 
     public void createWindow(Stage stage) {
-
         this.root.getChildren().add(this.canvas);
         stage.setScene(this.scene);
         this.gc.drawImage(this.BACKGROUND, 0, 0);
         stage.show();
     }
 
-    public void goLaunch(String[] args, Character character, EntityManager entityManager) {
-        this.character = character;
-        if (character == null) {System.out.print("character is null RIGHT FROM THE JUMP");}
-        this.entityManager = entityManager;
-        super.launch(args);
+    public void goLaunch(String[] args) {
+        Application.launch(args);
     }
 
-    public void startTimeline() {
-        System.out.print("timeline start");
+    public void registerKeyEvents() {
+        System.out.println("registering key events");
+        this.scene.setOnKeyPressed(UILauncher.getInputListener().getKeyPressedEvent());
+    }
+
+    public void startTimeline(Character character) {
         this.timeline.setCycleCount(Animation.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(Duration.millis(20), e -> {
 
             this.tick++;
             Velocity velocity = character.getVelocity();
-            Location characterLocation = this.character.getLocation();
+            Location characterLocation = character.getLocation();
 
-            if (this.tick % 2 ==0){
+            if (this.tick % 2 == 0) {
                 characterLocation.add((int) Math.round(velocity.getHorizontalVelocity()), (int) Math.round(velocity.getVerticalVelocity()));
             }
 
@@ -108,11 +106,8 @@ public class GraphicsRepainter extends Application {
                 xposition = (rand.nextInt(3)+7)*200;
             }*/
 
-            System.out.print("drawing background");
             gc.drawImage(this.BACKGROUND, 0, 0);
-            System.out.print("drawing chracter");
-            gc.drawImage(this.character.getEntitySprite(), characterLocation.getXcord(), characterLocation.getYcord());
-            gc.drawImage(this.character.getEntitySprite(), 200, 200);
+            gc.drawImage(character.getEntitySprite(), characterLocation.getXcord(), characterLocation.getYcord());
             //gc.drawImage(police, xposition, y);
             stage.show();
 

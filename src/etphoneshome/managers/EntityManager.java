@@ -74,6 +74,15 @@ public class EntityManager {
             this.addEnemy(enemy);
         }
     }
+
+    public Character getCharacter() {
+        return  this.character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+
     // main tests the class' methods
     public static void main(String[] args) {
     	// creates an enemy we can use to test the methods.
