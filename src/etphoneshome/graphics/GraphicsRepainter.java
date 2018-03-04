@@ -16,7 +16,9 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -38,10 +40,18 @@ public class GraphicsRepainter extends Application {
     private Timeline timeline = new Timeline();
     private int tick;
     private Stage stage;
+    private Button button;
 
     public void start(Stage stage) {
         this.stage = stage;
         this.createWindow(stage);
+        
+        button= new Button();
+ 	   	button.setText("Play Again");
+ 	   	button.setTranslateX(WIDTH/2 - 100);
+ 	   	button.setTranslateY(50);
+ 	   	button.setPrefSize(200, 100);
+ 	   	button.setFont(new Font("Arial",20));
 
         Character character = new ET();
         UILauncher.setCharacter(character);
@@ -133,7 +143,20 @@ public class GraphicsRepainter extends Application {
             this.gc.drawImage(new Image("/images/sprites/heart.png"), 50, 50);
         } else {
             gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
-            timeline.stop();
+            root.getChildren().add(button);
+            timeline.pause();
+            button.setOnMouseClicked(k -> {
+            	UILauncher.getEntityManager().getEnemyList().clear();
+
+            	UILauncher.getEntityManager().spawnRandomEntities(50);
+                character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
+                character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel());
+                character.setIsDead(false);
+                character.setHealth(1);
+                root.getChildren().remove(button);
+                timeline.play();
+            });
+            
         }
     }
 
