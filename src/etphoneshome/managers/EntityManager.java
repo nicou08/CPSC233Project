@@ -70,7 +70,7 @@ public class EntityManager {
      */
     public void spawnRandomEntities(int amount) {
         Random random = new Random();
-        int xCord = 1728/2;
+        int xCord = 1728/2 + 70;
         for (int i = 0; i < amount; i++) {
             xCord = (random.nextInt(1920) + (int) (new Police()).getEntitySprite().getWidth())+xCord;
             int type = random.nextInt(2);

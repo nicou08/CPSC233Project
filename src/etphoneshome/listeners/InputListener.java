@@ -212,7 +212,7 @@ public class InputListener {
      *
      * @param tick Current given tick of the animation
      */
-    public void updateVelocities(int tick) {
+    public void updateVelocities() {
         Velocity velocity = character.getVelocity();
         if (character.isHoldingRight() && velocity.getHorizontalVelocity() <= 10) {
             velocity.changeHorizontalVelocity(1);

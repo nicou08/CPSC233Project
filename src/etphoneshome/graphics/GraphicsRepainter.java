@@ -29,23 +29,44 @@ import javax.swing.plaf.nimbus.State;
  */
 public class GraphicsRepainter extends Application {
 
+	/**
+	 * Width and height of the screen
+	 */
     public final int WIDTH = 1728;
-    public final int HEIGHT = 972;
+	public final int HEIGHT = 700;
+	
+	/**
+	 * images needed to play the game
+	 */
     private final Image BACKGROUND = new Image("/images/backgrounds/backgroundRESIZED.jpg");
     private final Image GAMEOVER = new Image("/images/sprites/gameover.png");
+    
+    /**
+     * Instances needed to draw on the stage and make the screen
+     */
     private Canvas canvas = new Canvas(this.WIDTH, this.HEIGHT);
     private GraphicsContext gc = canvas.getGraphicsContext2D();
     private Group root = new Group();
     private Scene scene = new Scene(root);
-    private Timeline timeline = new Timeline();
-    private int tick;
     private Stage stage;
+    
+    /**
+     *  Instance associated with running a game loop
+     */
+    private Timeline timeline = new Timeline();
+
+    /**
+     *  a button needed to restart the game
+     */
     private Button button;
 
     public void start(Stage stage) {
+    	
+    	//creating stage
         this.stage = stage;
         this.createWindow(stage);
         
+        // creating button 
         button= new Button();
  	   	button.setText("Play Again");
  	   	button.setTranslateX(WIDTH/2 - 100);
@@ -53,14 +74,22 @@ public class GraphicsRepainter extends Application {
  	   	button.setPrefSize(200, 100);
  	   	button.setFont(new Font("Arial",20));
 
+ 	   	//making character and setting it's starting point
         Character character = new ET();
         UILauncher.setCharacter(character);
         character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
         character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel());
+        
         this.registerKeyEvents();
+        
+        //staring the actual game
         this.startTimeline(character);
     }
 
+    /**
+     * Creates the window 
+     * @param stage is the stage the window will br created in
+     */
     public void createWindow(Stage stage) {
         this.root.getChildren().add(this.canvas);
         stage.setScene(this.scene);
@@ -68,32 +97,47 @@ public class GraphicsRepainter extends Application {
         stage.show();
     }
 
+    /**
+     * lets the start method be initiated in  {@code UILauncher}
+     * @param args for {@code UILauncher}
+     */
     public void goLaunch(String[] args) {
         Application.launch(args);
     }
 
+    /**
+     * sets the event handlers for the game
+     */
     public void registerKeyEvents() {
         this.scene.setOnKeyPressed(UILauncher.getInputListener().getKeyPressedEvent());
         this.scene.setOnKeyReleased(UILauncher.getInputListener().getKeyReleasedEvent());
     }
 
+    /**
+     * starts the timeline the game will run in
+     * @param character the player the user will play as
+     */
     public void startTimeline(Character character) {
         this.timeline.setCycleCount(Animation.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(Duration.millis(20), e -> {
 
-            this.tick++;
+        	//getting location and velocity of character 
             Velocity velocity = character.getVelocity();
             Location characterLocation = character.getLocation();
 
+            //Will update velocity if the user is holding a correct key
             InputListener inputListener = UILauncher.getInputListener();
-            inputListener.updateVelocities(this.tick);
+            inputListener.updateVelocities();
 
+            //updates location of character based on the velocity
             characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
-
+            
+       
             this.runGroundCheck(character, velocity);
             this.repaintEntities(character);
 
+            //will take health away if character touches an enemy
             if (UILauncher.getGameManager().wasCharacterHurt()) {
                 character.setHealth(character.getHealth() - 1);
             }
@@ -102,6 +146,7 @@ public class GraphicsRepainter extends Application {
             stage.show();
         });
 
+        //starts timeline
         timeline.getKeyFrames().add(kf);
         timeline.play();
     }
@@ -134,7 +179,8 @@ public class GraphicsRepainter extends Application {
     }
 
     /**
-     * Check if character is dead and if not, draw hearts
+     * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a button on screen that will
+     * reset the game if the user clicks it
      *
      * @param character {@code Character}
      * */
@@ -146,13 +192,18 @@ public class GraphicsRepainter extends Application {
             root.getChildren().add(button);
             timeline.pause();
             button.setOnMouseClicked(k -> {
+            	
+            	//clears enemies and makes new ones
             	UILauncher.getEntityManager().getEnemyList().clear();
-
             	UILauncher.getEntityManager().spawnRandomEntities(50);
-                character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
+                
+            	//resets character position and health
+            	character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
                 character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel());
                 character.setIsDead(false);
                 character.setHealth(1);
+                
+                //removes button and starts timeline again
                 root.getChildren().remove(button);
                 timeline.play();
             });
