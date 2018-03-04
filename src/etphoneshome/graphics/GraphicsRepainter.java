@@ -45,8 +45,8 @@ public class GraphicsRepainter extends Application {
 
         Character character = new ET();
         UILauncher.setCharacter(character);
-        character.getLocation().setXcord(this.WIDTH / 2 - (int) character.getEntitySprite().getWidth() / 2);
-        character.getLocation().setYcord(this.HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
+        character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
+        character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel());
         this.registerKeyEvents();
         this.startTimeline(character);
     }
@@ -75,42 +75,66 @@ public class GraphicsRepainter extends Application {
             this.tick++;
             Velocity velocity = character.getVelocity();
             Location characterLocation = character.getLocation();
+
             InputListener inputListener = UILauncher.getInputListener();
             inputListener.updateVelocities(this.tick);
 
             characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
 
-            if (inputListener.onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
-                characterLocation.setYcord(HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
-                character.setJumping(false);
-                velocity.setVerticalVelocity(0);
-            }
-
-            gc.drawImage(this.BACKGROUND, 0, 0);
-            gc.drawImage(character.getEntitySprite(), WIDTH / 2 - character.getEntitySprite().getWidth() / 2, character.getLocation().getYcord());
-            for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
-                gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - characterLocation.getXcord() + (this.WIDTH / 2 - (int) character.getEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
-            }
+            this.runGroundCheck(character, velocity);
+            this.repaintEntities(character);
 
             if (UILauncher.getGameManager().wasCharacterHurt()) {
                 character.setHealth(character.getHealth() - 1);
-                if (character.getIsDead()) {
-                    gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
-                    timeline.stop();
-                }
             }
 
-            if (!character.getIsDead()) {
-                this.gc.drawImage(new Image("/images/sprites/heart.png"), 50, 50);
-            }
-                
-
+            this.runHealthCheck(character);
             stage.show();
-
         });
 
         timeline.getKeyFrames().add(kf);
         timeline.play();
+    }
+
+    /**
+     * Check to see if character is on ground, if so, set character to exact ground height, set vertical velocity to 0 and set jumping boolean to false
+     *
+     * @param character {@code Character}
+     * @param velocity {@code Velocity} of character
+     * */
+    public void runGroundCheck(Character character, Velocity velocity) {
+        if (UILauncher.getInputListener().onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
+            character.getLocation().setYcord(HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
+            character.setJumping(false);
+            velocity.setVerticalVelocity(0);
+        }
+    }
+
+    /**
+     * Repaint background and entities
+     *
+     * @param character {@code Character}
+     * */
+    public void repaintEntities(Character character) {
+        gc.drawImage(this.BACKGROUND, 0, 0);
+        gc.drawImage(character.getEntitySprite(), WIDTH / 2 - character.getEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+        for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
+            gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+        }
+    }
+
+    /**
+     * Check if character is dead and if not, draw hearts
+     *
+     * @param character {@code Character}
+     * */
+    public void runHealthCheck(Character character) {
+        if (!character.getIsDead()) {
+            this.gc.drawImage(new Image("/images/sprites/heart.png"), 50, 50);
+        } else {
+            gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
+            timeline.stop();
+        }
     }
 
 }

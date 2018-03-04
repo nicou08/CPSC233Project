@@ -81,6 +81,19 @@ public class GameManager {
         this.gameOver = gameOver;
     }
 
+    /**
+     * Calculate ground level based on character height and window height
+     *
+     * @return Returns the ground level of the game
+     */
+    public int getGroundLevel() {
+        return this.graphicsRepainter.HEIGHT - 100 - (int) this.character.getEntitySprite().getHeight();
+    }
+
+    public int getCenterXCord() {
+        return this.graphicsRepainter.WIDTH/2 - (int) this.character.getEntitySprite().getWidth();
+    }
+
     public static void main(String args[]) {
         Character character = new ET();
         InputListener inputListener = new InputListener(character);
