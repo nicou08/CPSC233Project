@@ -208,9 +208,7 @@ public class InputListener {
     }
 
     /**
-     * Update thecharacter's velocity based on the tick of the game
-     *
-     * @param tick Current given tick of the animation
+     * Update the character's velocity based on the tick of the game
      */
     public void updateVelocities() {
         Velocity velocity = character.getVelocity();
