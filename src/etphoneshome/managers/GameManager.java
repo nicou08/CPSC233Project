@@ -5,7 +5,6 @@ import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
-import etphoneshome.objects.Location;
 import etphoneshome.objects.Hitbox;
 
 /**
@@ -13,15 +12,13 @@ import etphoneshome.objects.Hitbox;
  */
 public class GameManager {
 
-    private final InputListener inputListener;
     private final GraphicsRepainter graphicsRepainter;
     private final EntityManager entityManager;
-    private Character character;
 
+    private Character character;
     private boolean gameOver = false;
 
-    public GameManager(InputListener inputListener, GraphicsRepainter graphicsRepainter, EntityManager entityManager, Character character) {
-        this.inputListener = inputListener;
+    public GameManager(GraphicsRepainter graphicsRepainter, EntityManager entityManager, Character character) {
         this.graphicsRepainter = graphicsRepainter;
         this.entityManager = entityManager;
         this.character = character;
@@ -29,17 +26,6 @@ public class GameManager {
 
     public void setCharacter(Character character) {
         this.character = character;
-    }
-
-    /**
-     * Invokes the {@code processInput} method from the {@code InputListener} class and checks if the character is hurt.
-     * If the character is hurt then it is set to dead and {@code gameOver} is set to true. Next the game state is printed.
-     */
-    public void nextTurn() {
-        if (this.wasCharacterHurt()) {
-            character.setIsDead(true);
-            this.setGameOver(true);
-        }
     }
 
     /**
@@ -99,7 +85,7 @@ public class GameManager {
         InputListener inputListener = new InputListener(character);
         EntityManager entityManager = new EntityManager(character);
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
-        GameManager gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
+        GameManager gameManager = new GameManager(graphicsRepainter, entityManager, character);
 
         System.out.println("Testing out wasCharacterHurt");
 
@@ -116,9 +102,6 @@ public class GameManager {
         System.out.println("Setting gameOver to true...");
         gameManager.setGameOver(true);
         System.out.println("Is game over? " + (gameManager.getGameOver())); // true = correct
-
-        System.out.println("Testing out nextTurn method");
-        gameManager.nextTurn();
     }
 
 
