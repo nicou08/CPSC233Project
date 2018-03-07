@@ -43,7 +43,7 @@ public class UILauncher {
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.inputListener = new InputListener(character);
         UILauncher.graphicsRepainter = new GraphicsRepainter();
-        UILauncher.gameManager = new GameManager(inputListener, graphicsRepainter, entityManager, character);
+        UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
 
         
         UILauncher.entityManager.spawnRandomEntities(50);
