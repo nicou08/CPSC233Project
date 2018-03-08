@@ -1,5 +1,7 @@
 package etphoneshome.objects;
 
+import java.util.ArrayList;
+
 /**
  * This class is used for the platforms that the player can stand and jump on to.
  * Using the getLeftEndBrick returns the left end brick of the {@code Platform}
@@ -26,7 +28,7 @@ public class Platform extends Obstacle
     /**
      * The middle bricks of the {@code Platform}
      */
-    private Obstacle[] middleBricks;
+    private ArrayList<Obstacle> middleBricks;
 
     /**
      * The width of any type of brick
@@ -71,7 +73,7 @@ public class Platform extends Obstacle
         }
         else if(length > 2) //has middle bricks
         {
-            middleBricks = new Obstacle[length - 2];    //sets array of middle bricks up to be 2 less than the total length
+            middleBricks = new ArrayList<>(length - 2);    //sets arraylist of middle bricks up to be 2 less than the total length
                                                         //since the end bricks take up one spot each
 
             //creates the left end brick with proper location and hitbox
@@ -82,10 +84,10 @@ public class Platform extends Obstacle
             nextBrickLocation = this.addBrickWidth(nextBrickLocation);  //shifts the new location above 60 pixels (WIDTH) to the right
 
             for(int i = 2, j = 0; i < length; i++, j++)        //creates the middle bricks. i is for brick number in platform
-            {                                                  //j is for going through the middleBrick array
-                middleBricks[j] = new Obstacle(nextBrickLocation, new Hitbox(nextBrickLocation, HEIGHT, WIDTH));
+            {                                                  //j is for going through the middleBrick arraylist
+                middleBricks.add(j, new Obstacle(nextBrickLocation, new Hitbox(nextBrickLocation, HEIGHT, WIDTH)));
                 nextBrickLocation = this.addBrickWidth(nextBrickLocation);  //shift location 60 pixels right
-                middleBricks[j].setSprite("images/sprites/middleBrickGeneric.png");
+                middleBricks.get(j).setSprite("images/sprites/middleBrickGeneric.png");
             }
 
             //creates the right end brick with proper location and hitbox
@@ -134,14 +136,14 @@ public class Platform extends Obstacle
      * Returns the middle bricks of the {@code Platform}
      * @return The middle bricks of the {@code Platform}
      */
-    public Obstacle[] getMiddleBricks()
+    public ArrayList<Obstacle> getMiddleBricks()
     {
         return this.middleBricks;
     }
 
-/*
-    //MAIN METHOD USED FOR TESTING THE PLATFORM METHODS, CONSTRUCTORS AND HITBOX COLLISION
 
+    //MAIN METHOD USED FOR TESTING THE PLATFORM METHODS, CONSTRUCTORS AND HITBOX COLLISION
+/*
     public static void main(String[] args)
     {
         Location testLoc = new Location(200, 200);
@@ -161,24 +163,24 @@ public class Platform extends Obstacle
 
         System.out.println("LEFT BRICK TESTING COMPLETE! TESTING MIDDLE BRICKS.....");
 
-        System.out.println("Should be 260: " + testPlatform.middleBricks[0].getLocation().getXcord());
-        System.out.println("Should be 200: " + testPlatform.middleBricks[0].getLocation().getYcord());
-        System.out.println("Should be 320: " + testPlatform.middleBricks[1].getLocation().getXcord());
-        System.out.println("Should be 200: " + testPlatform.middleBricks[1].getLocation().getYcord());
-        System.out.println("Should be 260: " + testPlatform.middleBricks[0].getHitbox().getTopLeftCorner().getXcord());
-        System.out.println("Should be 200: " + testPlatform.middleBricks[0].getHitbox().getTopLeftCorner().getYcord());
-        System.out.println("Should be 30: " + testPlatform.middleBricks[0].getHitbox().getHeight());
-        System.out.println("Should be 60: " + testPlatform.middleBricks[0].getHitbox().getWidth());
-        System.out.println("Should be 320: " + testPlatform.middleBricks[1].getHitbox().getTopLeftCorner().getXcord());
-        System.out.println("Should be 200: " + testPlatform.middleBricks[1].getHitbox().getTopLeftCorner().getYcord());
-        System.out.println("Should be 30: " + testPlatform.middleBricks[1].getHitbox().getHeight());
-        System.out.println("Should be 60: " + testPlatform.middleBricks[1].getHitbox().getWidth());
-        System.out.println("Should be 380: " + testPlatform.middleBricks[2].getLocation().getXcord());
-        System.out.println("Should be 200: " + testPlatform.middleBricks[2].getLocation().getYcord());
-        System.out.println("Should be 380: " + testPlatform.middleBricks[2].getHitbox().getTopLeftCorner().getXcord());
-        System.out.println("Should be 200: " + testPlatform.middleBricks[2].getHitbox().getTopLeftCorner().getYcord());
-        System.out.println("Should be 30: " + testPlatform.middleBricks[2].getHitbox().getHeight());
-        System.out.println("Should be 60: " + testPlatform.middleBricks[2].getHitbox().getWidth());
+        System.out.println("Should be 260: " + testPlatform.middleBricks.get(0).getLocation().getXcord());
+        System.out.println("Should be 200: " + testPlatform.middleBricks.get(0).getLocation().getYcord());
+        System.out.println("Should be 320: " + testPlatform.middleBricks.get(1).getLocation().getXcord());
+        System.out.println("Should be 200: " + testPlatform.middleBricks.get(1).getLocation().getYcord());
+        System.out.println("Should be 260: " + testPlatform.middleBricks.get(0).getHitbox().getTopLeftCorner().getXcord());
+        System.out.println("Should be 200: " + testPlatform.middleBricks.get(0).getHitbox().getTopLeftCorner().getYcord());
+        System.out.println("Should be 30: " + testPlatform.middleBricks.get(0).getHitbox().getHeight());
+        System.out.println("Should be 60: " + testPlatform.middleBricks.get(0).getHitbox().getWidth());
+        System.out.println("Should be 320: " + testPlatform.middleBricks.get(1).getHitbox().getTopLeftCorner().getXcord());
+        System.out.println("Should be 200: " + testPlatform.middleBricks.get(1).getHitbox().getTopLeftCorner().getYcord());
+        System.out.println("Should be 30: " + testPlatform.middleBricks.get(1).getHitbox().getHeight());
+        System.out.println("Should be 60: " + testPlatform.middleBricks.get(1).getHitbox().getWidth());
+        System.out.println("Should be 380: " + testPlatform.middleBricks.get(2).getLocation().getXcord());
+        System.out.println("Should be 200: " + testPlatform.middleBricks.get(2).getLocation().getYcord());
+        System.out.println("Should be 380: " + testPlatform.middleBricks.get(2).getHitbox().getTopLeftCorner().getXcord());
+        System.out.println("Should be 200: " + testPlatform.middleBricks.get(2).getHitbox().getTopLeftCorner().getYcord());
+        System.out.println("Should be 30: " + testPlatform.middleBricks.get(2).getHitbox().getHeight());
+        System.out.println("Should be 60: " + testPlatform.middleBricks.get(2).getHitbox().getWidth());
 
         System.out.println("MIDDLE BRICK TESTING COMPLETE! TESTING RIGHT BRICK.....");
 
