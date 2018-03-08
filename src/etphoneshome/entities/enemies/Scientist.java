@@ -6,7 +6,9 @@ package etphoneshome.entities.enemies;
 public class Scientist extends Enemy {
 
     public Scientist() {
-        this.setEntitySprite("/images/sprites/scientist_sprite_left.png");
+        super();
+        this.setRightEntitySprite("/images/sprites/scientist_sprite_right.png");
+        this.setLeftEntitySprite("/images/sprites/scientist_sprite_left.png");
     }
 
 }

@@ -72,7 +72,7 @@ public class EntityManager {
         Random random = new Random();
         int xCord = 1728/2 + 70;
         for (int i = 0; i < amount; i++) {
-            xCord = (random.nextInt(1920) + (int) (new Police()).getEntitySprite().getWidth())+xCord;
+            xCord = (random.nextInt(1920) + (int) (new Police()).getLeftEntitySprite().getWidth())+xCord;
             int type = random.nextInt(2);
             Enemy enemy = new Police();
             if (type == 0) {
@@ -80,7 +80,7 @@ public class EntityManager {
             } else {
                 enemy = new Scientist();
             }
-            enemy.setLocation(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (int) (new Police()).getEntitySprite().getHeight()));
+            enemy.setLocation(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (int) (new Police()).getLeftEntitySprite().getHeight()));
             this.addEnemy(enemy);
         }
     }

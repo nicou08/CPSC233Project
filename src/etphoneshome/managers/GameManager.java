@@ -1,11 +1,14 @@
 package etphoneshome.managers;
 
+import etphoneshome.UILauncher;
+import etphoneshome.entities.actor.Actor;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
 import etphoneshome.objects.Hitbox;
+import etphoneshome.objects.Velocity;
 
 /**
  * Class in charge of all checks within the game, checkpoints, R+P pickups, enemy kills, character damage, etc.
@@ -34,13 +37,13 @@ public class GameManager {
      * @return true if the character was hurt, else false
      */
     public boolean wasCharacterHurt() {
-    	int height = (int)this.character.getEntitySprite().getHeight();
-    	int width = (int)this.character.getEntitySprite().getWidth();
+    	int height = (int)this.character.getRightEntitySprite().getHeight();
+    	int width = (int)this.character.getRightEntitySprite().getWidth();
     	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
     	
     	for (Enemy enemy : this.entityManager.getEnemyList()) {
-    		int enHeight = (int)enemy.getEntitySprite().getHeight();
-    		int enWidth = (int)enemy.getEntitySprite().getWidth();
+    		int enHeight = (int)enemy.getLeftEntitySprite().getHeight();
+    		int enWidth = (int)enemy.getLeftEntitySprite().getWidth();
     		Hitbox ene = new Hitbox(enemy.getLocation(), enHeight, enWidth);
     		boolean x = ET.areColliding(ene);
     		if(x == true){
@@ -68,16 +71,31 @@ public class GameManager {
     }
 
     /**
-     * Calculate ground level based on character height and window height
+     * Calculate ground level based on actor height and window height
      *
+     * @param actor Which actor to calculate ground level for
      * @return Returns the ground level of the game
      */
-    public int getGroundLevel() {
-        return this.graphicsRepainter.HEIGHT - 100 - (int) this.character.getEntitySprite().getHeight();
+    public int getGroundLevel(Actor actor) {
+        return this.graphicsRepainter.HEIGHT - 100 - (int) actor.getRightEntitySprite().getHeight();
     }
 
     public int getCenterXCord() {
-        return this.graphicsRepainter.WIDTH/2 - (int) this.character.getEntitySprite().getWidth();
+        return this.graphicsRepainter.WIDTH/2 - (int) this.character.getRightEntitySprite().getWidth();
+    }
+
+    /**
+     * Check to see if character is on ground, if so, set character to exact ground height, set vertical velocity to 0 and set jumping boolean to false
+     *
+     * @param character {@code Character}
+     * @param velocity  {@code Velocity} of character
+     */
+    public void runGroundCheck(Character character, Velocity velocity) {
+        if (UILauncher.getInputListener().onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
+            character.getLocation().setYcord(this.graphicsRepainter.HEIGHT - 100 - (int) character.getRightEntitySprite().getHeight());
+            character.setJumping(false);
+            velocity.setVerticalVelocity(0);
+        }
     }
 
     public static void main(String args[]) {

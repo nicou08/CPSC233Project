@@ -26,6 +26,9 @@ public class Character extends Actor {
 
     public void setHoldingLeft(boolean holdingLeft) {
         isHoldingLeft = holdingLeft;
+        if (holdingLeft == true) {
+            this.setFacingRight(false);
+        }
     }
 
     public boolean isHoldingRight() {
@@ -34,6 +37,9 @@ public class Character extends Actor {
 
     public void setHoldingRight(boolean holdingRight) {
         isHoldingRight = holdingRight;
+        if (holdingRight == true) {
+            this.setFacingRight(true);
+        }
     }
 
     public boolean isHoldingUp() {

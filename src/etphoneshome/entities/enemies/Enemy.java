@@ -8,6 +8,10 @@ import etphoneshome.objects.Location;
 
 public class Enemy extends Actor {
 
+    public Enemy() {
+        this.setFacingRight(false);
+    }
+
     //main tests the class methods
     public static void main(String[] args)
     {

@@ -5,7 +5,6 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.listeners.InputListener;
-import etphoneshome.managers.EntityManager;
 import etphoneshome.objects.Location;
 import etphoneshome.objects.Velocity;
 import javafx.animation.Animation;
@@ -22,8 +21,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.plaf.nimbus.State;
-
 /**
  * Class responsible for repainting the graphics of the game
  */
@@ -33,7 +30,7 @@ public class GraphicsRepainter extends Application {
      * Width and height of the screen
      */
     public final int WIDTH = 1728;
-    public final int HEIGHT = 700;
+    public final int HEIGHT = 972;
 
     /**
      * images needed to play the game
@@ -136,7 +133,7 @@ public class GraphicsRepainter extends Application {
             //updates location of character based on the velocity
             characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
 
-            this.runGroundCheck(character, velocity);
+            UILauncher.getGameManager().runGroundCheck(character, velocity);
             this.repaintEntities(character);
 
             //will take health away if character touches an enemy
@@ -154,29 +151,24 @@ public class GraphicsRepainter extends Application {
     }
 
     /**
-     * Check to see if character is on ground, if so, set character to exact ground height, set vertical velocity to 0 and set jumping boolean to false
-     *
-     * @param character {@code Character}
-     * @param velocity  {@code Velocity} of character
-     */
-    public void runGroundCheck(Character character, Velocity velocity) {
-        if (UILauncher.getInputListener().onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
-            character.getLocation().setYcord(HEIGHT - 100 - (int) character.getEntitySprite().getHeight());
-            character.setJumping(false);
-            velocity.setVerticalVelocity(0);
-        }
-    }
-
-    /**
      * Repaint background and entities
      *
      * @param character {@code Character}
      */
     public void repaintEntities(Character character) {
         gc.drawImage(this.BACKGROUND, 0, 0);
-        gc.drawImage(character.getEntitySprite(), WIDTH / 2 - character.getEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+        if (character.isFacingRight()) {
+            gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+        } else {
+            gc.drawImage(character.getLeftEntitySprite(), WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+        }
+
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
-            gc.drawImage(enemy.getEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+            if (enemy.isFacingRight()) {
+                gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+            } else {
+                gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+            }
         }
     }
 
@@ -188,7 +180,7 @@ public class GraphicsRepainter extends Application {
      */
     public void runHealthCheck(Character character) {
         if (!character.getIsDead()) {
-            this.gc.drawImage(new Image("/images/sprites/heart.png"), 50, 50);
+            this.gc.drawImage(new Image("/images/sprites/heart.png"), 25, 25);
         } else {
             gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
             root.getChildren().add(button);
