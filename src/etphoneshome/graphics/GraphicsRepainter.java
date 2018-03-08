@@ -75,7 +75,7 @@ public class GraphicsRepainter extends Application {
         Character character = new ET();
         UILauncher.setCharacter(character);
         character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
-        character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel());
+        character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
 
         this.registerKeyEvents();
 
@@ -194,7 +194,7 @@ public class GraphicsRepainter extends Application {
 
                 //resets character position and health
                 character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
-                character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel());
+                character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
                 character.setIsDead(false);
                 character.setHealth(1);
                 UILauncher.getGameManager().setGameOver(false);
