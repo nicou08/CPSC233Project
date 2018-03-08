@@ -70,9 +70,9 @@ public class EntityManager {
      */
     public void spawnRandomEntities(double amount) {
         Random random = new Random();
-        double xCord = 1728/2 + 70;
+        int xCord = UILauncher.getGraphicsRepainter().WIDTH/2 + 70;
         for (double i = 0; i < amount; i++) {
-            xCord = (random.nextInt(1920) + (new Police()).getLeftEntitySprite().getWidth())+xCord;
+            xCord = random.nextInt(1920) + (int) new Police().getLeftEntitySprite().getWidth() +xCord;
             double type = random.nextInt(2);
             Enemy enemy = new Police();
             if (type == 0) {
@@ -80,7 +80,7 @@ public class EntityManager {
             } else {
                 enemy = new Scientist();
             }
-            enemy.setLocation(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (new Police()).getLeftEntitySprite().getHeight()));
+            enemy.setLocation(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (int) new Police().getLeftEntitySprite().getHeight()));
             this.addEnemy(enemy);
         }
     }

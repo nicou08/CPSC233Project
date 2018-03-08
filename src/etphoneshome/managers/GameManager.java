@@ -37,13 +37,13 @@ public class GameManager {
      * @return true if the character was hurt, else false
      */
     public boolean wasCharacterHurt() {
-    	double height = this.character.getRightEntitySprite().getHeight();
-    	double width = this.character.getRightEntitySprite().getWidth();
+    	int height = (int) this.character.getRightEntitySprite().getHeight();
+    	int width = (int) this.character.getRightEntitySprite().getWidth();
     	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
     	
     	for (Enemy enemy : this.entityManager.getEnemyList()) {
-    		double enHeight = enemy.getLeftEntitySprite().getHeight();
-    		double enWidth = enemy.getLeftEntitySprite().getWidth();
+    		int enHeight = (int) enemy.getLeftEntitySprite().getHeight();
+    		int enWidth = (int) enemy.getLeftEntitySprite().getWidth();
     		Hitbox ene = new Hitbox(enemy.getLocation(), enHeight, enWidth);
     		boolean x = ET.areColliding(ene);
     		if(x == true){
@@ -76,12 +76,12 @@ public class GameManager {
      * @param actor Which actor to calculate ground level for
      * @return Returns the ground level of the game
      */
-    public double getGroundLevel(Actor actor) {
-        return this.graphicsRepainter.HEIGHT - 100 -  actor.getRightEntitySprite().getHeight();
+    public int getGroundLevel(Actor actor) {
+        return this.graphicsRepainter.HEIGHT - 100 -  (int) actor.getRightEntitySprite().getHeight();
     }
 
-    public double getCenterXCord() {
-        return this.graphicsRepainter.WIDTH/2 -  this.character.getRightEntitySprite().getWidth();
+    public int getCenterXCord() {
+        return this.graphicsRepainter.WIDTH/2 -  (int) this.character.getRightEntitySprite().getWidth();
     }
 
     /**
@@ -92,7 +92,7 @@ public class GameManager {
      */
     public void runGroundCheck(Character character, Velocity velocity) {
         if (UILauncher.getInputListener().onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
-            character.getLocation().setYcord(this.graphicsRepainter.HEIGHT - 100 - character.getRightEntitySprite().getHeight());
+            character.getLocation().setYcord(this.graphicsRepainter.HEIGHT - 100 - (int) character.getRightEntitySprite().getHeight());
             character.setJumping(false);
             velocity.setVerticalVelocity(0);
         }

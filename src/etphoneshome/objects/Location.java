@@ -4,39 +4,39 @@ public class Location {
     /* This is the location class that holds 2-Dimensional coordinates and
      * calculates distances between objects of this particular class
      */
-    private double xcord;
-    private double ycord;
+    private int xcord;
+    private int ycord;
 
-    public Location(double xCord, double yCord) {
+    public Location(int xCord, int yCord) {
         this.xcord = xCord;
         this.ycord = yCord;
     }
 
-    public double getXcord() {
+    public int getXcord() {
         return xcord;
     }
 
-    public double getYcord() {
+    public int getYcord() {
         return ycord;
     }
 
-    public void setXcord(double x) {
+    public void setXcord(int x) {
         xcord = x;
     }
 
-    public void setYcord(double y) {
+    public void setYcord(int y) {
         ycord = y;
     }
 
-    public void addX(double x) {
+    public void addX(int x) {
         this.add(x, 0);
     }
 
-    public void addY(double y) {
+    public void addY(int y) {
         this.add(0, y);
     }
 
-    public void add(double x, double y) {
+    public void add(int x, int y) {
         this.xcord += x;
         this.ycord += y;
     }
@@ -46,8 +46,8 @@ public class Location {
     	 * in order to not obtain negative differences
     	 */
         double xdif, ydif, distance;
-        double x1 = m.getXcord();
-        double y1 = m.getYcord();
+        int x1 = m.getXcord();
+        int y1 = m.getYcord();
         if (x1 > xcord) {
             xdif = x1 - xcord;
         } else if (xcord > x1) {
