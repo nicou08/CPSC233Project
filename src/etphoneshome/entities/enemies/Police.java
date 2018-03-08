@@ -6,7 +6,9 @@ package etphoneshome.entities.enemies;
 public class Police extends Enemy {
 
     public Police() {
-        this.setEntitySprite("/images/sprites/police_sprite_left.png");
+        super();
+        this.setRightEntitySprite("/images/sprites/police_sprite_right.png");
+        this.setLeftEntitySprite("/images/sprites/police_sprite_left.png");
     }
 
 }

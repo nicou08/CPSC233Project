@@ -1,9 +1,9 @@
 package etphoneshome.entities.actor;
 
 import etphoneshome.objects.Location;
+import etphoneshome.objects.Velocity;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
-import etphoneshome.objects.Velocity;
 
 /**
  * This class is used as the parent class for the {@code Character} and the {@code Enemy}. Using the getLocation method
@@ -35,7 +35,18 @@ public class Actor {
     /**
      * A placeholder image associated with a generic {@code Actor}
      */
-    private Image entitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
+    private Image leftEntitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
+
+    /**
+     * A placeholder image associated with a generic {@code Actor}
+     */
+    private Image rightEntitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
+
+
+    /**
+     * A variable that tracks if the Actor is facing right or left
+     */
+    private boolean facingRight = true;
 
     /**
      * The velocity object associated with the {@code Actor} with the default values of 0
@@ -120,21 +131,40 @@ public class Actor {
 
 
     /**
-     * Returns the image/sprite object associated with the {@code Actor}
+     * Returns the (right-facing) image/sprite object associated with the {@code Actor}
      *
-     * @return The image/sprite object associated with the {@code Actor}
+     * @return The (right-facing) image/sprite object associated with the {@code Actor}
      */
-    public Image getEntitySprite() {
-        return this.entitySprite;
+    public Image getRightEntitySprite() {
+        return this.rightEntitySprite;
+    }
+
+
+    /**
+     * Returns the (left-facing) image/sprite object associated with the {@code Actor}
+     *
+     * @return The (left-facing) image/sprite object associated with the {@code Actor}
+     */
+    public Image getLeftEntitySprite() {
+        return this.leftEntitySprite;
     }
 
     /**
-     * Assigns a new image/sprite to the {@code Actor}
+     * Assigns a new (right-facing) image/sprite to the {@code Actor}
      *
      * @param newSpriteURL The URL/file address of the new imagee/sprite
      */
-    public void setEntitySprite(String newSpriteURL) {
-        this.entitySprite = new Image(newSpriteURL);
+    public void setRightEntitySprite(String newSpriteURL) {
+        this.rightEntitySprite = new Image(newSpriteURL);
+    }
+
+    /**
+     * Assigns a new (left-facing) image/sprite to the {@code Actor}
+     *
+     * @param newSpriteURL The URL/file address of the new imagee/sprite
+     */
+    public void setLeftEntitySprite(String newSpriteURL) {
+        this.leftEntitySprite = new Image(newSpriteURL);
     }
 
     /**
@@ -144,6 +174,14 @@ public class Actor {
      */
     public Velocity getVelocity() {
         return this.velocity;
+    }
+
+    public boolean isFacingRight() {
+        return this.facingRight;
+    }
+
+    public void setFacingRight(boolean facingRight) {
+        this.facingRight = facingRight;
     }
 
     //main tests the class methods
