@@ -20,6 +20,15 @@ public class Hitbox {
         return height;
     }
 
+    //TEMPORARY METHOD USED FOR QUICKER TESTING OF PLATFORM CLASS. REMOVE AFTER TESTING IS FINISHED
+
+    public Location getTopLeftCorner()
+    {
+        return this.topLeftCorner;
+    }
+
+    //TEMPORARY METHOD USED FOR QUICKER TESTING OF PLATFORM CLASS. REMOVE AFTER TESTING IS FINISHED
+
     //Collision
     public boolean areColliding(Hitbox otherObject) {
 
