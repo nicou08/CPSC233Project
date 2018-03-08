@@ -92,14 +92,14 @@ public class InputListener {
         if (character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
             velocity.changeHorizontalVelocity(1);
         } else if (!character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
-            int newVelocity = velocity.getHorizontalVelocity() - 1 < 0 ? 0 : velocity.getHorizontalVelocity() - 1;
+            double newVelocity = velocity.getHorizontalVelocity() - 1 < 0 ? 0 : velocity.getHorizontalVelocity() - 1;
             velocity.setHorizontalVelocity(newVelocity);
         }
 
         if (character.isHoldingLeft() && velocity.getHorizontalVelocity() <= 0 && velocity.getHorizontalVelocity() >= -10) {
             velocity.changeHorizontalVelocity(-1);
         } else if (!character.isHoldingLeft() && velocity.getHorizontalVelocity() < 0) {
-            int newVelocity = velocity.getHorizontalVelocity() + 1 > 0 ? 0 : velocity.getHorizontalVelocity() + 1;
+            double newVelocity = velocity.getHorizontalVelocity() + 1 > 0 ? 0 : velocity.getHorizontalVelocity() + 1;
             velocity.setHorizontalVelocity(newVelocity);
         }
 

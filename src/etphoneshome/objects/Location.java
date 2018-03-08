@@ -4,39 +4,39 @@ public class Location {
     /* This is the location class that holds 2-Dimensional coordinates and
      * calculates distances between objects of this particular class
      */
-    private int xcord;
-    private int ycord;
+    private double xcord;
+    private double ycord;
 
-    public Location(int xCord, int yCord) {
+    public Location(double xCord, double yCord) {
         this.xcord = xCord;
         this.ycord = yCord;
     }
 
-    public int getXcord() {
+    public double getXcord() {
         return xcord;
     }
 
-    public int getYcord() {
+    public double getYcord() {
         return ycord;
     }
 
-    public void setXcord(int x) {
+    public void setXcord(double x) {
         xcord = x;
     }
 
-    public void setYcord(int y) {
+    public void setYcord(double y) {
         ycord = y;
     }
 
-    public void addX(int x) {
+    public void addX(double x) {
         this.add(x, 0);
     }
 
-    public void addY(int y) {
+    public void addY(double y) {
         this.add(0, y);
     }
 
-    public void add(int x, int y) {
+    public void add(double x, double y) {
         this.xcord += x;
         this.ycord += y;
     }

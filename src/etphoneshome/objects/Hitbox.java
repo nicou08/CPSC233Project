@@ -2,37 +2,36 @@ package etphoneshome.objects;
 
 public class Hitbox {
     private Location topLeftCorner; //Change l to L for real code
-    private int height, width;
+    private double height, width;
 
     //Constructor
-    public Hitbox(Location m, int h, int w) {
+    public Hitbox(Location m, double h, double w) {
         topLeftCorner = m;
         height = h;
         width = w;
     }
 
     //Getter
-    public int getWidth() {
+    public double getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    public double getHeight() {
         return height;
     }
 
     //Collision
     public boolean areColliding(Hitbox otherObject) {
-        boolean colliding = false;
 
-        int leftSideX = topLeftCorner.getXcord();
-        int rightSideX = topLeftCorner.getXcord() + width;
-        int otherRightSideX = otherObject.topLeftCorner.getXcord() + otherObject.getWidth(); //Make a getLocation???
-        int otherLeftSideX = otherObject.topLeftCorner.getXcord();
+        double leftSideX = topLeftCorner.getXcord();
+        double rightSideX = topLeftCorner.getXcord() + width;
+        double otherRightSideX = otherObject.topLeftCorner.getXcord() + otherObject.getWidth(); //Make a getLocation???
+        double otherLeftSideX = otherObject.topLeftCorner.getXcord();
 
-        int topSideY = topLeftCorner.getYcord();
-        int bottomSideY = topLeftCorner.getYcord() + height;
-        int otherTopSideY = otherObject.topLeftCorner.getYcord();
-        int otherBottomSideY = otherObject.topLeftCorner.getYcord() + otherObject.getHeight();
+        double topSideY = topLeftCorner.getYcord();
+        double bottomSideY = topLeftCorner.getYcord() + height;
+        double otherTopSideY = otherObject.topLeftCorner.getYcord();
+        double otherBottomSideY = otherObject.topLeftCorner.getYcord() + otherObject.getHeight();
 
         if (rightSideX < otherLeftSideX) {
             return false;
