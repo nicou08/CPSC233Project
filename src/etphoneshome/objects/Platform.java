@@ -119,13 +119,13 @@ public class Platform extends Obstacle
      * Returns the entire hitbox of the {@code Platform}
      * @return The entire hitbox of the {@code Platform}
      */
-    public Hitbox getPlatformHitbox()
+    public Hitbox getHitbox()
     {
         return this.platformHitbox;
     }
 
     //MAIN METHOD USED FOR TESTING THE PLATFORM METHODS, CONSTRUCTORS AND HITBOX COLLISION
-/*
+
     public static void main(String[] args)
     {
         Location k1 = new Location(100,120);
@@ -167,20 +167,20 @@ public class Platform extends Obstacle
         //test hitbox for each platform
         System.out.println("\nTESTING PLATFORM HITBOX LOCATIONS.....\n");
 
-        System.out.println("Should be 100: " + singleBrick.getPlatformHitbox().getTopLeftCorner().getXcord());
-        System.out.println("Should be 120: " + singleBrick.getPlatformHitbox().getTopLeftCorner().getYcord());
-        System.out.println("Should be 60: " + singleBrick.getPlatformHitbox().getWidth());
-        System.out.println("Should be 30: " + singleBrick.getPlatformHitbox().getHeight());
+        System.out.println("Should be 100: " + singleBrick.getHitbox().getTopLeftCorner().getXcord());
+        System.out.println("Should be 120: " + singleBrick.getHitbox().getTopLeftCorner().getYcord());
+        System.out.println("Should be 60: " + singleBrick.getHitbox().getWidth());
+        System.out.println("Should be 30: " + singleBrick.getHitbox().getHeight());
 
-        System.out.println("Should be 300: " + twoBrick.getPlatformHitbox().getTopLeftCorner().getXcord());
-        System.out.println("Should be 309: " + twoBrick.getPlatformHitbox().getTopLeftCorner().getYcord());
-        System.out.println("Should be 120: " + twoBrick.getPlatformHitbox().getWidth());
-        System.out.println("Should be 30: " + twoBrick.getPlatformHitbox().getHeight());
+        System.out.println("Should be 300: " + twoBrick.getHitbox().getTopLeftCorner().getXcord());
+        System.out.println("Should be 309: " + twoBrick.getHitbox().getTopLeftCorner().getYcord());
+        System.out.println("Should be 120: " + twoBrick.getHitbox().getWidth());
+        System.out.println("Should be 30: " + twoBrick.getHitbox().getHeight());
 
-        System.out.println("Should be 600: " + multiBrick.getPlatformHitbox().getTopLeftCorner().getXcord());
-        System.out.println("Should be 668: " + multiBrick.getPlatformHitbox().getTopLeftCorner().getYcord());
-        System.out.println("Should be 300: " + multiBrick.getPlatformHitbox().getWidth());
-        System.out.println("Should be 30: " + multiBrick.getPlatformHitbox().getHeight());
+        System.out.println("Should be 600: " + multiBrick.getHitbox().getTopLeftCorner().getXcord());
+        System.out.println("Should be 668: " + multiBrick.getHitbox().getTopLeftCorner().getYcord());
+        System.out.println("Should be 300: " + multiBrick.getHitbox().getWidth());
+        System.out.println("Should be 30: " + multiBrick.getHitbox().getHeight());
 
         System.out.println("\nPLATFORM HITBOX TESTING COMPLETE!\n");
 
@@ -188,37 +188,37 @@ public class Platform extends Obstacle
         System.out.println("\nTESTING PLATFORM HITBOX COLLISION.....\n");
 
         //top platform collision
-        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
         c.addY(14);
-        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
         c.addY(1);
-        System.out.println("Should be true: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be true: " + colltest.areColliding(singleBrick.getHitbox()));
 
         //bottom platform collision
         c.setYcord(160);
-        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
         c.addY(-9);
-        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
         c.addY(-5);
-        System.out.println("Should be true: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be true: " + colltest.areColliding(singleBrick.getHitbox()));
 
         //left side collision
         c.setYcord(130);
         c.setXcord(90);
-        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
         c.addX(4);
-        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
         c.addX(1);
-        System.out.println("Should be true: " + colltest.areColliding(singleBrick.getPlatformHitbox()));
+        System.out.println("Should be true: " + colltest.areColliding(singleBrick.getHitbox()));
 
         //right side collision
         c.setYcord(662);
         c.setXcord(780);
-        System.out.println("Should be false: " + colltest.areColliding(multiBrick.getPlatformHitbox()));
+        System.out.println("Should be false: " + colltest.areColliding(multiBrick.getHitbox()));
         c.addY(3);
-        System.out.println("Should be true: " + colltest.areColliding(multiBrick.getPlatformHitbox()));
+        System.out.println("Should be true: " + colltest.areColliding(multiBrick.getHitbox()));
         c.addY(1);
-        System.out.println("Should be true: " + colltest.areColliding(multiBrick.getPlatformHitbox()));
+        System.out.println("Should be true: " + colltest.areColliding(multiBrick.getHitbox()));
 
         //double platform top collision
 
@@ -228,5 +228,5 @@ public class Platform extends Obstacle
         System.exit(0);
     }
 
-*/
+
 }
