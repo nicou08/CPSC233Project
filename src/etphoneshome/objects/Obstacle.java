@@ -14,7 +14,7 @@ public class Obstacle
     /**
      * Sprite associated with the generic {@code Obstacle}
      */
-    private Image sprite = new Image("images/sprites/genericObstacle.png");
+    private Image sprite = new Image("/images/sprites/genericObstacle.png");
 
     /**
      * Location associated with the generic {@code Obstacle}

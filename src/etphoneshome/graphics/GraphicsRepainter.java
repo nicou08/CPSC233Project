@@ -77,7 +77,7 @@ public class GraphicsRepainter extends Application {
         character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
         character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
 
-        UILauncher.getBackgroundManager().getBackgroundLocation().setXcord(-this.WIDTH);
+        //UILauncher.getBackgroundManager().getBackgroundLocation().setXcord(-this.WIDTH);
 
         this.registerKeyEvents();
 
@@ -160,6 +160,7 @@ public class GraphicsRepainter extends Application {
      */
     public void repaintEntities(Character character) {
         Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
+
         gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
         if (character.isFacingRight()) {
             gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());

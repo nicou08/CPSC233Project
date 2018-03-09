@@ -50,8 +50,7 @@ public class UILauncher {
         UILauncher.inputListener = new InputListener(character, backgroundManager);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
 
-        
-        UILauncher.entityManager.spawnRandomEntities(0);
+        UILauncher.entityManager.spawnRandomEntities(50);
         
         //launches game
         UILauncher.graphicsRepainter.goLaunch(args);
