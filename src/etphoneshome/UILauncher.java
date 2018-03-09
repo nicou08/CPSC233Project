@@ -4,9 +4,9 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
+import etphoneshome.managers.BackgroundManager;
 import etphoneshome.managers.EntityManager;
 import etphoneshome.managers.GameManager;
-import jdk.internal.util.xml.impl.Input;
 
 public class UILauncher {
 	
@@ -31,22 +31,27 @@ public class UILauncher {
     private static GraphicsRepainter graphicsRepainter;
     
     /**
-     * handles most checks on the game
+     * Handles most checks on the game
      */
     private static GameManager gameManager;
-    
+
+    /**
+     * Manages background of the game
+     */
+    private static BackgroundManager backgroundManager;
 
     public static void main(String[] args) {
     	
     	//Creates instances of all the objects needed 
         UILauncher.character = new ET();
-        UILauncher.entityManager = new EntityManager(character);
-        UILauncher.inputListener = new InputListener(character);
         UILauncher.graphicsRepainter = new GraphicsRepainter();
+        UILauncher.entityManager = new EntityManager(character);
+        UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
+        UILauncher.inputListener = new InputListener(character, backgroundManager);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
 
         
-        UILauncher.entityManager.spawnRandomEntities(50);
+        UILauncher.entityManager.spawnRandomEntities(0);
         
         //launches game
         UILauncher.graphicsRepainter.goLaunch(args);
@@ -97,10 +102,18 @@ public class UILauncher {
     }
 
     /**
-     * 
+     *
      * @return gameManager returns the game checker associated with {@code UILauncher}
      */
     public static GameManager getGameManager() {
         return UILauncher.gameManager;
+    }
+
+    /**
+     *
+     * @return backgroundManager returns the background manager associated with {@code UILauncher}
+     */
+    public static BackgroundManager getBackgroundManager() {
+        return UILauncher.backgroundManager;
     }
 }

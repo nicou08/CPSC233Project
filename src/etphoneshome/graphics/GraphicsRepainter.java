@@ -77,6 +77,8 @@ public class GraphicsRepainter extends Application {
         character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
         character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
 
+        UILauncher.getBackgroundManager().getBackgroundLocation().setXcord(-this.WIDTH);
+
         this.registerKeyEvents();
 
         //staring the actual game
@@ -129,6 +131,7 @@ public class GraphicsRepainter extends Application {
             //Will update velocity if the user is holding a correct key
             InputListener inputListener = UILauncher.getInputListener();
             inputListener.updateVelocities();
+            UILauncher.getBackgroundManager().updateBackgroundLocation();
 
             //updates location of character based on the velocity
             characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
@@ -156,7 +159,8 @@ public class GraphicsRepainter extends Application {
      * @param character {@code Character}
      */
     public void repaintEntities(Character character) {
-        gc.drawImage(this.BACKGROUND, 0, 0);
+        Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
+        gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
         if (character.isFacingRight()) {
             gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());
         } else {

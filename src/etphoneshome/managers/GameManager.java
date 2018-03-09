@@ -100,9 +100,10 @@ public class GameManager {
 
     public static void main(String args[]) {
         Character character = new ET();
-        InputListener inputListener = new InputListener(character);
-        EntityManager entityManager = new EntityManager(character);
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
+        BackgroundManager backgroundManager = new BackgroundManager(graphicsRepainter);
+        InputListener inputListener = new InputListener(character, backgroundManager);
+        EntityManager entityManager = new EntityManager(character);
         GameManager gameManager = new GameManager(graphicsRepainter, entityManager, character);
 
         System.out.println("Testing out wasCharacterHurt");

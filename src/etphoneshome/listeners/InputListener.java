@@ -2,6 +2,7 @@ package etphoneshome.listeners;
 
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
+import etphoneshome.managers.BackgroundManager;
 import etphoneshome.objects.Velocity;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -18,12 +19,18 @@ public class InputListener {
     private Character character;
 
     /**
+     * Stores backgroundManager to be used to update background velocity/location
+     */
+    private BackgroundManager backgroundManager;
+
+    /**
      * Constructor for the class
      *
      * @param character gives InputListener the character associated with InputListener
      */
-    public InputListener(Character character) {
+    public InputListener(Character character, BackgroundManager backgroundManager) {
         this.character = character;
+        this.backgroundManager = backgroundManager;
     }
 
     public void setCharacter(Character character) {
@@ -113,6 +120,12 @@ public class InputListener {
             velocity.setVerticalVelocity(-20);
         }
 
+        this.updateBackgroundVelocity();
+
+    }
+
+    public void updateBackgroundVelocity() {
+        backgroundManager.getBackgroundVelocity().setHorizontalVelocity(character.getVelocity().getHorizontalVelocity()/-2.0);
     }
 
 
