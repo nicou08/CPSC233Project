@@ -64,17 +64,17 @@ public class Platform extends Obstacle
 
                 nextBrickLocation = this.addBrickWidth(nextBrickLocation);  //shifts the next brick location 60 pixels (WIDTH) to the right
 
-                bricks.get(i).setSprite("images/sprites/middleBrickGeneric.png");   //sets every brick to the default
+                bricks.get(i).setSprite("images/sprites/regularPlatform.png");   //sets every brick to the default
                                                                                     //sprite of the middle brick
             }
 
             //sets the correct sprites based off how many bricks are in the platform
             if(this.length == 1)
-                bricks.get(0).setSprite("images/sprites/singleBrickGeneric.png");
+                bricks.get(0).setSprite("images/sprites/singlePlatform.png");
             else if(this.length > 1)
             {
-                bricks.get(0).setSprite("images/sprites/leftEndBrickGeneric.png");
-                bricks.get(this.length - 1).setSprite("images/sprites/rightEndBrickGeneric.png");
+                bricks.get(0).setSprite("images/sprites/leftEndPlatform.png");
+                bricks.get(this.length - 1).setSprite("images/sprites/rightEndPlatform.png");
             }
 
             //set the hitbox of the entire platform
