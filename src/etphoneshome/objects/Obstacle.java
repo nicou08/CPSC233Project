@@ -35,9 +35,18 @@ public class Obstacle
     }
 
     /**
-     * Main constructor to set the Location and Hitbox
+     * Main constructor to set just the Location
      * @param location Location associated with the {@code Obstacle}
-     * @param hitbox Hitbox associated with the {@code Obstacle}
+     */
+    public Obstacle(Location location)
+    {
+        this.location = location;
+    }
+
+    /**
+     * Constructor that sets the location and hitbox
+     * @param location Location of the {@code Obstacle}
+     * @param hitbox Hitbox of the {@code Obstacle}
      */
     public Obstacle(Location location, Hitbox hitbox)
     {
