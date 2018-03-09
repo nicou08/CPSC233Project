@@ -29,8 +29,8 @@ public class GraphicsRepainter extends Application {
     /**
      * Width and height of the screen
      */
-    public final int WIDTH = 1728;
-    public final int HEIGHT = 972;
+    public final int WIDTH = 1920;
+    public final int HEIGHT = 1080;
 
     /**
      * images needed to play the game
@@ -53,9 +53,14 @@ public class GraphicsRepainter extends Application {
     private Timeline timeline = new Timeline();
 
     /**
-     * a button needed to restart the game
+     * A button needed to restart the game
      */
-    private Button button;
+    private Button restartButton;
+
+    /**
+     * A button used for exiting the game
+     */
+    private Button exitButton;
 
     public void start(Stage stage) {
 
@@ -63,13 +68,27 @@ public class GraphicsRepainter extends Application {
         this.stage = stage;
         this.createWindow(stage);
 
-        // creating button 
-        button = new Button();
-        button.setText("Play Again");
-        button.setTranslateX(WIDTH / 2 - 100);
-        button.setTranslateY(50);
-        button.setPrefSize(200, 100);
-        button.setFont(new Font("Arial", 20));
+        // creating restartButton 
+        restartButton = new Button();
+        restartButton.setText("Play Again");
+        restartButton.setTranslateX(WIDTH / 2 - 100);
+        restartButton.setTranslateY(50);
+        restartButton.setPrefSize(200, 100);
+        restartButton.setFont(new Font("Arial", 20));
+
+        exitButton = new Button();
+        exitButton.setText("Exit Game");
+        exitButton.setTranslateX(WIDTH - WIDTH / 10);
+        exitButton.setTranslateY(50);
+        exitButton.setPrefSize(100, 50);
+        exitButton.setFont(new Font("Arial", 14));
+
+        root.getChildren().add(exitButton);
+
+        exitButton.setOnMouseClicked(k -> {
+            timeline.stop();
+            stage.close();
+        });
 
         //making character and setting it's starting point
         Character character = new ET();
@@ -94,6 +113,7 @@ public class GraphicsRepainter extends Application {
         this.root.getChildren().add(this.canvas);
         stage.setScene(this.scene);
         this.gc.drawImage(this.BACKGROUND, 0, 0);
+        stage.setFullScreen(true);
         stage.show();
     }
 
@@ -178,7 +198,7 @@ public class GraphicsRepainter extends Application {
     }
 
     /**
-     * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a button on screen that will
+     * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a restartButton on screen that will
      * reset the game if the user clicks it
      *
      * @param character {@code Character}
@@ -188,10 +208,10 @@ public class GraphicsRepainter extends Application {
             this.gc.drawImage(new Image("/images/sprites/heart.png"), 25, 25);
         } else {
             gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
-            root.getChildren().add(button);
+            root.getChildren().add(restartButton);
             timeline.pause();
             UILauncher.getGameManager().setGameOver(true);
-            button.setOnMouseClicked(k -> {
+            restartButton.setOnMouseClicked(k -> {
 
                 //clears enemies and makes new ones
                 UILauncher.getEntityManager().getEnemyList().clear();
@@ -204,8 +224,8 @@ public class GraphicsRepainter extends Application {
                 character.setHealth(1);
                 UILauncher.getGameManager().setGameOver(false);
 
-                //removes button and starts timeline again
-                root.getChildren().remove(button);
+                //removes restartButton and starts timeline again
+                root.getChildren().remove(restartButton);
                 timeline.play();
             });
 
