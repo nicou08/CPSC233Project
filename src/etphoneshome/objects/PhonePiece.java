@@ -6,11 +6,6 @@ public class PhonePiece extends Collectible {
 	
 	
 	/**
-	 * Image associated with {@code PhonePiece}
-	 */
-	private Image theImage;
-	
-	/**
 	 * dimensions of the {@code PhonePiece}
 	 */
 	private final int WIDTH = 30;
@@ -23,7 +18,7 @@ public class PhonePiece extends Collectible {
 	 */
 	public PhonePiece() {
 		super.setImages("images/sprites/phoneAntenna.png", "images/sprites/phoneChassis.png","images/sprites/phoneKeypad.png" );
-		theImage = super.getSprites()[0];
+		setTheImage(super.getSprites()[0]);
 		
 	}
 
@@ -36,16 +31,17 @@ public class PhonePiece extends Collectible {
 	public PhonePiece(Hitbox hitbox, Location location, int index) {
 		super(hitbox, location);
 		super.setImages("images/sprites/phoneAntenna.png", "images/sprites/phoneChassis.png","images/sprites/phoneKeypad.png" );
-		theImage = super.getSprites()[index];
-		
+		if (index < 3 && index >= 0) {
+			setTheImage(super.getSprites()[index]);
+		}
 	}
 
 	/**
 	 * sets the image to something else
 	 * @param piece url of the image 
 	 */
-	public void setImage(String piece) {
-		this.theImage = new Image(piece);
+	public void setImage(int index) {
+		super.setTheImage(super.getSprites()[index]);
 	}
 	
 	/**
@@ -53,7 +49,7 @@ public class PhonePiece extends Collectible {
 	 * @return the image of {@code PhonePiece}
 	 */
 	public Image getImage() {
-		return this.theImage;
+		return super.getTheImage();
 	}
 	
 	/**

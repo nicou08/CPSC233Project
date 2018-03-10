@@ -12,11 +12,6 @@ public class ReesesPieces extends Collectible {
 	private final static int WIDTH = 40;
 	
 	
-	/**
-	 * image that will be used 
-	 */
-	private Image theImage;
-	
 	
 	/**
 	 * random number generator to pick sprite
@@ -49,7 +44,7 @@ public class ReesesPieces extends Collectible {
 	 */
 	private void setImage() {
 		int index = rand.nextInt(3);
-		this.theImage = super.getSprites()[index];
+		super.setTheImage(super.getSprites()[index]);
 		
 	}
 	
@@ -57,8 +52,8 @@ public class ReesesPieces extends Collectible {
 	 * gets the image of the sprite
 	 * @return image of sprite
 	 */
-	 public Image getImage() {
-		 return this.theImage;
+	 public Image getTheImage() {
+		 return super.getTheImage();
 	 }
 	
 	 /**

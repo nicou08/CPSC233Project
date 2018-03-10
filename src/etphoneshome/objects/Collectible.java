@@ -11,7 +11,7 @@ public class Collectible {
 	
 	
 	
-	JFXPanel jfxPanel = new JFXPanel();
+	JFXPanel jfxPanel = new JFXPanel();  //needed to pass images to subclasses
 	
 	/**
 	 * possible images for the {@code Collectible}
@@ -21,6 +21,7 @@ public class Collectible {
 	private Image piece3 = new Image("images/sprites/RP_brown.png");
 	
 	private Image[] sprites = new Image[] {piece1,piece2,piece3};
+	private Image theImage;
 	
 	/**
 	 * Location associated with the {@code Collectible} 
@@ -108,6 +109,24 @@ public class Collectible {
 		this.sprites = sprites;
 	}
 	
+	/**
+	 * sets the image of {@code Collectible}
+	 * @param theImage new image of the {@code Collectible}
+	 */
+	
+	public void setTheImage(Image theImage) {
+		this.theImage = theImage;
+	}
+	
+	/**
+	 * gets the image of the {@code Collectible}
+	 * @return the image of the Collectible
+	 */
+	public Image getTheImage() {
+		return this.theImage;
+	}
+
+
 	
 
 }
