@@ -1,5 +1,6 @@
 package etphoneshome.objects;
 import javafx.embed.swing.JFXPanel;
+import javafx.scene.image.Image;
 
 
 /**
@@ -8,7 +9,18 @@ import javafx.embed.swing.JFXPanel;
  */
 public class Collectible {
 	
+	
+	
 	JFXPanel jfxPanel = new JFXPanel();
+	
+	/**
+	 * possible images for the {@code Collectible}
+	 */
+	private Image piece1 = new Image("images/sprites/RP_brown.png");
+	private Image piece2 = new Image("images/sprites/RP_brown.png");
+	private Image piece3 = new Image("images/sprites/RP_brown.png");
+	
+	private Image[] sprites = new Image[] {piece1,piece2,piece3};
 	
 	/**
 	 * Location associated with the {@code Collectible} 
@@ -70,7 +82,32 @@ public class Collectible {
 		return this.hitbox;
 	}
 	
+	/**
+	 * sets the possible images for the {@code Collectible}
+	 * @param piece1 url of image1
+	 * @param piece2 url of image2
+	 * @param piece3 url of image3
+	 */
+	public void setImages(String piece1,String piece2, String piece3){
+		this.piece1= new Image(piece1);
+		this.piece2 = new Image(piece2);
+		this.piece3= new Image(piece3);
+	}
 
+	/**
+	 * @return the sprites
+	 */
+	public Image[] getSprites() {
+		return sprites;
+	}
+
+	/**
+	 * @param sprites the sprites to set
+	 */
+	public void setSprites(Image[] sprites) {
+		this.sprites = sprites;
+	}
+	
 	
 
 }
