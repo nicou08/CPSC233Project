@@ -96,6 +96,9 @@ public class InputListener {
      */
     public void updateVelocities() {
         Velocity velocity = character.getVelocity();
+        if (velocity.getHorizontalVelocity() > 0) { character.setFacingRight(true);}
+        else if (velocity.getHorizontalVelocity() < 0) { character.setFacingRight(false);}
+        
         if (character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
             velocity.changeHorizontalVelocity(1);
         } else if (!character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
