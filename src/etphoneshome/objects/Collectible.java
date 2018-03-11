@@ -10,17 +10,21 @@ import javafx.scene.image.Image;
 public class Collectible {
 	
 	
+	private final int WIDTH = 40;
+	private final int HEIGHT = 40;
+	
 	
 	JFXPanel jfxPanel = new JFXPanel();  //needed to pass images to subclasses
 	
 	/**
 	 * possible images for the {@code Collectible}
 	 */
-	private Image piece1 = new Image("images/sprites/RP_brown.png");
-	private Image piece2 = new Image("images/sprites/RP_brown.png");
-	private Image piece3 = new Image("images/sprites/RP_brown.png");
+	private String piece1 = "images/sprites/RP_brown.png";
+	private String piece2 = "images/sprites/RP_brown.png";
+	private String piece3 = "images/sprites/RP_brown.png";
 	
-	private Image[] sprites = new Image[] {piece1,piece2,piece3};
+	private String[] sprites = new String[] {piece1,piece2,piece3};
+	
 	private Image theImage;
 	
 	/**
@@ -90,22 +94,24 @@ public class Collectible {
 	 * @param piece3 url of image3
 	 */
 	public void setImages(String piece1,String piece2, String piece3){
-		this.piece1= new Image(piece1);
-		this.piece2 = new Image(piece2);
-		this.piece3= new Image(piece3);
+		this.piece1= piece1;
+		this.piece2 = piece2;
+		this.piece3= piece3;
 	}
 
 	/**
 	 * @return the sprites
 	 */
-	public Image[] getSprites() {
-		return sprites;
+	public String[] getSprites() {
+		String[] copy = new String[3];
+		System.arraycopy(sprites, 0, copy, 0, sprites.length);
+		return copy;
 	}
 
 	/**
 	 * @param sprites the sprites to set
 	 */
-	public void setSprites(Image[] sprites) {
+	public void setSprites(String[] sprites) {
 		this.sprites = sprites;
 	}
 	
@@ -114,8 +120,8 @@ public class Collectible {
 	 * @param theImage new image of the {@code Collectible}
 	 */
 	
-	public void setTheImage(Image theImage) {
-		this.theImage = theImage;
+	public void setTheImage(String theImage) {
+		this.theImage = new Image (theImage);
 	}
 	
 	/**
@@ -123,9 +129,17 @@ public class Collectible {
 	 * @return the image of the Collectible
 	 */
 	public Image getTheImage() {
-		return this.theImage;
+		Image copy = new Image("images/sprites/RP_brown.png");
+		return copy;
 	}
 
+	public int getHeight() {
+		return this.HEIGHT;
+	}
+	
+	public int getWidth() {
+		return this.WIDTH;
+	}
 
 	
 

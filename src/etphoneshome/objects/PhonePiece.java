@@ -8,9 +8,10 @@ public class PhonePiece extends Collectible {
 	/**
 	 * dimensions of the {@code PhonePiece}
 	 */
-	private final int WIDTH = 30;
-	private final int HEIGHT = 70;
+	private final static int WIDTH = 30;
+	private final static int HEIGHT = 70;
 	
+	private String ImagePath;
 
 	
 	/**
@@ -41,7 +42,8 @@ public class PhonePiece extends Collectible {
 	 * @param piece url of the image 
 	 */
 	public void setImage(int index) {
-		super.setTheImage(super.getSprites()[index]);
+		this.ImagePath = super.getSprites()[index];
+		super.setTheImage(ImagePath);
 	}
 	
 	/**
@@ -49,7 +51,8 @@ public class PhonePiece extends Collectible {
 	 * @return the image of {@code PhonePiece}
 	 */
 	public Image getImage() {
-		return super.getTheImage();
+		Image copy = new Image(ImagePath);
+		return copy;
 	}
 	
 	/**
@@ -68,7 +71,33 @@ public class PhonePiece extends Collectible {
 		 return this.HEIGHT;
 	 }
 	
-	
+		public static void main(String[] args) {
+			
+			Location testloc = new Location(100,300);
+			Hitbox testhit = new Hitbox (testloc, WIDTH, HEIGHT);
+			PhonePiece tester = new PhonePiece(testhit,testloc,0);
+			System.out.println("x cord should be 100 is: " + tester.getLocation().getXcord());
+			System.out.println("ycord should be 300 is: " + tester.getLocation().getYcord());
+			
+			Location testloc2 = new Location(70,270);
+			Hitbox testhit2 = new Hitbox(testloc2, WIDTH, HEIGHT);
+			PhonePiece tester2 = new PhonePiece(testhit2,testloc2,0);
+			System.out.println("x cord should be 70 is: " + tester2.getLocation().getXcord());
+			System.out.println("ycord should be 270 is: " + tester2.getLocation().getYcord());
+			
+			boolean a;
+			a= tester.getHitbox().areColliding(tester2.getHitbox());
+			System.out.println("should be true: " + a);
+			tester2.getLocation().setXcord(1000);
+			System.out.println("xcord should be 1000 is: " + tester2.getLocation().getXcord());
+			a= tester.getHitbox().areColliding(tester2.getHitbox());
+			System.out.println("should be false: "+ a);
+			
+			
+			
+			System.exit(1);
+		}
+
 
 
 }

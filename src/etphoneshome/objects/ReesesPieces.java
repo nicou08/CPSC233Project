@@ -7,16 +7,15 @@ import java.util.Random;
 
 public class ReesesPieces extends Collectible {
 
-	
-	private final static int HEIGHT = 40;
 	private final static int WIDTH = 40;
-	
-	
+	private final static int HEIGHT = 40;
 	
 	/**
 	 * random number generator to pick sprite
 	 */
 	private final Random rand = new Random();
+	
+	private String ImagePath;
 	
 	
 	/**
@@ -44,7 +43,8 @@ public class ReesesPieces extends Collectible {
 	 */
 	private void setImage() {
 		int index = rand.nextInt(3);
-		super.setTheImage(super.getSprites()[index]);
+		this.ImagePath = super.getSprites()[index];
+		super.setTheImage(ImagePath);
 		
 	}
 	
@@ -53,25 +53,11 @@ public class ReesesPieces extends Collectible {
 	 * @return image of sprite
 	 */
 	 public Image getTheImage() {
-		 return super.getTheImage();
+		 Image copy = new Image(ImagePath);
+		 return copy;
 	 }
 	
-	 /**
-	  * gets width
-	  * @return width
-	  */
-	 public int getWidth() {
-		 return WIDTH;
-	 }
-	 
-	 /**
-	  * gets height
-	  * @return height
-	  */
-	 public int getHeight() {
-		 return HEIGHT;
-	 }
-	 
+
 	 
 	public static void main(String[] args) {
 		
