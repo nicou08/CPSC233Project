@@ -67,8 +67,10 @@ public class Actor {
      *
      * @param newLocation The new {@code location} object
      */
-    public void setLocation(Location newLocation) {
-        this.location = newLocation;
+    public void setLocation(Location newLocation)
+    {
+        Location copy = new Location(newLocation.getXcord(), newLocation.getYcord());
+        this.location = copy;
     }
 
     /**
