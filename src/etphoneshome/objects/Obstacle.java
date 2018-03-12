@@ -40,7 +40,8 @@ public class Obstacle
      */
     public Obstacle(Location location)
     {
-        this.location = location;
+        Location locationCopy = new Location(location.getXcord(), location.getYcord());
+        this.location = locationCopy;
     }
 
     /**
@@ -50,8 +51,11 @@ public class Obstacle
      */
     public Obstacle(Location location, Hitbox hitbox)
     {
-        this.location = location;
-        this.hitbox = hitbox;
+        this(location);
+
+        Hitbox hitboxCopy = new Hitbox(new Location(location.getXcord(), location.getYcord()), hitbox.getHeight(), hitbox.getWidth());
+
+        this.hitbox = hitboxCopy;
     }
 
     /**
