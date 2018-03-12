@@ -39,7 +39,10 @@ public class Platform extends Obstacle
     private Platform(Location location)   //makes a single platform object. Used in below constructor
     {
         super(location);
-        this.platformHitbox =  new Hitbox(location, this.HEIGHT, this.WIDTH);
+
+        Location locationCopy = new Location(location.getXcord(), location.getYcord());
+
+        this.platformHitbox =  new Hitbox(locationCopy, this.HEIGHT, this.WIDTH);
     }
 
     /**
@@ -54,6 +57,7 @@ public class Platform extends Obstacle
 
         if(length < 1)
             System.out.println("Platform must be at least 1 brick long! Unable to construct platform!");
+
         else    //platform is at least 1 brick long
         {
             bricks = new ArrayList<>(this.length);
@@ -105,7 +109,15 @@ public class Platform extends Obstacle
      */
     public ArrayList<Obstacle> getBricks()
     {
-        return this.bricks;
+        ArrayList<Obstacle> bricksCopy = new ArrayList<>();
+
+        for(int i = 0; i < bricksCopy.size(); i++)
+        {
+            Location locationCopy = new Location(this.bricks.get(i).getLocation().getXcord(), this.bricks.get(i).getLocation().getYcord());
+
+            bricksCopy.add(new Obstacle(locationCopy));
+        }
+        return bricksCopy;
     }
 
     /**
@@ -123,7 +135,10 @@ public class Platform extends Obstacle
      */
     public Hitbox getHitbox()
     {
-        return this.platformHitbox;
+        Location locationCopy = new Location(this.getLocation().getXcord(), this.getLocation().getYcord());
+        Hitbox hitboxCopy = new Hitbox(locationCopy, this.platformHitbox.getHeight(), this.platformHitbox.getWidth());
+
+        return hitboxCopy;
     }
 
     //MAIN METHOD USED FOR TESTING THE PLATFORM METHODS, CONSTRUCTORS AND HITBOX COLLISION

@@ -82,7 +82,9 @@ public class Obstacle
      */
     public Location getLocation()
     {
-        return this.location;
+        Location copy = new Location(this.location.getXcord(), this.location.getYcord());
+
+        return copy;
     }
 
     /**
@@ -91,7 +93,10 @@ public class Obstacle
      */
     public Hitbox getHitbox()
     {
-        return this.hitbox;
+        Location locationCopy = new Location(this.location.getXcord(), this.location.getYcord());
+        Hitbox hitboxCopy = new Hitbox(locationCopy, this.hitbox.getHeight(), this.hitbox.getWidth());
+
+        return hitboxCopy;
     }
 
 

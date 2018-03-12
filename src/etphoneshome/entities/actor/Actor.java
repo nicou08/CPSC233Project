@@ -70,6 +70,7 @@ public class Actor {
     public void setLocation(Location newLocation)
     {
         Location copy = new Location(newLocation.getXcord(), newLocation.getYcord());
+
         this.location = copy;
     }
 
