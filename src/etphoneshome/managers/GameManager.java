@@ -8,6 +8,7 @@ import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
 import etphoneshome.objects.Hitbox;
+import etphoneshome.objects.Obstacle;
 import etphoneshome.objects.Velocity;
 
 /**
@@ -91,8 +92,10 @@ public class GameManager {
      * @param velocity  {@code Velocity} of character
      */
     public void runGroundCheck(Character character, Velocity velocity) {
-        if (UILauncher.getInputListener().onGround() && character.isJumping() && velocity.getVerticalVelocity() != -10) {
-            character.getLocation().setYcord(this.graphicsRepainter.HEIGHT - 100 - (int) character.getRightEntitySprite().getHeight());
+        if (UILauncher.getInputListener().onGround() && character.isJumping()) {
+            System.out.println("on ground ? true");
+            //character.getLocation().setYcord(this.graphicsRepainter.HEIGHT - 100 - (int) character.getRightEntitySprite().getHeight());
+            // ^ CHANGE THAT
             character.setJumping(false);
             velocity.setVerticalVelocity(0);
         }

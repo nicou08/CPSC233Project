@@ -3,6 +3,9 @@ package etphoneshome.listeners;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.managers.BackgroundManager;
+import etphoneshome.objects.Hitbox;
+import etphoneshome.objects.Obstacle;
+import etphoneshome.objects.Platform;
 import etphoneshome.objects.Velocity;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -96,9 +99,12 @@ public class InputListener {
      */
     public void updateVelocities() {
         Velocity velocity = character.getVelocity();
-        if (velocity.getHorizontalVelocity() > 0) { character.setFacingRight(true);}
-        else if (velocity.getHorizontalVelocity() < 0) { character.setFacingRight(false);}
-        
+        if (velocity.getHorizontalVelocity() > 0) {
+            character.setFacingRight(true);
+        } else if (velocity.getHorizontalVelocity() < 0) {
+            character.setFacingRight(false);
+        }
+
         if (character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
             velocity.changeHorizontalVelocity(1);
         } else if (!character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
@@ -128,7 +134,7 @@ public class InputListener {
     }
 
     public void updateBackgroundVelocity() {
-        backgroundManager.getBackgroundVelocity().setHorizontalVelocity(character.getVelocity().getHorizontalVelocity()/-2.0);
+        backgroundManager.getBackgroundVelocity().setHorizontalVelocity(character.getVelocity().getHorizontalVelocity() / -2.0);
     }
 
 
@@ -138,7 +144,34 @@ public class InputListener {
      * @return whether the player is on the ground or not
      */
     public boolean onGround() {
-        return character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getRightEntitySprite().getHeight();
+        if (character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getRightEntitySprite().getHeight()) {
+            return true;
+        } else {
+            int height = (int) character.getRightEntitySprite().getHeight();
+            int width = (int) character.getRightEntitySprite().getWidth();
+            Hitbox testCharacterHitbox = new Hitbox(character.getLocation().clone().addY(3), height, width);
+            for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
+                if (obstacle instanceof Platform) {
+                    Platform platform = (Platform) obstacle;
+                    for (Obstacle brick : platform.getBricks()) {
+                        if (testCharacterHitbox.areColliding(brick.getHitbox())) {
+                            character.setOnPlatform(true);
+                            return true;
+                        }
+                    }
+                } else {
+                    if (testCharacterHitbox.areColliding(obstacle.getHitbox())) {
+                        character.setOnPlatform(true);
+                        return true;
+                    }
+                }
+            }
+            if (character.isOnPlatform()) {
+                character.setOnPlatform(false);
+                character.setJumping(true);
+            }
+            return false;
+        }
     }
 }
 

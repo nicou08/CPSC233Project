@@ -28,23 +28,24 @@ public class Location {
         ycord = y;
     }
 
-    public void addX(int x) {
-        this.add(x, 0);
+    public Location addX(int x) {
+        return this.add(x, 0);
     }
 
-    public void addY(int y) {
-        this.add(0, y);
+    public Location addY(int y) {
+        return this.add(0, y);
     }
 
-    public void add(int x, int y) {
+    public Location add(int x, int y) {
         this.xcord += x;
         this.ycord += y;
+        return this;
     }
 
     public double getDistance(Location m) {
         /* The if statements are used to determine which value in the same axis is bigger
-    	 * in order to not obtain negative differences
-    	 */
+         * in order to not obtain negative differences
+         */
         double xdif, ydif, distance;
         int x1 = m.getXcord();
         int y1 = m.getYcord();

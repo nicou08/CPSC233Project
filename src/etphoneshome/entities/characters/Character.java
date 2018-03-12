@@ -10,7 +10,7 @@ import etphoneshome.objects.Location;
 
 public class Character extends Actor {
 
-    private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp;
+    private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform;
 
     public boolean isJumping() {
         return isJumping;
@@ -31,6 +31,8 @@ public class Character extends Actor {
         }
     }
 
+
+
     public boolean isHoldingRight() {
         return isHoldingRight;
     }
@@ -45,6 +47,14 @@ public class Character extends Actor {
 
     public void setHoldingUp(boolean holdingUp) {
         isHoldingUp = holdingUp;
+    }
+
+    public boolean isOnPlatform() {
+        return onPlatform;
+    }
+
+    public void setOnPlatform(boolean onPlatform) {
+        this.onPlatform = onPlatform;
     }
 
     //main tests the class methods

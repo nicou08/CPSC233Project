@@ -39,6 +39,7 @@ public class Platform extends Obstacle
     private Platform(Location location)   //makes a single platform object. Used in below constructor
     {
         super(location);
+        this.platformHitbox =  new Hitbox(location, this.HEIGHT, this.WIDTH);
     }
 
     /**
@@ -48,6 +49,7 @@ public class Platform extends Obstacle
      */
     public Platform(Location platformStartLocation, int length)
     {
+        super(platformStartLocation);
         this.length = length;
 
         if(length < 1)

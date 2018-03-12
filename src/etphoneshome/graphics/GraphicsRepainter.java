@@ -149,13 +149,16 @@ public class GraphicsRepainter extends Application {
             //Will update velocity if the user is holding a correct key
             InputListener inputListener = UILauncher.getInputListener();
             inputListener.updateVelocities();
-            UILauncher.getBackgroundManager().updateBackgroundLocation();
 
             //updates location of character based on the velocity
             Location newLocation = characterLocation.clone();
             newLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
-            if (!this.runObstacleCollisionCheck(character, characterLocation, newLocation)) {
+            Direction direction = this.runObstacleCollisionCheck(character, characterLocation, newLocation);
+            if (direction == null) {
                 characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
+                UILauncher.getBackgroundManager().updateBackgroundLocation();
+            } else if (direction == Direction.ABOVE || direction == Direction.BELOW) {
+                UILauncher.getBackgroundManager().updateBackgroundLocation();
             }
 
             UILauncher.getGameManager().runGroundCheck(character, velocity);
@@ -178,7 +181,7 @@ public class GraphicsRepainter extends Application {
         timeline.play();
     }
 
-    public boolean runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
+    public Direction runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
         int height = (int) character.getRightEntitySprite().getHeight();
         int width = (int) character.getRightEntitySprite().getWidth();
         Hitbox oldCharacterHitbox = new Hitbox(oldLocation, height, width);
@@ -187,35 +190,45 @@ public class GraphicsRepainter extends Application {
             Hitbox obstacleHitbox = obstacle.getHitbox();
             if (newCharacterHitbox.areColliding(obstacleHitbox)) {
                 if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
-                    oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() - width);
-                    character.getVelocity().setHorizontalVelocity(0);
+                    System.out.println("to left of other hitbox");
+                    oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() - width - 1);
+                    oldLocation.addY((int) character.getVelocity().getVerticalVelocity());
+                    return Direction.LEFT_OF;
+
                 }
                 if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
+                    System.out.println("to right of other hitbox");
                     if (obstacle instanceof Platform) {
                         Platform platform = (Platform) obstacle;
                         int xCord = platform.getLocation().getXcord();
+                        System.out.println("platform loc is null ? " + platform.getLocation() == null);
                         for (Obstacle brick : platform.getBricks()) {
                             xCord += brick.getSprite().getWidth();
                         }
-                        oldLocation.setXcord(xCord);
+                        oldLocation.setXcord(xCord + 1);
                     } else {
-                        oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth());
+                        oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth() + 1);
                     }
-                    character.getVelocity().setHorizontalVelocity(0);
+                    oldLocation.addY((int) character.getVelocity().getVerticalVelocity());
+                    return Direction.RIGHT_OF;
                 }
 
                 if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
+                    System.out.println("below other hitbox");
                     character.getVelocity().setVerticalVelocity(0);
+                    oldLocation.addX((int) character.getVelocity().getHorizontalVelocity());
                     oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight());
+                    return Direction.BELOW;
                 }
                 if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
-                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + height);
-                    character.getVelocity().setVerticalVelocity(0);
+                    System.out.println("above other hitbox");
+                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() - height - 1);
+                    oldLocation.addX((int) character.getVelocity().getHorizontalVelocity());
+                    return Direction.ABOVE;
                 }
-                return true;
             }
         }
-        return false;
+        return null;
     }
 
     /**
