@@ -99,5 +99,70 @@ public class Obstacle
         return hitboxCopy;
     }
 
+    //MAIN METHOD USED SOLELY FOR TESTING OBSTACLE
+    public static void main(String[] args)
+    {
+        System.out.println("TESTING CONSTRUCTORS....");
+        Location loc1 = new Location(100,100);
+        Location loc2 = new Location(300,300);
+        Location def = new Location(0,0);
+
+        Hitbox hb1 = new Hitbox(loc1, 10, 10);
+        Hitbox hb2 = new Hitbox(loc2, 25, 19);
+        Hitbox hdef = new Hitbox(def, 1, 1);
+        Hitbox fake = new Hitbox(def, 999, 888);
+
+        Obstacle defaultconstructor = new Obstacle();
+
+        Obstacle o1 = new Obstacle(loc1, hb1);
+        Obstacle o2 = new Obstacle(loc2, hb2);
+
+        System.out.println("CONSTRUCTOR TESTING COMPLETE!");
+
+        Obstacle o3 = new Obstacle(def, hdef);
+
+        o3.location = o1.getLocation();     //should pass a copy of o1.location!
+
+
+        Obstacle o4 = new Obstacle(def, hdef);
+        o4.location = o1.location;        //reference!
+
+        o1.location.setXcord(998);
+        o1.location.setYcord(876);
+
+        System.out.println("TESTING ENCAPSULATION OF GETLOCATION METHOD....\n");
+
+        System.out.println("Should be 100: " + o3.location.getXcord());
+        System.out.println("Should be 100: " + o3.location.getYcord());
+
+        System.out.println("Should be 998: " + o4.location.getXcord());
+        System.out.println("Should be 876: " + o4.location.getYcord());
+
+        System.out.println("Should be 998: " + o1.location.getXcord());
+        System.out.println("Should be 876: " + o1.location.getYcord());
+
+        System.out.println("\nLOCATION ENCAPSULATION TESTING COMPLETE!\n");
+
+        System.out.println("TESTING ENCAPSULATION OF GETHITBOX METHOD....\n");
+
+        o3.hitbox = o2.getHitbox(); //SHOULD BE PASSED BY VALUE!
+        o4.hitbox = o2.hitbox;
+
+        o4.hitbox = fake;
+        o2.hitbox = o4.hitbox;
+
+        System.out.println("Should be 1: " + o3.hitbox.getHeight());
+        System.out.println("Should be 1: " + o3.hitbox.getWidth());
+        System.out.println("Should be 999: " + o4.hitbox.getHeight());
+        System.out.println("Should be 888: " + o4.hitbox.getWidth());
+        System.out.println("Should be 999: " + o2.hitbox.getHeight());
+        System.out.println("Should be 888: " + o2.hitbox.getWidth());
+
+        System.out.println("\nHITBOX ENCAPSULATION COMPLETE!");
+
+        System.out.println("\nOBSTACLE TESTING COMPLETE!");
+
+        System.exit(1);
+    }
 
 }
