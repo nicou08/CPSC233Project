@@ -30,17 +30,17 @@ public class Hitbox {
     //TEMPORARY METHOD USED FOR QUICKER TESTING OF PLATFORM CLASS. REMOVE AFTER TESTING IS FINISHED
 
     //Collision
-    public boolean areColliding(Hitbox otherObject) {
+    public boolean areColliding(Hitbox otherHitbox) {
 
         int leftSideX = topLeftCorner.getXcord();
         int rightSideX = topLeftCorner.getXcord() + width;
-        int otherRightSideX = otherObject.topLeftCorner.getXcord() + otherObject.getWidth(); //Make a getLocation???
-        int otherLeftSideX = otherObject.topLeftCorner.getXcord();
+        int otherRightSideX = otherHitbox.topLeftCorner.getXcord() + otherHitbox.getWidth();
+        int otherLeftSideX = otherHitbox.topLeftCorner.getXcord();
 
         int topSideY = topLeftCorner.getYcord();
         int bottomSideY = topLeftCorner.getYcord() + height;
-        int otherTopSideY = otherObject.topLeftCorner.getYcord();
-        int otherBottomSideY = otherObject.topLeftCorner.getYcord() + otherObject.getHeight();
+        int otherTopSideY = otherHitbox.topLeftCorner.getYcord();
+        int otherBottomSideY = otherHitbox.topLeftCorner.getYcord() + otherHitbox.getHeight();
 
         if (rightSideX < otherLeftSideX) {
             return false;
@@ -60,6 +60,30 @@ public class Hitbox {
 
         return true; // boxes overlap
 
+    }
+    
+    public boolean belowOtherHitbox(Hitbox otherHitbox) {
+        int topSideY = topLeftCorner.getYcord();
+        int otherBottomSideY = otherHitbox.topLeftCorner.getYcord() + otherHitbox.getHeight();
+        return topSideY > otherBottomSideY;
+    }
+
+    public boolean aboveOtherHitbox(Hitbox otherHitbox) {
+        int bottomSideY = topLeftCorner.getYcord() + height;
+        int otherTopSideY = otherHitbox.topLeftCorner.getYcord();
+        return bottomSideY < otherTopSideY;
+    }
+
+    public boolean toTheLeftOfOtherHitbox(Hitbox otherHitbox) {
+        int rightSideX = topLeftCorner.getXcord() + width;
+        int otherLeftSideX = otherHitbox.topLeftCorner.getXcord();
+        return rightSideX < otherLeftSideX;
+    }
+
+    public boolean toTheRightOfOtherHitbox(Hitbox otherHitbox) {
+        int leftSideX = topLeftCorner.getXcord();
+        int otherRightSideX = otherHitbox.topLeftCorner.getXcord() + otherHitbox.getWidth();
+        return leftSideX > otherRightSideX;
     }
 
 }

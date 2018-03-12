@@ -54,7 +54,6 @@ public class UILauncher {
         
         //launches game
         UILauncher.graphicsRepainter.goLaunch(args);
-        System.out.println("Gameover, you died!");
     }
 
     /**
