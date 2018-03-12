@@ -5,8 +5,7 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.listeners.InputListener;
-import etphoneshome.objects.Location;
-import etphoneshome.objects.Velocity;
+import etphoneshome.objects.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -112,7 +111,6 @@ public class GraphicsRepainter extends Application {
     public void createWindow(Stage stage) {
         this.root.getChildren().add(this.canvas);
         stage.setScene(this.scene);
-        this.gc.drawImage(this.BACKGROUND, 0, 0);
         stage.setFullScreen(true);
         stage.show();
     }
@@ -154,7 +152,11 @@ public class GraphicsRepainter extends Application {
             UILauncher.getBackgroundManager().updateBackgroundLocation();
 
             //updates location of character based on the velocity
-            characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
+            Location newLocation = characterLocation.clone();
+            newLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
+            if (!this.runObstacleCollisionCheck(character, characterLocation, newLocation)) {
+                characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
+            }
 
             UILauncher.getGameManager().runGroundCheck(character, velocity);
             this.repaintEntities(character);
@@ -171,6 +173,41 @@ public class GraphicsRepainter extends Application {
         //starts timeline
         timeline.getKeyFrames().add(kf);
         timeline.play();
+    }
+
+    public boolean runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
+        int height = (int) character.getRightEntitySprite().getHeight();
+        int width = (int) character.getRightEntitySprite().getWidth();
+        Hitbox oldCharacterHitbox = new Hitbox(oldLocation, height, width);
+        Hitbox newCharacterHitbox = new Hitbox(newLocation, height, width);
+        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacles()) {
+            Hitbox obstacleHitbox = obstacle.getHitbox();
+            if (newCharacterHitbox.areColliding(obstacleHitbox)) {
+                if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
+                    character.getVelocity().setVerticalVelocity(0);
+                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight());
+                }
+                if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
+                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + height);
+                    character.getVelocity().setVerticalVelocity(0);
+                }
+                if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
+                    oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() - width);
+                    character.getVelocity().setHorizontalVelocity(0);
+                }
+                if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
+                    if (obstacle instanceof Platform) {
+                        Platform platform = (Platform) obstacle;
+                        oldLocation.setXcord(platform.getLocation().getXcord() + platform.getLength());
+                    } else {
+                        oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth());
+                    }
+                    character.getVelocity().setHorizontalVelocity(0);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -222,6 +259,9 @@ public class GraphicsRepainter extends Application {
                 character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
                 character.setIsDead(false);
                 character.setHealth(1);
+                character.setFacingRight(true);
+                character.getVelocity().setHorizontalVelocity(0);
+                character.getVelocity().setVerticalVelocity(0);
                 UILauncher.getGameManager().setGameOver(false);
 
                 //removes restartButton and starts timeline again
