@@ -7,6 +7,9 @@ import etphoneshome.listeners.InputListener;
 import etphoneshome.managers.BackgroundManager;
 import etphoneshome.managers.EntityManager;
 import etphoneshome.managers.GameManager;
+import etphoneshome.managers.ObstacleManager;
+import etphoneshome.objects.Location;
+import etphoneshome.objects.Platform;
 
 public class UILauncher {
 	
@@ -40,6 +43,11 @@ public class UILauncher {
      */
     private static BackgroundManager backgroundManager;
 
+    /**
+     * Manages obstacles of the game
+     */
+    private static ObstacleManager obstacleManager;
+
     public static void main(String[] args) {
     	
     	//Creates instances of all the objects needed 
@@ -49,6 +57,9 @@ public class UILauncher {
         UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
         UILauncher.inputListener = new InputListener(character, backgroundManager);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
+        UILauncher.obstacleManager = new ObstacleManager();
+
+        UILauncher.obstacleManager.addObstacle(new Platform(new Location(100, 800), 10));
 
         UILauncher.entityManager.spawnRandomEntities(50);
         
@@ -113,5 +124,13 @@ public class UILauncher {
      */
     public static BackgroundManager getBackgroundManager() {
         return UILauncher.backgroundManager;
+    }
+
+    /**
+     *
+     * @return backgroundManager returns the background manager associated with {@code UILauncher}
+     */
+    public static ObstacleManager getObstacleManager() {
+        return UILauncher.obstacleManager;
     }
 }

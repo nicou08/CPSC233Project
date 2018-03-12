@@ -159,6 +159,9 @@ public class GraphicsRepainter extends Application {
             }
 
             UILauncher.getGameManager().runGroundCheck(character, velocity);
+
+            this.repaintBackgroundAndObstacles(character);
+
             this.repaintEntities(character);
 
             //will take health away if character touches an enemy
@@ -180,17 +183,9 @@ public class GraphicsRepainter extends Application {
         int width = (int) character.getRightEntitySprite().getWidth();
         Hitbox oldCharacterHitbox = new Hitbox(oldLocation, height, width);
         Hitbox newCharacterHitbox = new Hitbox(newLocation, height, width);
-        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacles()) {
+        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             Hitbox obstacleHitbox = obstacle.getHitbox();
             if (newCharacterHitbox.areColliding(obstacleHitbox)) {
-                if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
-                    character.getVelocity().setVerticalVelocity(0);
-                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight());
-                }
-                if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
-                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + height);
-                    character.getVelocity().setVerticalVelocity(0);
-                }
                 if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
                     oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() - width);
                     character.getVelocity().setHorizontalVelocity(0);
@@ -198,11 +193,24 @@ public class GraphicsRepainter extends Application {
                 if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
                     if (obstacle instanceof Platform) {
                         Platform platform = (Platform) obstacle;
-                        oldLocation.setXcord(platform.getLocation().getXcord() + platform.getLength());
+                        int xCord = platform.getLocation().getXcord();
+                        for (Obstacle brick : platform.getBricks()) {
+                            xCord += brick.getSprite().getWidth();
+                        }
+                        oldLocation.setXcord(xCord);
                     } else {
                         oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth());
                     }
                     character.getVelocity().setHorizontalVelocity(0);
+                }
+
+                if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
+                    character.getVelocity().setVerticalVelocity(0);
+                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight());
+                }
+                if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
+                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + height);
+                    character.getVelocity().setVerticalVelocity(0);
                 }
                 return true;
             }
@@ -216,9 +224,6 @@ public class GraphicsRepainter extends Application {
      * @param character {@code Character}
      */
     public void repaintEntities(Character character) {
-        Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
-
-        gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
         if (character.isFacingRight()) {
             gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());
         } else {
@@ -233,6 +238,21 @@ public class GraphicsRepainter extends Application {
             }
         }
     }
+
+    public void repaintBackgroundAndObstacles(Character character) {
+        Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
+        gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
+
+        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
+            if (obstacle instanceof Platform) {
+                Platform  platform = (Platform) obstacle;
+                for (Obstacle brick : platform.getBricks()) {
+                    gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
+                }
+            }
+        }
+    }
+
 
     /**
      * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a restartButton on screen that will
