@@ -20,3 +20,10 @@ collectibles:
   reese-pieces:
     x-cord: 100
     y-cord: 100
+enemies:
+  police:
+    x-cord: 1
+    y-cord: 1
+  scientist:
+    x-cord: 1
+    y-cord: 1
