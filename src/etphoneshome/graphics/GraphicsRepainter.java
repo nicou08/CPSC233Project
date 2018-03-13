@@ -106,7 +106,7 @@ public class GraphicsRepainter extends Application {
         score.setFont(new Font("Arial", 20));
         score.setTranslateX(WIDTH/2);
         score.setTranslateY(100);
-        score.setTextFill(Color.web("#0076a3"));
+        score.setTextFill(Color.WHITE);
         root.getChildren().add(score);
 
         //UILauncher.getBackgroundManager().getBackgroundLocation().setXcord(-this.WIDTH);
