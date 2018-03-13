@@ -10,8 +10,8 @@ import javafx.scene.image.Image;
 public class Collectible {
 	
 	
-	private final int WIDTH = 40;
-	private final int HEIGHT = 40;
+	private final static int WIDTH = 40;
+	private final static int HEIGHT = 40;
 	
 	
 	JFXPanel jfxPanel = new JFXPanel();  //needed to pass images to subclasses
@@ -143,5 +143,35 @@ public class Collectible {
 
 	
 
+	public static void main(String[] args) {
+		
+		Location testloc = new Location(100,100);
+		Hitbox testhit = new Hitbox(testloc,WIDTH,HEIGHT);
+		Collectible tester = new Collectible(testhit,testloc);
+		System.out.println("x cord should be 100 is: " + tester.getLocation().getXcord());
+		System.out.println("y cord should be 100 is: " + tester.getLocation().getYcord());
+		
+		
+		Location testloc2 = new Location(200,200);
+		Hitbox testhit2 = new Hitbox(testloc2,WIDTH,HEIGHT);
+		Collectible tester2 = new Collectible(testhit2,testloc2);
+		System.out.println("x cord should be 200 is: " + tester2.getLocation().getXcord());
+		System.out.println("y cord should be 200 is: " + tester2.getLocation().getYcord());
+		
+		boolean a;
+		a= tester.getHitbox().areColliding(tester2.getHitbox());
+		System.out.println("should be false: " + a);
+		tester2.getLocation().setXcord(100);
+		tester2.getLocation().setYcord(120);
+		System.out.println("xcord should be 100 is: " + tester2.getLocation().getXcord());
+		a= tester.getHitbox().areColliding(tester2.getHitbox());
+		System.out.println("should be true: "+ a);
+		
+		
+		
+		
+		
+		
+	}
 }
 
