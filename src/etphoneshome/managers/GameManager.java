@@ -7,8 +7,10 @@ import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
+import etphoneshome.objects.Collectible;
 import etphoneshome.objects.Hitbox;
 import etphoneshome.objects.Obstacle;
+import etphoneshome.objects.ReesesPieces;
 import etphoneshome.objects.Velocity;
 
 /**
@@ -100,7 +102,29 @@ public class GameManager {
             velocity.setVerticalVelocity(0);
         }
     }
+    
+    public void CollectiblePickUp() {
+    	int height = (int) this.character.getRightEntitySprite().getHeight();
+    	int width = (int) this.character.getRightEntitySprite().getWidth();
+    	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
+    	
+    	for(Collectible collectible: UILauncher.getCollectiblesManager().getCollectiblesList()) {
+    		if (collectible instanceof ReesesPieces) {
+    			int colHeight = (int) collectible.getHeight();
+        		int colWidth = (int) collectible.getWidth();
+        		Hitbox col = new Hitbox(collectible.getLocation(),colWidth,colHeight);
+        		if (ET.areColliding(col)) {
+        			UILauncher.getCollectiblesManager().removeCollectible(collectible);
+        			character.addScore(100);
+        		}
+    		}
+    	}
+    }
 
+    
+    
+    
+    
     public static void main(String args[]) {
         Character character = new ET();
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
