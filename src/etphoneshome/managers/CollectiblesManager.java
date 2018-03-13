@@ -1,9 +1,14 @@
 package etphoneshome.managers;
 
+import etphoneshome.UILauncher;
+import etphoneshome.entities.enemies.Enemy;
+import etphoneshome.entities.enemies.Police;
+import etphoneshome.entities.enemies.Scientist;
 import etphoneshome.objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 public class CollectiblesManager {
 	/**
 	 * This class is used to manage all the collectibles that are in the game.
@@ -35,7 +40,19 @@ public class CollectiblesManager {
 	 */
 	public List<Collectible> getCollectiblesList(){
 		return this.collectibles;
+	}
 		
+	public void spawnRandomReesesPieces(int num) {
+		Random random = new Random();
+        int xCord = UILauncher.getGraphicsRepainter().WIDTH/2 + 70;
+        for (double i = 0; i < num; i++) {
+            xCord = random.nextInt(1920) +xCord;
+            Location location = new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - 40);
+            Hitbox hitbox = new Hitbox(location, 40,40);
+            addCollectible(new ReesesPieces(hitbox,location));
+            
+            }
+	
 	}
 }
 

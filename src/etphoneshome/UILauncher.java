@@ -48,6 +48,11 @@ public class UILauncher {
      * Manages levels of the game
      */
     private static LevelManager levelManager;
+    
+    /**
+     * Manages collectibles of the game
+     */
+    private static CollectiblesManager collectibleManager;
 
     /**
      * Tracks whether game is in debug mode or not
@@ -63,6 +68,7 @@ public class UILauncher {
         UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
         UILauncher.inputListener = new InputListener(character, backgroundManager);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
+        UILauncher.collectibleManager = new CollectiblesManager();
         UILauncher.obstacleManager = new ObstacleManager();
         UILauncher.levelManager = new LevelManager();
         UILauncher.levelManager.addLevel(new Level("level-0"));
@@ -145,5 +151,9 @@ public class UILauncher {
      */
     public static boolean getDebugMode() {
         return UILauncher.debugMode;
+    }
+    
+    public static CollectiblesManager getCollectiblesManager() {
+    	return UILauncher.collectibleManager;
     }
 }

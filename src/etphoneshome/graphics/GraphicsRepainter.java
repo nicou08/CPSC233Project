@@ -29,8 +29,8 @@ public class GraphicsRepainter extends Application {
     /**
      * Width and height of the screen
      */
-    public final int WIDTH = 1920;
-    public final int HEIGHT = 1080;
+    public final int WIDTH = 1400;
+    public final int HEIGHT = 700;
 
     /**
      * images needed to play the game
@@ -100,6 +100,9 @@ public class GraphicsRepainter extends Application {
 
         this.registerKeyEvents();
 
+        UILauncher.getCollectiblesManager().spawnRandomReesesPieces(3);
+        
+        
         //staring the actual game
         this.startTimeline(character);
     }
@@ -252,6 +255,15 @@ public class GraphicsRepainter extends Application {
     public void repaintBackgroundAndObstacles(Character character) {
         Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
         gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
+        
+        for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
+            if (collectible instanceof ReesesPieces) {
+                ReesesPieces piece = (ReesesPieces) collectible;
+                gc.drawImage(piece.getTheImage(), piece.getLocation().getXcord() -character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
+                Location loc = piece.getLocation().clone();
+                loc.addX((-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2));
+            }
+        }
 
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
@@ -276,6 +288,7 @@ public class GraphicsRepainter extends Application {
                 }
             }
         }
+        
     }
 
 
