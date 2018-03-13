@@ -4,12 +4,8 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
-import etphoneshome.managers.BackgroundManager;
-import etphoneshome.managers.EntityManager;
-import etphoneshome.managers.GameManager;
-import etphoneshome.managers.ObstacleManager;
-import etphoneshome.objects.Location;
-import etphoneshome.objects.Platform;
+import etphoneshome.managers.*;
+import etphoneshome.objects.Level;
 
 public class UILauncher {
 	
@@ -48,6 +44,16 @@ public class UILauncher {
      */
     private static ObstacleManager obstacleManager;
 
+    /**
+     * Manages levels of the game
+     */
+    private static LevelManager levelManager;
+
+    /**
+     * Tracks whether game is in debug mode or not
+     */
+    private static boolean debugMode;
+
     public static void main(String[] args) {
     	
     	//Creates instances of all the objects needed 
@@ -58,17 +64,17 @@ public class UILauncher {
         UILauncher.inputListener = new InputListener(character, backgroundManager);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
         UILauncher.obstacleManager = new ObstacleManager();
+        UILauncher.levelManager = new LevelManager();
+        UILauncher.levelManager.addLevel(new Level("level-0"));
+        UILauncher.levelManager.loadLevel(0);
 
-        UILauncher.obstacleManager.addObstacle(new Platform(new Location(100, 800), 10));
-
-        UILauncher.entityManager.spawnRandomEntities(50);
+        UILauncher.debugMode = true;
         
         //launches game
         UILauncher.graphicsRepainter.goLaunch(args);
     }
 
     /**
-     * 
      * @return character returns the character the user is playing as (ET)
      */
     public static Character getCharacter() {
@@ -76,7 +82,6 @@ public class UILauncher {
     }
     
     /**
-     * 
      * @param character sets the character that the user will be playing as
      */
     public static void setCharacter(Character character) {
@@ -87,7 +92,6 @@ public class UILauncher {
     }
 
     /**
-     * 
      * @return entityManager that holds all the entities associated with {@code UIlauncher}
      */
     public static EntityManager getEntityManager() {
@@ -95,7 +99,6 @@ public class UILauncher {
     }
 
     /**
-     * 
      * @return InputListener returns the event handler associated with {@code UILauncher}
      */
     public static InputListener getInputListener() {
@@ -103,7 +106,6 @@ public class UILauncher {
     }
 
     /**
-     * 
      * @return graphicsRepainter returns the drawer associated with {@code UILauncher}
      */
     public static GraphicsRepainter getGraphicsRepainter() {
@@ -111,7 +113,6 @@ public class UILauncher {
     }
 
     /**
-     *
      * @return gameManager returns the game checker associated with {@code UILauncher}
      */
     public static GameManager getGameManager() {
@@ -119,7 +120,6 @@ public class UILauncher {
     }
 
     /**
-     *
      * @return backgroundManager returns the background manager associated with {@code UILauncher}
      */
     public static BackgroundManager getBackgroundManager() {
@@ -127,10 +127,23 @@ public class UILauncher {
     }
 
     /**
-     *
      * @return backgroundManager returns the background manager associated with {@code UILauncher}
      */
     public static ObstacleManager getObstacleManager() {
         return UILauncher.obstacleManager;
+    }
+
+    /**
+     * @return levelManager returns the level manager associated with {@code UILauncher}
+     */
+    public static LevelManager getLevelManager() {
+        return UILauncher.levelManager;
+    }
+
+    /**
+     * @return debugMode returns whether the program is in debug mode or not
+     */
+    public static boolean getDebugMode() {
+        return UILauncher.debugMode;
     }
 }

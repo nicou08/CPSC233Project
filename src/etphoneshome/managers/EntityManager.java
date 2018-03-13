@@ -25,7 +25,7 @@ public class EntityManager {
     /**
      * List containing all of the characters in the game
      */
-    private final static List<Enemy> enemies = new ArrayList<>();
+    private final List<Enemy> enemies = new ArrayList<>();
 
     /**
      * Constructor for the class
@@ -103,11 +103,11 @@ public class EntityManager {
         EntityManager entityManager = new EntityManager(testCharacter);
         //spawns random enemies so we can test our methods
         entityManager.spawnRandomEntities(10);
-        System.out.println("10 enemies should have spawned. Number of enemies: " + enemies.size());
+        System.out.println("10 enemies should have spawned. Number of enemies: " + entityManager.enemies.size());
         entityManager.addEnemy(testEnemy);
-        System.out.println("List should contain 11 enemies. Number of enemies: " + enemies.size());
+        System.out.println("List should contain 11 enemies. Number of enemies: " + entityManager.enemies.size());
         entityManager.removeEnemy(testEnemy);
-        System.out.println("List should contain 10 enemies. Number of enemies: " + enemies.size());
+        System.out.println("List should contain 10 enemies. Number of enemies: " + entityManager.enemies.size());
         entityManager.getEnemyList();
     }
 

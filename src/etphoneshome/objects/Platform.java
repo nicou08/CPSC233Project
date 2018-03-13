@@ -5,8 +5,7 @@ import java.util.ArrayList;
 /**
  * This class is used for the platforms that the player can stand and jump on to.
  */
-public class Platform extends Obstacle
-{
+public class Platform extends Obstacle {
     /**
      * The number of bricks in the {@code Platform}
      */
@@ -32,8 +31,13 @@ public class Platform extends Obstacle
      */
     private final int HEIGHT = 30;
 
+    public Platform(Platform platform) {
+        this(platform.getLocation(), platform.getLength());
+    }
+
     /**
      * Builds a single obstacle at the location {@code Location} and with a hitbox {@code Hitbox}.
+     *
      * @param location The location object associated with the {@code Platform}
      */
     private Platform(Location location)   //makes a single platform object. Used in below constructor
@@ -42,43 +46,41 @@ public class Platform extends Obstacle
 
         Location locationCopy = new Location(location.getXcord(), location.getYcord());
 
-        this.platformHitbox =  new Hitbox(locationCopy, this.HEIGHT, this.WIDTH);
+        this.platformHitbox = new Hitbox(locationCopy, this.HEIGHT, this.WIDTH);
+
+        this.length = 1;
     }
 
     /**
      * A constructor used to build a platform of {@code length} bricks long starting at the left end brick location
+     *
      * @param platformStartLocation The starting location of the left end brick
-     * @param length The total number of bricks in the platform
+     * @param length                The total number of bricks in the platform
      */
-    public Platform(Location platformStartLocation, int length)
-    {
+    public Platform(Location platformStartLocation, int length) {
         super(platformStartLocation);
         this.length = length;
 
-        if(length < 1)
+        if (length < 1) {
             System.out.println("Platform must be at least 1 brick long! Unable to construct platform!");
-
-        else    //platform is at least 1 brick long
-        {
+        } else {    //platform is at least 1 brick long
             bricks = new ArrayList<>(this.length);
 
             Location nextBrickLocation = new Location(platformStartLocation.getXcord(), platformStartLocation.getYcord());
 
-            for(int i = 0; i < this.length; i++)    //creates every brick in the array list
-            {
+            for (int i = 0; i < this.length; i++) {   //creates every brick in the array list
                 bricks.add(i, new Platform(nextBrickLocation));     //adds a new brick
 
                 nextBrickLocation = this.addBrickWidth(nextBrickLocation);  //shifts the next brick location 60 pixels (WIDTH) to the right
 
                 bricks.get(i).setSprite("images/sprites/regularPlatform.png");   //sets every brick to the default
-                                                                                    //sprite of the middle brick
+                //sprite of the middle brick
             }
 
             //sets the correct sprites based off how many bricks are in the platform
-            if(this.length == 1)
+            if (this.length == 1) {
                 bricks.get(0).setSprite("images/sprites/singlePlatform.png");
-            else if(this.length > 1)
-            {
+            } else if (this.length > 1) {
                 bricks.get(0).setSprite("images/sprites/leftEndPlatform.png");
                 bricks.get(this.length - 1).setSprite("images/sprites/rightEndPlatform.png");
             }
@@ -91,11 +93,11 @@ public class Platform extends Obstacle
 
     /**
      * Shifts the location 60 pixels ({@code WIDTH}) to the right for the next brick
+     *
      * @param location The location of the last placed brick
      * @return The new location 60 pixels right of the last placed brick
      */
-    private Location addBrickWidth(Location location)
-    {
+    private Location addBrickWidth(Location location) {
         Location newLocation = new Location(location.getXcord(), location.getYcord());
 
         newLocation.addX(WIDTH);
@@ -105,56 +107,62 @@ public class Platform extends Obstacle
 
     /**
      * Returns the bricks of the {@code Platform}
+     *
      * @return The bricks of the {@code Platform}
      */
-    public ArrayList<Obstacle> getBricks()
-    {
+    public ArrayList<Obstacle> getBricks() {
         ArrayList<Obstacle> bricksCopy = new ArrayList<>();
 
-        for(int i = 0; i < bricksCopy.size(); i++)
-        {
+        for (int i = 0; i < this.bricks.size(); i++) {
             Location locationCopy = new Location(this.bricks.get(i).getLocation().getXcord(), this.bricks.get(i).getLocation().getYcord());
 
-            bricksCopy.add(new Obstacle(locationCopy));
+            bricksCopy.add(new Platform(locationCopy));
         }
         return bricksCopy;
     }
 
     /**
      * Returns the number of bricks in the {@code Platform}
+     *
      * @return The number of bricks in the {@code Platform}
      */
-    public int getLength()
-    {
+    public int getLength() {
         return this.length;
     }
 
     /**
      * Returns the entire hitbox of the {@code Platform}
+     *
      * @return The entire hitbox of the {@code Platform}
      */
-    public Hitbox getHitbox()
-    {
+    public Hitbox getHitbox() {
         Location locationCopy = new Location(this.getLocation().getXcord(), this.getLocation().getYcord());
         Hitbox hitboxCopy = new Hitbox(locationCopy, this.platformHitbox.getHeight(), this.platformHitbox.getWidth());
 
         return hitboxCopy;
     }
 
+    public int getWidth() {
+        return this.WIDTH;
+    }
+
+    public int getHeight() {
+        return this.HEIGHT;
+    }
+
     //MAIN METHOD USED FOR TESTING THE PLATFORM METHODS, CONSTRUCTORS AND HITBOX COLLISION
 
-    public static void main(String[] args)
-    {
-        Location k1 = new Location(100,120);
+    public static void main(String[] args) {
+        Location k1 = new Location(100, 120);
         Location k2 = new Location(300, 309);
         Location k3 = new Location(600, 668);
-        Location c = new Location(100,100);
+        Location c = new Location(100, 100);
 
-        Hitbox colltest = new Hitbox(c,5,5);
+        Hitbox colltest = new Hitbox(c, 5, 5);
 
-        Platform singleBrick = new Platform(k1,1);
-        Platform twoBrick = new Platform(k2,2);
-        Platform multiBrick = new Platform(k3,5);
+        Platform singleBrick = new Platform(k1, 1);
+        Platform twoBrick = new Platform(k2, 2);
+        Platform multiBrick = new Platform(k3, 5);
 
         //test location for each platform
 
@@ -238,8 +246,6 @@ public class Platform extends Obstacle
         System.out.println("Should be true: " + colltest.areColliding(multiBrick.getHitbox()));
 
         //double platform top collision
-
-
 
 
         System.exit(0);

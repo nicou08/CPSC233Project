@@ -1,0 +1,22 @@
+level-num: 0
+obstacles:
+  platform:
+    x-cord: 1920
+    y-cord: 800
+    length: 10
+  platform:
+    x-cord: 2880
+    y-cord: 700
+    length: 10
+  platform:
+    x-cord: 3840
+    y-cord: 800
+    length: 10
+collectibles:
+  phone-piece:
+    x-cord: 1
+    y-cord: 1
+    type: xd
+  reese-pieces:
+    x-cord: 100
+    y-cord: 100

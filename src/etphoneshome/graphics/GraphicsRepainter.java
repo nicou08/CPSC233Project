@@ -16,6 +16,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -173,6 +174,7 @@ public class GraphicsRepainter extends Application {
             }
 
             this.runHealthCheck(character);
+
             stage.show();
         });
 
@@ -190,18 +192,15 @@ public class GraphicsRepainter extends Application {
             Hitbox obstacleHitbox = obstacle.getHitbox();
             if (newCharacterHitbox.areColliding(obstacleHitbox)) {
                 if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
-                    System.out.println("to left of other hitbox");
                     oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() - width - 1);
                     oldLocation.addY((int) character.getVelocity().getVerticalVelocity());
                     return Direction.LEFT_OF;
 
                 }
                 if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
-                    System.out.println("to right of other hitbox");
                     if (obstacle instanceof Platform) {
                         Platform platform = (Platform) obstacle;
                         int xCord = platform.getLocation().getXcord();
-                        System.out.println("platform loc is null ? " + platform.getLocation() == null);
                         for (Obstacle brick : platform.getBricks()) {
                             xCord += brick.getSprite().getWidth();
                         }
@@ -214,14 +213,12 @@ public class GraphicsRepainter extends Application {
                 }
 
                 if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
-                    System.out.println("below other hitbox");
                     character.getVelocity().setVerticalVelocity(0);
                     oldLocation.addX((int) character.getVelocity().getHorizontalVelocity());
                     oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight());
                     return Direction.BELOW;
                 }
                 if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
-                    System.out.println("above other hitbox");
                     oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() - height - 1);
                     oldLocation.addX((int) character.getVelocity().getHorizontalVelocity());
                     return Direction.ABOVE;
@@ -258,9 +255,24 @@ public class GraphicsRepainter extends Application {
 
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
-                Platform  platform = (Platform) obstacle;
+                Platform platform = (Platform) obstacle;
                 for (Obstacle brick : platform.getBricks()) {
                     gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
+                }
+                Location loc = platform.getLocation().clone();
+                loc.addX((-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2));
+                if (UILauncher.getDebugMode()) {
+                    gc.setStroke(Color.ORANGE);
+                    gc.setLineWidth(3);
+
+                    gc.strokeLine(loc.getXcord(), loc.getYcord(), loc.getXcord(), loc.getYcord() + platform.getHeight());
+
+                    gc.strokeLine(loc.getXcord(), loc.getYcord() + platform.getHeight(), loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord() + platform.getHeight());
+
+                    gc.strokeLine(loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord() + platform.getHeight(), loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord());
+
+                    gc.strokeLine(loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord(), loc.getXcord(), loc.getYcord());
+
                 }
             }
         }

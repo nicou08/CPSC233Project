@@ -11,13 +11,8 @@ public class CollectiblesManager {
 	 * Using the removeCollectible method removes a collectible from the list collectibles.
 	 * Using getCollectiblesList allows you to return the list of collectibles in its current state.
 	 */
-	private final static List<Collectible> collectibles = new ArrayList<Collectible>();
-	/**
-	 * constructor for the class 
-	 */
-	public CollectiblesManager() {
-		
-	}
+	private final List<Collectible> collectibles = new ArrayList<Collectible>();
+
 	/**
 	 * method to add collectible to the list collectibles.
 	 * @param collectible is the collectible that is added
