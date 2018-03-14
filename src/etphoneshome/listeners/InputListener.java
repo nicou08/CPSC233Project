@@ -154,7 +154,7 @@ public class InputListener {
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
                     for (Obstacle brick : platform.getBricks()) {
-                        if (testCharacterHitbox.areColliding(brick.getHitbox())) {
+                        if (testCharacterHitbox.areColliding(platform.getHitbox())) {
                             character.setOnPlatform(true);
                             return true;
                         }
