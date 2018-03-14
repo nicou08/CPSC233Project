@@ -29,8 +29,8 @@ public class GraphicsRepainter extends Application {
     /**
      * Width and height of the screen
      */
-    public final int WIDTH = 1400;
-    public final int HEIGHT = 700;
+    public final int WIDTH = 1920;
+    public final int HEIGHT = 1080;
 
     /**
      * images needed to play the game

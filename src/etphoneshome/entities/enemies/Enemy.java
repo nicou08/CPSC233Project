@@ -12,11 +12,16 @@ public class Enemy extends Actor {
         this.setFacingRight(false);
     }
 
+    public Enemy(Location location) {
+        super(location);
+        this.setFacingRight(false);
+    }
+
     //main tests the class methods
     public static void main(String[] args)
     {
-        Enemy c = new Enemy();
         Location initialLoc = new Location(0, 0);    //Set the enemy class to a location of 0,0 for testing
+        Enemy c = new Enemy(initialLoc);
 
         c.setLocation(initialLoc);
         //test the getter and setter for isDead

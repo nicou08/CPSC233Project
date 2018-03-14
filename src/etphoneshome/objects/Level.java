@@ -1,5 +1,9 @@
 package etphoneshome.objects;
 
+import etphoneshome.entities.enemies.Enemy;
+import etphoneshome.entities.enemies.Police;
+import etphoneshome.entities.enemies.Scientist;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +14,7 @@ public class Level {
 
     private int levelNum;
     private List<Obstacle> obstacles = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
 
     public Level(Level level) {
         this.levelNum = level.getLevelNum();
@@ -36,8 +41,17 @@ public class Level {
                     int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
                     int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", ""));
                     int length = Integer.valueOf(scanner.nextLine().replace("    length: ", ""));
-                    Platform platform = new Platform(new Location(xCord, yCord), length);
                     this.obstacles.add(new Platform(new Location(xCord, yCord), length));
+                }
+                if (line.equals("  police:")) {
+                    int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", ""));
+                    this.enemies.add(new Police(new Location(xCord, yCord)));
+                }
+                if (line.equals("  scientist:")) {
+                    int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", ""));
+                    this.enemies.add(new Scientist(new Location(xCord, yCord)));
                 }
             }
         } catch (IOException e) {
@@ -53,6 +67,8 @@ public class Level {
     public List<Obstacle> getObstacles() {
         return this.obstacles;
     }
+
+    public List<Enemy> getEnemies() { return this.enemies; }
 
 
 }

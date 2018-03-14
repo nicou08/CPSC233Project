@@ -107,8 +107,6 @@ public class Obstacle {
         Hitbox hdef = new Hitbox(def, 1, 1);
         Hitbox fake = new Hitbox(def, 999, 888);
 
-        Obstacle defaultconstructor = new Obstacle();
-
         Obstacle o1 = new Obstacle(loc1, hb1);
         Obstacle o2 = new Obstacle(loc2, hb2);
 

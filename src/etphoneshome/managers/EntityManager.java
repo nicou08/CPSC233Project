@@ -5,6 +5,7 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.entities.enemies.Police;
 import etphoneshome.entities.enemies.Scientist;
+import etphoneshome.objects.Level;
 import etphoneshome.objects.Location;
 
 import java.util.ArrayList;
@@ -74,14 +75,21 @@ public class EntityManager {
         for (double i = 0; i < amount; i++) {
             xCord = random.nextInt(1920) + (int) new Police().getLeftEntitySprite().getWidth() +xCord;
             double type = random.nextInt(2);
-            Enemy enemy = new Police();
+            Enemy enemy;
             if (type == 0) {
-                enemy = new Police();
+                enemy = new Police(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (int) new Police().getLeftEntitySprite().getHeight()));
             } else {
-                enemy = new Scientist();
+                enemy = new Scientist(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (int) new Police().getLeftEntitySprite().getHeight()));
             }
             enemy.setLocation(new Location(xCord, UILauncher.getGraphicsRepainter().HEIGHT - 100 - (int) new Police().getLeftEntitySprite().getHeight()));
             this.addEnemy(enemy);
+        }
+    }
+
+    public void loadEntities(Level level) {
+        this.enemies.clear();
+        for (Enemy enemy : level.getEnemies()) {
+            this.enemies.add(enemy);
         }
     }
 

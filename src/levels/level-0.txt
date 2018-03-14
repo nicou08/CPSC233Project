@@ -22,8 +22,11 @@ collectibles:
     y-cord: 100
 enemies:
   police:
-    x-cord: 1
-    y-cord: 1
+    x-cord: 1920
+    y-cord: 720
+  police:
+    x-cord: 3840
+    y-cord: 720
   scientist:
-    x-cord: 1
-    y-cord: 1
+    x-cord: 2880
+    y-cord: 620

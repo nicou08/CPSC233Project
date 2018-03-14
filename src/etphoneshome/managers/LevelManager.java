@@ -30,6 +30,7 @@ public class LevelManager {
         for (Level level : this.getLevels()) {
             if (level.getLevelNum() == levelNum) {
                 UILauncher.getObstacleManager().loadObstacles(level);
+                UILauncher.getEntityManager().loadEntities(level);
                 break;
             }
         }

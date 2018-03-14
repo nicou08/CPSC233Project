@@ -53,6 +53,12 @@ public class Actor {
      */
     private Velocity velocity = new Velocity();
 
+    public Actor() {}
+
+    public Actor(Location location) {
+        this.setLocation(location);
+    }
+
     /**
      * Returns the location object associated with the {@code Actor}
      *
@@ -189,7 +195,7 @@ public class Actor {
 
     //main tests the class methods
     public static void main(String[] args) {
-        Actor a = new Actor();
+        Actor a = new Actor(new Location(0,0));
         //test the getter and setter for isDead
 
         if (a.getIsDead()) //should be false originally
