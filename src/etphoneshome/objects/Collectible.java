@@ -23,7 +23,7 @@ public class Collectible {
 	private String piece2 = "images/sprites/RP_brown.png";
 	private String piece3 = "images/sprites/RP_brown.png";
 	
-	private String[] sprites = new String[] {piece1,piece2,piece3};
+	private String[] sprites = new String[3];
 	
 	private Image theImage;
 	
@@ -94,9 +94,12 @@ public class Collectible {
 	 * @param piece3 url of image3
 	 */
 	public void setImages(String piece1,String piece2, String piece3){
-		this.piece1= piece1;
+		this.piece1=piece1;
 		this.piece2 = piece2;
-		this.piece3= piece3;
+		this.piece3 = piece3;
+		this.sprites[0]= piece1;
+		this.sprites[1]= piece2;
+		this.sprites[2]= piece3;
 	}
 
 	/**
