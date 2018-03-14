@@ -15,6 +15,7 @@ public class Level {
     private int levelNum;
     private List<Obstacle> obstacles = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
+    private List<Collectible> phonePieces = new ArrayList<>();
 
     public Level(Level level) {
         this.levelNum = level.getLevelNum();
@@ -25,9 +26,12 @@ public class Level {
                 this.obstacles.add(new Obstacle(obstacle));
             }
         }
+        this.enemies = new ArrayList<>(level.enemies);
+        this.phonePieces = new ArrayList<>(phonePieces);
     }
 
     public Level(String levelName) {
+        System.out.println("" + this.getClass().getClassLoader().getResource("").getPath());
         File file = new File(new File("ET Phones Home").getAbsolutePath() + File.separator + "src" + File.separator + "levels" + File.separator + levelName + ".txt");
 
         try {
@@ -45,13 +49,29 @@ public class Level {
                 }
                 if (line.equals("  police:")) {
                     int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
-                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", ""));
-                    this.enemies.add(new Police(new Location(xCord, yCord)));
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new Police().getRightEntitySprite().getHeight();
+                    Police police = (new Police(new Location(xCord, yCord)));
+                    this.enemies.add(police);
                 }
                 if (line.equals("  scientist:")) {
                     int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
-                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", ""));
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new Scientist().getRightEntitySprite().getHeight();
                     this.enemies.add(new Scientist(new Location(xCord, yCord)));
+                }
+                if (line.equals("  scientist:")) {
+                    int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new Scientist().getRightEntitySprite().getHeight();
+                    this.enemies.add(new Scientist(new Location(xCord, yCord)));
+                }
+                if (line.equals("  phone-piece:")) {
+                    String typeString = scanner.nextLine().replace("    type: ", "");
+                    PhonePieceType phonePieceType = PhonePieceType.ANTENNA;
+                    if (PhonePieceType.valueOf(typeString) != null) {
+                        phonePieceType = PhonePieceType.valueOf(typeString);
+                    }
+                    int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new PhonePiece(new Location(0,0), phonePieceType).getHeight();
+                    this.phonePieces.add(new PhonePiece(new Location(xCord, yCord), phonePieceType));
                 }
             }
         } catch (IOException e) {

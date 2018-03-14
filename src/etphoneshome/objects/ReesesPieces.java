@@ -28,11 +28,10 @@ public class ReesesPieces extends Collectible {
 
 	/**
 	 * Places a single reesesPieces at location with a given sprite
-	 * @param hitbox associated with {@code ReesesPieces}
 	 * @param location associated with {@code ReesesPieces}
 	 */
-	public ReesesPieces(Hitbox hitbox, Location location) {
-		super(hitbox, location);
+	public ReesesPieces(Location location) {
+		super(location);
 		super.setImages("images/sprites/RP_brown.png", "images/sprites/RP_orange.png","images/sprites/RP_yellow.png" );
 		setImage();
 	}
@@ -62,14 +61,12 @@ public class ReesesPieces extends Collectible {
 	public static void main(String[] args) {
 		
 		Location testloc = new Location(100,300);
-		Hitbox testhit = new Hitbox (testloc, WIDTH, HEIGHT);
-		ReesesPieces tester = new ReesesPieces(testhit,testloc);
+		ReesesPieces tester = new ReesesPieces(testloc);
 		System.out.println("x cord should be 100 is: " + tester.getLocation().getXcord());
 		System.out.println("ycord should be 300 is: " + tester.getLocation().getYcord());
 		
 		Location testloc2 = new Location(70,270);
-		Hitbox testhit2 = new Hitbox(testloc2, WIDTH, HEIGHT);
-		ReesesPieces tester2 = new ReesesPieces(testhit2,testloc2);
+		ReesesPieces tester2 = new ReesesPieces(testloc2);
 		System.out.println("x cord should be 70 is: " + tester2.getLocation().getXcord());
 		System.out.println("ycord should be 270 is: " + tester2.getLocation().getYcord());
 		

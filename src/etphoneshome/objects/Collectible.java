@@ -47,12 +47,10 @@ public class Collectible {
 	
 	/**
 	 * Constructor sets the location and hitbox of the collectible
-	 * @param hitbox area where it is touched associated with {@code Collectible}
 	 * @param location location associated with the {@code Collectible}
 	 */
-	public Collectible(Hitbox hitbox, Location location) {
-		this.location = location;
-		this.hitbox = hitbox;
+	public Collectible(Location location) {
+		this.setLocation(location);
 	}
 	
 	/**
@@ -61,6 +59,9 @@ public class Collectible {
 	 */
 	public void setLocation(Location location) {
 		this.location = location;
+		if (this.getHitbox() != null) {
+			this.hitbox.setLocation(location);
+		}
 	}
 	
 	/**
@@ -125,6 +126,7 @@ public class Collectible {
 	
 	public void setTheImage(String theImage) {
 		this.theImage = new Image (theImage);
+		this.setHitbox(new Hitbox(this.getLocation(), (int) this.getTheImage().getWidth(), (int) this.getTheImage().getHeight()));
 	}
 	
 	/**
@@ -149,15 +151,13 @@ public class Collectible {
 	public static void main(String[] args) {
 		
 		Location testloc = new Location(100,100);
-		Hitbox testhit = new Hitbox(testloc,WIDTH,HEIGHT);
-		Collectible tester = new Collectible(testhit,testloc);
+		Collectible tester = new Collectible(testloc);
 		System.out.println("x cord should be 100 is: " + tester.getLocation().getXcord());
 		System.out.println("y cord should be 100 is: " + tester.getLocation().getYcord());
 		
 		
 		Location testloc2 = new Location(200,200);
-		Hitbox testhit2 = new Hitbox(testloc2,WIDTH,HEIGHT);
-		Collectible tester2 = new Collectible(testhit2,testloc2);
+		Collectible tester2 = new Collectible(testloc2);
 		System.out.println("x cord should be 200 is: " + tester2.getLocation().getXcord());
 		System.out.println("y cord should be 200 is: " + tester2.getLocation().getYcord());
 		

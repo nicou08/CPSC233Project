@@ -19,31 +19,35 @@ public class PhonePiece extends Collectible {
 	 */
 	public PhonePiece() {
 		super.setImages("images/sprites/phoneAntenna.png", "images/sprites/phoneChassis.png","images/sprites/phoneKeypad.png" );
-		setTheImage(super.getSprites()[0]);
-		
+		this.setImage(PhonePieceType.ANTENNA);
 	}
 
 	/**
 	 * constructor that sets up the image, location and hitbox associated with {@code PhonePiece}
-	 * @param hitbox hitbox of the phone piece
 	 * @param location location of the phone piece
-	 * @param index the image to choose
+	 * @param phonePieceType the type of phone piece to create
 	 */
-	public PhonePiece(Hitbox hitbox, Location location, int index) {
-		super(hitbox, location);
+	public PhonePiece(Location location, PhonePieceType phonePieceType) {
+		super(location);
 		super.setImages("images/sprites/phoneAntenna.png", "images/sprites/phoneChassis.png","images/sprites/phoneKeypad.png" );
-		if (index < 3 && index >= 0) {
-			setTheImage(super.getSprites()[index]);
-		}
+		setImage(phonePieceType);
 	}
 
 	/**
 	 * sets the image to something else
-	 * @param piece url of the image 
+	 * @param index index of the phone piece image
 	 */
 	public void setImage(int index) {
 		this.ImagePath = super.getSprites()[index];
 		super.setTheImage(ImagePath);
+	}
+
+	/**
+	 * sets the image to something else
+	 * @param type type of phone piece
+	 */
+	public void setImage(PhonePieceType type) {
+		this.setImage(type.getIndex());
 	}
 	
 	/**
@@ -74,14 +78,12 @@ public class PhonePiece extends Collectible {
 		public static void main(String[] args) {
 			
 			Location testloc = new Location(100,300);
-			Hitbox testhit = new Hitbox (testloc, WIDTH, HEIGHT);
-			PhonePiece tester = new PhonePiece(testhit,testloc,0);
+			PhonePiece tester = new PhonePiece(testloc, PhonePieceType.ANTENNA);
 			System.out.println("x cord should be 100 is: " + tester.getLocation().getXcord());
 			System.out.println("ycord should be 300 is: " + tester.getLocation().getYcord());
 			
 			Location testloc2 = new Location(70,270);
-			Hitbox testhit2 = new Hitbox(testloc2, WIDTH, HEIGHT);
-			PhonePiece tester2 = new PhonePiece(testhit2,testloc2,0);
+			PhonePiece tester2 = new PhonePiece(testloc2,PhonePieceType.ANTENNA);
 			System.out.println("x cord should be 70 is: " + tester2.getLocation().getXcord());
 			System.out.println("ycord should be 270 is: " + tester2.getLocation().getYcord());
 			

@@ -14,19 +14,24 @@ obstacles:
     length: 10
 collectibles:
   phone-piece:
-    x-cord: 1
-    y-cord: 1
-    type: xd
-  reese-pieces:
-    x-cord: 100
-    y-cord: 100
+    type: ANTENNA
+    x-cord: 2120
+    y-cord: 800
+  phone-piece:
+    type: CHASSSIS
+    x-cord: 4040
+    y-cord: 700
+  phone-piece:
+    type: KEYPAD
+    x-cord: 3080
+    y-cord: 800
 enemies:
   police:
-    x-cord: 1920
-    y-cord: 720
-  police:
-    x-cord: 3840
-    y-cord: 720
+    x-cord: 2220
+    y-cord: 800
   scientist:
-    x-cord: 2880
-    y-cord: 620
+    x-cord: 3180
+    y-cord: 700
+  police:
+    x-cord: 4140
+    y-cord: 800

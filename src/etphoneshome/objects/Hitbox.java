@@ -27,6 +27,10 @@ public class Hitbox {
         return this.topLeftCorner;
     }
 
+    public void setLocation(Location newLocation) {
+        this.topLeftCorner = newLocation;
+    }
+
     //TEMPORARY METHOD USED FOR QUICKER TESTING OF PLATFORM CLASS. REMOVE AFTER TESTING IS FINISHED
 
     //Collision

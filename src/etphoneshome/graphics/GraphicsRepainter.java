@@ -322,9 +322,7 @@ public class GraphicsRepainter extends Application {
             UILauncher.getGameManager().setGameOver(true);
             restartButton.setOnMouseClicked(k -> {
 
-                //clears enemies and makes new ones
-                UILauncher.getEntityManager().getEnemyList().clear();
-                UILauncher.getEntityManager().spawnRandomEntities(50);
+                UILauncher.getLevelManager().loadLevel(0);
 
                 //resets character position and health
                 character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
