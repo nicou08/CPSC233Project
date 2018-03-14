@@ -153,12 +153,12 @@ public class InputListener {
             for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
-                    for (Obstacle brick : platform.getBricks()) {
-                        if (testCharacterHitbox.areColliding(brick.getHitbox())) {
+                    //for (Obstacle brick : platform.getBricks()) {
+                        if (testCharacterHitbox.areColliding(platform.getHitbox())) {
                             character.setOnPlatform(true);
                             return true;
                         }
-                    }
+                    //}
                 } else {
                     if (testCharacterHitbox.areColliding(obstacle.getHitbox())) {
                         character.setOnPlatform(true);

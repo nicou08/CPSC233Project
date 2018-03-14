@@ -11,6 +11,8 @@ import etphoneshome.objects.Location;
 public class Character extends Actor {
 
     private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform;
+    
+    private int score = 0;
 
     public boolean isJumping() {
         return isJumping;
@@ -55,6 +57,14 @@ public class Character extends Actor {
 
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;
+    }
+    
+    public void addScore(int num) {
+    	this.score += num;
+    }
+    
+    public int getScore() {
+    	return this.score;
     }
 
     //main tests the class methods

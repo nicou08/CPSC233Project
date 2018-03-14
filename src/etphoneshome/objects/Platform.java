@@ -44,9 +44,9 @@ public class Platform extends Obstacle {
     {
         super(location);
 
-        Location locationCopy = new Location(location.getXcord(), location.getYcord());
+        //Location locationCopy = new Location(location.getXcord(), location.getYcord());
 
-        this.platformHitbox = new Hitbox(locationCopy, this.HEIGHT, this.WIDTH);
+        //this.platformHitbox = new Hitbox(locationCopy, this.HEIGHT, this.WIDTH);
 
         this.length = 1;
     }
@@ -113,11 +113,21 @@ public class Platform extends Obstacle {
     public ArrayList<Obstacle> getBricks() {
         ArrayList<Obstacle> bricksCopy = new ArrayList<>();
 
-        for (int i = 0; i < this.bricks.size(); i++) {
+        for (int i = 0; i < this.getLength(); i++) {
             Location locationCopy = new Location(this.bricks.get(i).getLocation().getXcord(), this.bricks.get(i).getLocation().getYcord());
 
             bricksCopy.add(new Platform(locationCopy));
+
+            bricksCopy.get(i).setSprite("images/sprites/regularPlatform.png");
         }
+        //sets the correct sprites based off how many bricks are in the platform
+        if (this.length == 1) {
+            bricksCopy.get(0).setSprite("images/sprites/singlePlatform.png");
+        } else if (this.length > 1) {
+            bricksCopy.get(0).setSprite("images/sprites/leftEndPlatform.png");
+            bricksCopy.get(this.length - 1).setSprite("images/sprites/rightEndPlatform.png");
+        }
+
         return bricksCopy;
     }
 
@@ -168,24 +178,24 @@ public class Platform extends Obstacle {
 
         System.out.println("\nTESTING PLATFORM LOCATIONS.....\n");
 
-        System.out.println("Should be 100: " + singleBrick.bricks.get(0).getLocation().getXcord());
-        System.out.println("Should be 120: " + singleBrick.bricks.get(0).getLocation().getYcord());
+        System.out.println("Should be 100: " + singleBrick.getBricks().get(0).getLocation().getXcord());
+        System.out.println("Should be 120: " + singleBrick.getBricks().get(0).getLocation().getYcord());
 
-        System.out.println("Should be 300: " + twoBrick.bricks.get(0).getLocation().getXcord());
-        System.out.println("Should be 309: " + twoBrick.bricks.get(0).getLocation().getYcord());
-        System.out.println("Should be 360: " + twoBrick.bricks.get(1).getLocation().getXcord());
-        System.out.println("Should be 309: " + twoBrick.bricks.get(1).getLocation().getYcord());
+        System.out.println("Should be 300: " + twoBrick.getBricks().get(0).getLocation().getXcord());
+        System.out.println("Should be 309: " + twoBrick.getBricks().get(0).getLocation().getYcord());
+        System.out.println("Should be 360: " + twoBrick.getBricks().get(1).getLocation().getXcord());
+        System.out.println("Should be 309: " + twoBrick.getBricks().get(1).getLocation().getYcord());
 
-        System.out.println("Should be 600: " + multiBrick.bricks.get(0).getLocation().getXcord());
-        System.out.println("Should be 668: " + multiBrick.bricks.get(0).getLocation().getYcord());
-        System.out.println("Should be 660: " + multiBrick.bricks.get(1).getLocation().getXcord());
-        System.out.println("Should be 668: " + multiBrick.bricks.get(1).getLocation().getYcord());
-        System.out.println("Should be 720: " + multiBrick.bricks.get(2).getLocation().getXcord());
-        System.out.println("Should be 668: " + multiBrick.bricks.get(2).getLocation().getYcord());
-        System.out.println("Should be 780: " + multiBrick.bricks.get(3).getLocation().getXcord());
-        System.out.println("Should be 668: " + multiBrick.bricks.get(3).getLocation().getYcord());
-        System.out.println("Should be 840: " + multiBrick.bricks.get(4).getLocation().getXcord());
-        System.out.println("Should be 668: " + multiBrick.bricks.get(4).getLocation().getYcord());
+        System.out.println("Should be 600: " + multiBrick.getBricks().get(0).getLocation().getXcord());
+        System.out.println("Should be 668: " + multiBrick.getBricks().get(0).getLocation().getYcord());
+        System.out.println("Should be 660: " + multiBrick.getBricks().get(1).getLocation().getXcord());
+        System.out.println("Should be 668: " + multiBrick.getBricks().get(1).getLocation().getYcord());
+        System.out.println("Should be 720: " + multiBrick.getBricks().get(2).getLocation().getXcord());
+        System.out.println("Should be 668: " + multiBrick.getBricks().get(2).getLocation().getYcord());
+        System.out.println("Should be 780: " + multiBrick.getBricks().get(3).getLocation().getXcord());
+        System.out.println("Should be 668: " + multiBrick.getBricks().get(3).getLocation().getYcord());
+        System.out.println("Should be 840: " + multiBrick.getBricks().get(4).getLocation().getXcord());
+        System.out.println("Should be 668: " + multiBrick.getBricks().get(4).getLocation().getYcord());
 
         System.out.println("\nPLATFORM LOCATION TESTS COMPLETE!\n");
 
@@ -246,6 +256,13 @@ public class Platform extends Obstacle {
         System.out.println("Should be true: " + colltest.areColliding(multiBrick.getHitbox()));
 
         //double platform top collision
+        ArrayList<Obstacle> copyBricks = multiBrick.getBricks();
+
+        multiBrick.bricks.remove(0);
+        multiBrick.bricks.remove(0);
+
+        System.out.println("Should be 3: " + multiBrick.bricks.size());
+        System.out.println("Should be 5: " + copyBricks.size());
 
 
         System.exit(0);

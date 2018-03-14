@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -31,6 +32,7 @@ public class GraphicsRepainter extends Application {
      */
     public final int WIDTH = 1920;
     public final int HEIGHT = 1080;
+    private Label score= new Label();
 
     /**
      * images needed to play the game
@@ -89,12 +91,21 @@ public class GraphicsRepainter extends Application {
             timeline.stop();
             stage.close();
         });
+        
 
         //making character and setting it's starting point
         Character character = new ET();
         UILauncher.setCharacter(character);
         character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
         character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
+        
+        
+        score.setText(""+character.getScore());
+        score.setFont(new Font("Arial", 20));
+        score.setTranslateX(WIDTH/2);
+        score.setTranslateY(100);
+        score.setTextFill(Color.WHITE);
+        root.getChildren().add(score);
 
         //UILauncher.getBackgroundManager().getBackgroundLocation().setXcord(-this.WIDTH);
 
@@ -166,6 +177,9 @@ public class GraphicsRepainter extends Application {
             }
 
             UILauncher.getGameManager().runGroundCheck(character, velocity);
+            
+            UILauncher.getGameManager().CollectiblePickUp();
+            score.setText(""+character.getScore());
 
             this.repaintBackgroundAndObstacles(character);
 
