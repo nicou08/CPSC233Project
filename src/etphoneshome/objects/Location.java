@@ -7,6 +7,11 @@ public class Location {
     private int xcord;
     private int ycord;
 
+    public Location(Location location) {
+        this.xcord = location.getXcord();
+        this.ycord = location.getYcord();
+    }
+
     public Location(int xCord, int yCord) {
         this.xcord = xCord;
         this.ycord = yCord;
@@ -20,7 +25,7 @@ public class Location {
         return ycord;
     }
 
-    public void setXcord(int x) {
+/*    public void setXcord(int x) {
         xcord = x;
     }
 
@@ -40,7 +45,7 @@ public class Location {
         this.xcord += x;
         this.ycord += y;
         return this;
-    }
+    }*/
 
     public double getDistance(Location m) {
         /* The if statements are used to determine which value in the same axis is bigger
@@ -71,25 +76,17 @@ public class Location {
     }
 
     public String toString() {
-        return "Location{x = " + xcord + ", y = " + ycord + "}";
+        return "Location: {x = " + xcord + ", y = " + ycord + "}";
     }
 
     public static void main(String args[]) {
         Location loc = new Location(1, 2);
-        System.out.println("Object One X-Coordinate: " + loc.getXcord() + " Object Two Y-Coordiante: " + loc.getXcord());
-        loc.setXcord(40);
-        loc.setYcord(60);
-        System.out.println("New Object One X-Coordinate: " + loc.getXcord() + " New Object One Y-Coordinate: " + loc.getYcord());
+        System.out.println("Object One X-Coordinate: " + loc.getXcord());
         Location loc2 = new Location(0, 0);
         Location loc3 = new Location(3, 4);
         double distance2to3 = loc2.getDistance(loc3);
         System.out.println("The distance from ObjectTwo to ObjectThree is: " + distance2to3);
 
     }
-
-    public Location clone() {
-        return new Location(this.xcord, this.ycord);
-    }
-
 
 }

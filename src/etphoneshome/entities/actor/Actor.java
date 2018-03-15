@@ -1,5 +1,7 @@
 package etphoneshome.entities.actor;
 
+import etphoneshome.entities.characters.ET;
+import etphoneshome.objects.Hitbox;
 import etphoneshome.objects.Location;
 import etphoneshome.objects.Velocity;
 import javafx.embed.swing.JFXPanel;
@@ -15,7 +17,7 @@ import javafx.scene.image.Image;
  * status accordingly. Using getEntitySprite returns the image object of the {@code Actor}. Using setEntitySprite allows
  * you to change the image object of the {@code Actor} using a URL/file path address.
  */
-public class Actor {
+public abstract class Actor {
     JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
     /**
      * Status of whether this actor is dead
@@ -53,7 +55,13 @@ public class Actor {
      */
     private Velocity velocity = new Velocity();
 
-    public Actor() {}
+    /**
+     * The hitbox object associated with the {@code Hitbox}
+     */
+    private Hitbox hitbox = new Hitbox(null, 0, 0);
+
+    public Actor() {
+    }
 
     public Actor(Location location) {
         this.setLocation(location);
@@ -65,7 +73,7 @@ public class Actor {
      * @return The location object associated with the {@code Actor}
      */
     public Location getLocation() {
-        return this.location;
+        return new Location(this.location);
     }
 
     /**
@@ -73,11 +81,9 @@ public class Actor {
      *
      * @param newLocation The new {@code location} object
      */
-    public void setLocation(Location newLocation)
-    {
-        Location copy = new Location(newLocation.getXcord(), newLocation.getYcord());
-
-        this.location = copy;
+    public void setLocation(Location newLocation) {
+        this.location = new Location(newLocation);
+        this.hitbox.setLocation(this.location);
     }
 
     /**
@@ -94,8 +100,7 @@ public class Actor {
      *
      * @param newStatus The new status of whether the {@code Actor} is dead
      */
-    public void setIsDead(boolean newStatus)        //true means the actor is dead
-    {
+    public void setIsDead(boolean newStatus) {       //true means the actor is dead
         this.isDead = newStatus;
     }
 
@@ -116,14 +121,17 @@ public class Actor {
     public void setHealth(int newHealth)    //This could be useful for instantly killing an enemy, setting initial-
     {                                       //-health or if we implement healing in the future
         if (newHealth >= 0)      //we can only have non negative health
+        {
             this.health = newHealth;
-        else
+        } else {
             System.out.println("Health cannot be negative! Heatlh is unchanged");
+        }
 
-        if (this.getHealth() <= 0)
+        if (this.getHealth() <= 0) {
             this.setIsDead(true);
-        else
+        } else {
             this.setIsDead(false);
+        }
     }
 
     /**
@@ -133,9 +141,11 @@ public class Actor {
         this.health = this.health - 1;
 
         if (this.health <= 0)    //indicates the actor is dead
+        {
             setIsDead(true);
-        else
+        } else {
             setIsDead(false);
+        }
     }
 
 
@@ -165,6 +175,7 @@ public class Actor {
      */
     public void setRightEntitySprite(String newSpriteURL) {
         this.rightEntitySprite = new Image(newSpriteURL);
+        this.hitbox = new Hitbox(this.location, (int) this.rightEntitySprite.getHeight(), (int) this.rightEntitySprite.getWidth());
     }
 
     /**
@@ -174,6 +185,7 @@ public class Actor {
      */
     public void setLeftEntitySprite(String newSpriteURL) {
         this.leftEntitySprite = new Image(newSpriteURL);
+        this.hitbox = new Hitbox(this.location, (int) this.leftEntitySprite.getHeight(), (int) this.leftEntitySprite.getWidth());
     }
 
     /**
@@ -193,22 +205,30 @@ public class Actor {
         this.facingRight = facingRight;
     }
 
+    public Hitbox getHitbox() {
+        return new Hitbox(this.hitbox);
+    }
+
     //main tests the class methods
     public static void main(String[] args) {
-        Actor a = new Actor(new Location(0,0));
+        Actor a = new ET(new Location(0, 0));
         //test the getter and setter for isDead
 
         if (a.getIsDead()) //should be false originally
+        {
             System.out.println("This should not have been printed. Actor should be alive (but is dead here)");
-        else
+        } else {
             System.out.println("Actor is alive. This is the correct outcome");
+        }
 
         a.setIsDead(true);
 
         if (a.getIsDead()) //should be true
+        {
             System.out.println("Actor is dead. This is the correct outcome.");
-        else
+        } else {
             System.out.println("Actor is alive. This is not the correct outcome");
+        }
 
         System.out.println("\n");
 

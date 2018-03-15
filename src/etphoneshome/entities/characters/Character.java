@@ -8,11 +8,17 @@ import etphoneshome.objects.Location;
  * This is used for a generic character (non-enemy) class. It is derived from the {@code Actor} class.
  */
 
-public class Character extends Actor {
+public abstract class Character extends Actor {
 
     private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform;
     
     private int score = 0;
+
+    public Character () {}
+
+    public Character(Location location) {
+        super(location);
+    }
 
     public boolean isJumping() {
         return isJumping;
@@ -32,8 +38,6 @@ public class Character extends Actor {
             this.setFacingRight(false);
         }
     }
-
-
 
     public boolean isHoldingRight() {
         return isHoldingRight;
@@ -67,10 +71,14 @@ public class Character extends Actor {
     	return this.score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     //main tests the class methods
     public static void main(String[] args)
     {
-        Character c = new Character();
+        Character c = new ET();
         //test the getter and setter for isDead
 
         if(c.getIsDead()) //should be false originally

@@ -36,7 +36,7 @@ public class Obstacle {
      * @param location Location associated with the {@code Obstacle}
      */
     public Obstacle(Location location) {
-        this.location = location.clone();
+        this.location = new Location(location);
     }
 
     /**
@@ -122,8 +122,7 @@ public class Obstacle {
         Obstacle o4 = new Obstacle(def, hdef);
         o4.location = o1.location;        //reference!
 
-        o1.location.setXcord(998);
-        o1.location.setYcord(876);
+        o1.location = new Location(998, 876);
 
         System.out.println("TESTING ENCAPSULATION OF GETLOCATION METHOD....\n");
 

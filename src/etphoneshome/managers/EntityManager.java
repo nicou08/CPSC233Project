@@ -2,6 +2,7 @@ package etphoneshome.managers;
 
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
+import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.entities.enemies.Police;
 import etphoneshome.entities.enemies.Scientist;
@@ -105,9 +106,9 @@ public class EntityManager {
     // main tests the class' methods
     public static void main(String[] args) {
         // creates an enemy we can use to test the methods.
-        Enemy testEnemy = new Enemy();
+        Enemy testEnemy = new Police();
         // creates a character for the entityManager constructor
-        Character testCharacter = new Character();
+        Character testCharacter = new ET();
         EntityManager entityManager = new EntityManager(testCharacter);
         //spawns random enemies so we can test our methods
         entityManager.spawnRandomEntities(10);

@@ -5,6 +5,8 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.listeners.InputListener;
+import etphoneshome.managers.BackgroundManager;
+import etphoneshome.managers.GameManager;
 import etphoneshome.objects.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -32,7 +34,7 @@ public class GraphicsRepainter extends Application {
      */
     public final int WIDTH = 1920;
     public final int HEIGHT = 1080;
-    private Label score= new Label();
+    private Label score = new Label();
 
     /**
      * images needed to play the game
@@ -55,9 +57,9 @@ public class GraphicsRepainter extends Application {
     private Timeline timeline = new Timeline();
 
     /**
-     * A button needed to restart the game
+     * A button needed to playAgain the game
      */
-    private Button restartButton;
+    private Button playAgainButton;
 
     /**
      * A button used for exiting the game
@@ -70,14 +72,44 @@ public class GraphicsRepainter extends Application {
         this.stage = stage;
         this.createWindow(stage);
 
-        // creating restartButton 
-        restartButton = new Button();
-        restartButton.setText("Play Again");
-        restartButton.setTranslateX(WIDTH / 2 - 100);
-        restartButton.setTranslateY(50);
-        restartButton.setPrefSize(200, 100);
-        restartButton.setFont(new Font("Arial", 20));
+        //making character and setting it's starting point
+        Character character = new ET();
+        UILauncher.setCharacter(character);
+        Location characterLocation = character.getLocation();
+        character.setLocation(new Location(UILauncher.getGameManager().getCenterXCord(), UILauncher.getGameManager().getGroundLevel(character)));
 
+        this.setupButtons(character);
+
+        score.setText("" + character.getScore());
+        score.setFont(new Font("Arial", 20));
+        score.setTranslateX(WIDTH / 2);
+        score.setTranslateY(100);
+        score.setTextFill(Color.WHITE);
+        root.getChildren().add(score);
+
+        this.registerKeyEvents();
+
+        UILauncher.getCollectiblesManager().spawnRandomReesesPieces(3);
+
+
+        //staring the actual game
+        this.startTimeline(character);
+    }
+
+    /**
+     * Method used to setup buttons
+     */
+    private void setupButtons(Character character) {
+
+        // creating playAgainButton 
+        playAgainButton = new Button();
+        playAgainButton.setText("Play Again");
+        playAgainButton.setTranslateX(WIDTH / 2 - 100);
+        playAgainButton.setTranslateY(50);
+        playAgainButton.setPrefSize(200, 100);
+        playAgainButton.setFont(new Font("Arial", 20));
+
+        // creating exit button
         exitButton = new Button();
         exitButton.setText("Exit Game");
         exitButton.setTranslateX(WIDTH - WIDTH / 10);
@@ -87,35 +119,38 @@ public class GraphicsRepainter extends Application {
 
         root.getChildren().add(exitButton);
 
+        this.setupButtonEvents(character);
+
+    }
+
+    /**
+     * Method used to setup button events
+     */
+    private void setupButtonEvents(Character character) {
+
         exitButton.setOnMouseClicked(k -> {
             timeline.stop();
             stage.close();
         });
-        
 
-        //making character and setting it's starting point
-        Character character = new ET();
-        UILauncher.setCharacter(character);
-        character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
-        character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
-        
-        
-        score.setText(""+character.getScore());
-        score.setFont(new Font("Arial", 20));
-        score.setTranslateX(WIDTH/2);
-        score.setTranslateY(100);
-        score.setTextFill(Color.WHITE);
-        root.getChildren().add(score);
+        playAgainButton.setOnMouseClicked(k -> {
 
-        //UILauncher.getBackgroundManager().getBackgroundLocation().setXcord(-this.WIDTH);
+            UILauncher.getLevelManager().loadLevel(0);
 
-        this.registerKeyEvents();
+            //resets character position and health
+            character.setLocation(new Location(UILauncher.getGameManager().getCenterXCord(), UILauncher.getGameManager().getGroundLevel(character)));
+            character.setIsDead(false);
+            character.setHealth(1);
+            character.setFacingRight(true);
+            character.getVelocity().setHorizontalVelocity(0);
+            character.getVelocity().setVerticalVelocity(0);
+            character.setScore(0);
+            UILauncher.getGameManager().setGameOver(false);
 
-        UILauncher.getCollectiblesManager().spawnRandomReesesPieces(3);
-        
-        
-        //staring the actual game
-        this.startTimeline(character);
+            //removes playAgainButton and starts timeline again
+            root.getChildren().remove(playAgainButton);
+            timeline.play();
+        });
     }
 
     /**
@@ -131,16 +166,16 @@ public class GraphicsRepainter extends Application {
     }
 
     /**
-     * lets the start method be initiated in  {@code UILauncher}
+     * Allows the start method be initiated in  {@code UILauncher}
      *
      * @param args for {@code UILauncher}
      */
     public void goLaunch(String[] args) {
-        Application.launch(args);
+        GraphicsRepainter.launch(args);
     }
 
     /**
-     * sets the event handlers for the game
+     * Setsup the key event handlers for the game
      */
     public void registerKeyEvents() {
         this.scene.setOnKeyPressed(UILauncher.getInputListener().getKeyPressedEvent());
@@ -157,36 +192,39 @@ public class GraphicsRepainter extends Application {
 
         KeyFrame kf = new KeyFrame(Duration.millis(20), e -> {
 
+            GameManager gameManager = UILauncher.getGameManager();
+            BackgroundManager backgroundManager = UILauncher.getBackgroundManager();
+            InputListener inputListener = UILauncher.getInputListener();
+
             //getting location and velocity of character
             Velocity velocity = character.getVelocity();
             Location characterLocation = character.getLocation();
 
-            //Will update velocity if the user is holding a correct key
-            InputListener inputListener = UILauncher.getInputListener();
+            //Will update velocity if the user is holding a movement key (w, a, s, d)
             inputListener.updateVelocities();
 
             //updates location of character based on the velocity
-            Location newLocation = characterLocation.clone();
-            newLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
-            Direction direction = this.runObstacleCollisionCheck(character, characterLocation, newLocation);
+            Location newLocation = new Location(characterLocation.getXcord() + (int) velocity.getHorizontalVelocity(), characterLocation.getYcord() + (int) velocity.getVerticalVelocity());
+            Direction direction = gameManager.runObstacleCollisionCheck(character, characterLocation, newLocation);
             if (direction == null) {
-                characterLocation.add((int) velocity.getHorizontalVelocity(), (int) velocity.getVerticalVelocity());
-                UILauncher.getBackgroundManager().updateBackgroundLocation();
+                character.setLocation(newLocation);
+                backgroundManager.updateBackgroundLocation();
             } else if (direction == Direction.ABOVE || direction == Direction.BELOW) {
-                UILauncher.getBackgroundManager().updateBackgroundLocation();
+                backgroundManager.updateBackgroundLocation();
             }
 
-            UILauncher.getGameManager().runGroundCheck(character, velocity);
-            
-            UILauncher.getGameManager().CollectiblePickUp();
-            score.setText(""+character.getScore());
+            gameManager.runGroundCheck(character, velocity);
+            gameManager.runCollectibleCheck();
 
+            // repaint view
             this.repaintBackgroundAndObstacles(character);
-
             this.repaintEntities(character);
 
+            // update score
+            score.setText("" + character.getScore());
+
             //will take health away if character touches an enemy
-            if (UILauncher.getGameManager().wasCharacterHurt()) {
+            if (gameManager.wasCharacterHurt()) {
                 character.takeSinglePointOfDamage();
             }
 
@@ -198,51 +236,6 @@ public class GraphicsRepainter extends Application {
         //starts timeline
         timeline.getKeyFrames().add(kf);
         timeline.play();
-    }
-
-    public Direction runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
-        int height = (int) character.getRightEntitySprite().getHeight();
-        int width = (int) character.getRightEntitySprite().getWidth();
-        Hitbox oldCharacterHitbox = new Hitbox(oldLocation, height, width);
-        Hitbox newCharacterHitbox = new Hitbox(newLocation, height, width);
-        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
-            Hitbox obstacleHitbox = obstacle.getHitbox();
-            if (newCharacterHitbox.areColliding(obstacleHitbox)) {
-                if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
-                    oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() - width - 1);
-                    oldLocation.addY((int) character.getVelocity().getVerticalVelocity());
-                    return Direction.LEFT_OF;
-
-                }
-                if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
-                    if (obstacle instanceof Platform) {
-                        Platform platform = (Platform) obstacle;
-                        int xCord = platform.getLocation().getXcord();
-                        for (Obstacle brick : platform.getBricks()) {
-                            xCord += brick.getSprite().getWidth();
-                        }
-                        oldLocation.setXcord(xCord + 1);
-                    } else {
-                        oldLocation.setXcord(obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth() + 1);
-                    }
-                    oldLocation.addY((int) character.getVelocity().getVerticalVelocity());
-                    return Direction.RIGHT_OF;
-                }
-
-                if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
-                    character.getVelocity().setVerticalVelocity(0);
-                    oldLocation.addX((int) character.getVelocity().getHorizontalVelocity());
-                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight());
-                    return Direction.BELOW;
-                }
-                if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
-                    oldLocation.setYcord(obstacleHitbox.getTopLeftCorner().getYcord() - height - 1);
-                    oldLocation.addX((int) character.getVelocity().getHorizontalVelocity());
-                    return Direction.ABOVE;
-                }
-            }
-        }
-        return null;
     }
 
     /**
@@ -257,11 +250,25 @@ public class GraphicsRepainter extends Application {
             gc.drawImage(character.getLeftEntitySprite(), WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, character.getLocation().getYcord());
         }
 
+        if (UILauncher.getDebugMode()) {
+            Location loc = character.getLocation();
+            int height = (int) character.getRightEntitySprite().getHeight();
+            int width = (int) character.getRightEntitySprite().getWidth();
+            this.drawHitbox(character, loc, height, width, Color.GREEN);
+        }
+
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
             if (enemy.isFacingRight()) {
                 gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
             } else {
                 gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+            }
+
+            if (UILauncher.getDebugMode()) {
+                Location loc = enemy.getLocation();
+                int height = (int) enemy.getRightEntitySprite().getHeight();
+                int width = (int) enemy.getRightEntitySprite().getWidth();
+                this.drawHitbox(character, loc, height, width, Color.RED);
             }
         }
     }
@@ -269,13 +276,12 @@ public class GraphicsRepainter extends Application {
     public void repaintBackgroundAndObstacles(Character character) {
         Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
         gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
-        
+
         for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
             if (collectible instanceof ReesesPieces) {
                 ReesesPieces piece = (ReesesPieces) collectible;
-                gc.drawImage(piece.getTheImage(), piece.getLocation().getXcord() -character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
-                Location loc = piece.getLocation().clone();
-                loc.addX((-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2));
+                gc.drawImage(piece.getTheImage(), piece.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
+                Location loc = new Location(piece.getLocation().getXcord() + (-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
             }
         }
 
@@ -285,29 +291,22 @@ public class GraphicsRepainter extends Application {
                 for (Obstacle brick : platform.getBricks()) {
                     gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
                 }
-                Location loc = platform.getLocation().clone();
-                loc.addX((-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2));
+                Location loc = new Location(platform.getLocation());
+
                 if (UILauncher.getDebugMode()) {
-                    gc.setStroke(Color.ORANGE);
-                    gc.setLineWidth(3);
-
-                    gc.strokeLine(loc.getXcord(), loc.getYcord(), loc.getXcord(), loc.getYcord() + platform.getHeight());
-
-                    gc.strokeLine(loc.getXcord(), loc.getYcord() + platform.getHeight(), loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord() + platform.getHeight());
-
-                    gc.strokeLine(loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord() + platform.getHeight(), loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord());
-
-                    gc.strokeLine(loc.getXcord() + platform.getWidth() * platform.getLength(), loc.getYcord(), loc.getXcord(), loc.getYcord());
+                    int height = platform.getHeight();
+                    int width = platform.getWidth() * platform.getLength();
+                    this.drawHitbox(character, loc, height, width, Color.ORANGE);
 
                 }
             }
         }
-        
+
     }
 
 
     /**
-     * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a restartButton on screen that will
+     * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a playAgainButton on screen that will
      * reset the game if the user clicks it
      *
      * @param character {@code Character}
@@ -317,29 +316,32 @@ public class GraphicsRepainter extends Application {
             this.gc.drawImage(new Image("/images/sprites/heart.png"), 25, 25);
         } else {
             gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
-            root.getChildren().add(restartButton);
+            root.getChildren().add(playAgainButton);
             timeline.pause();
             UILauncher.getGameManager().setGameOver(true);
-            restartButton.setOnMouseClicked(k -> {
-
-                UILauncher.getLevelManager().loadLevel(0);
-
-                //resets character position and health
-                character.getLocation().setXcord(UILauncher.getGameManager().getCenterXCord());
-                character.getLocation().setYcord(UILauncher.getGameManager().getGroundLevel(character));
-                character.setIsDead(false);
-                character.setHealth(1);
-                character.setFacingRight(true);
-                character.getVelocity().setHorizontalVelocity(0);
-                character.getVelocity().setVerticalVelocity(0);
-                UILauncher.getGameManager().setGameOver(false);
-
-                //removes restartButton and starts timeline again
-                root.getChildren().remove(restartButton);
-                timeline.play();
-            });
 
         }
+    }
+
+    /**
+     * Draws hitbox using given location, height, and width
+     *
+     * @param loc    Top left corner {@code Location} of {@code Hitbox}
+     * @param height Height of {@code Hitbox}
+     * @param width  Width of {@code Hitbox}
+     */
+    public void drawHitbox(Character character, Location loc, int height, int width, Color color) {
+        loc = new Location(loc.getXcord() + (-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), loc.getYcord());
+        gc.setStroke(color);
+        gc.setLineWidth(3);
+
+        gc.strokeLine(loc.getXcord(), loc.getYcord(), loc.getXcord(), loc.getYcord() + height);
+
+        gc.strokeLine(loc.getXcord(), loc.getYcord() + height, loc.getXcord() + width, loc.getYcord() + height);
+
+        gc.strokeLine(loc.getXcord() + width, loc.getYcord() + height, loc.getXcord() + width, loc.getYcord());
+
+        gc.strokeLine(loc.getXcord() + width, loc.getYcord(), loc.getXcord(), loc.getYcord());
     }
 
 }

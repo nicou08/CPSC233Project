@@ -7,10 +7,7 @@ import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.listeners.InputListener;
-import etphoneshome.objects.Collectible;
-import etphoneshome.objects.Hitbox;
-import etphoneshome.objects.ReesesPieces;
-import etphoneshome.objects.Velocity;
+import etphoneshome.objects.*;
 
 import java.util.List;
 
@@ -41,17 +38,13 @@ public class GameManager {
      * @return true if the character was hurt, else false
      */
     public boolean wasCharacterHurt() {
-    	int height = (int) this.character.getRightEntitySprite().getHeight();
-    	int width = (int) this.character.getRightEntitySprite().getWidth();
-    	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
-    	
+    	Hitbox characterHitbox = character.getHitbox();
+
     	for (Enemy enemy : this.entityManager.getEnemyList()) {
-    		int enHeight = (int) enemy.getLeftEntitySprite().getHeight();
-    		int enWidth = (int) enemy.getLeftEntitySprite().getWidth();
-    		Hitbox ene = new Hitbox(enemy.getLocation(), enHeight, enWidth);
-    		boolean x = ET.areColliding(ene);
-    		if(x == true){
-    			return x;
+    		Hitbox enemyHitbox = enemy.getHitbox();
+    		boolean areColliding = characterHitbox.areColliding(enemyHitbox);
+    		if (areColliding) {
+    			return areColliding;
     		}
         }
         return false;
@@ -101,7 +94,7 @@ public class GameManager {
         }
     }
     
-    public void CollectiblePickUp() {
+    public void runCollectibleCheck() {
     	int height = (int) this.character.getRightEntitySprite().getHeight();
     	int width = (int) this.character.getRightEntitySprite().getWidth();
     	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
@@ -120,9 +113,53 @@ public class GameManager {
     	}
     }
 
-    
-    
-    
+    public Direction runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
+        int height = (int) character.getRightEntitySprite().getHeight();
+        int width = (int) character.getRightEntitySprite().getWidth();
+        Hitbox oldCharacterHitbox = new Hitbox(oldLocation, height, width);
+        Hitbox newCharacterHitbox = new Hitbox(newLocation, height, width);
+        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
+            Hitbox obstacleHitbox = obstacle.getHitbox();
+            if (newCharacterHitbox.areColliding(obstacleHitbox)) {
+                if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
+                    int newX = obstacleHitbox.getTopLeftCorner().getXcord() - width - 1;
+                    int newY = oldLocation.getYcord() + (int) character.getVelocity().getVerticalVelocity();
+                    character.setLocation(new Location(newX, newY));
+                    return Direction.LEFT_OF;
+
+                }
+                if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
+                    int newX = obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth() + 1;
+                    if (obstacle instanceof Platform) {
+                        Platform platform = (Platform) obstacle;
+                        int xCord = platform.getLocation().getXcord();
+                        for (Obstacle brick : platform.getBricks()) {
+                            xCord += brick.getSprite().getWidth();
+                        }
+                        newX = xCord + 1;
+                    }
+                    int newY = oldLocation.getYcord() + (int) character.getVelocity().getVerticalVelocity();
+                    character.setLocation(new Location(newX, newY));
+                    return Direction.RIGHT_OF;
+                }
+
+                if (oldCharacterHitbox.belowOtherHitbox(obstacleHitbox)) {
+                    character.getVelocity().setVerticalVelocity(0);
+                    int newX = oldLocation.getXcord() + (int) character.getVelocity().getHorizontalVelocity();
+                    int newY = obstacleHitbox.getTopLeftCorner().getYcord() + obstacleHitbox.getHeight();
+                    character.setLocation(new Location(newX, newY));
+                    return Direction.BELOW;
+                }
+                if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
+                    int newX = oldLocation.getXcord() + (int) character.getVelocity().getHorizontalVelocity();
+                    int newY = obstacleHitbox.getTopLeftCorner().getYcord() - height - 1;
+                    character.setLocation(new Location(newX, newY));
+                    return Direction.ABOVE;
+                }
+            }
+        }
+        return null;
+    }
     
     public static void main(String args[]) {
         Character character = new ET();
@@ -139,7 +176,7 @@ public class GameManager {
 
         entityManager.spawnRandomEntities(5);
         // set character location to same as an enemy so that we can test if character is hurt
-        character.setLocation(entityManager.getEnemyList().get(0).getLocation().clone());
+        character.setLocation(entityManager.getEnemyList().get(0).getLocation());
         System.out.println("Was character hurt? " + (gameManager.wasCharacterHurt())); // true = correct
 
         System.out.println("Is game over? " + (gameManager.getGameOver())); // false = correct

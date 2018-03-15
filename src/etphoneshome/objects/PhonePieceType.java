@@ -4,7 +4,7 @@ public enum PhonePieceType {
 
     ANTENNA(0),
     CHASSIS(1),
-    KEYPAD(3);
+    KEYPAD(2);
 
     private final int index;
 

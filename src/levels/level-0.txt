@@ -18,7 +18,7 @@ collectibles:
     x-cord: 2120
     y-cord: 800
   phone-piece:
-    type: CHASSSIS
+    type: CHASSIS
     x-cord: 4040
     y-cord: 700
   phone-piece:

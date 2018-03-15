@@ -58,11 +58,6 @@ public class Level {
                     int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new Scientist().getRightEntitySprite().getHeight();
                     this.enemies.add(new Scientist(new Location(xCord, yCord)));
                 }
-                if (line.equals("  scientist:")) {
-                    int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
-                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new Scientist().getRightEntitySprite().getHeight();
-                    this.enemies.add(new Scientist(new Location(xCord, yCord)));
-                }
                 if (line.equals("  phone-piece:")) {
                     String typeString = scanner.nextLine().replace("    type: ", "");
                     PhonePieceType phonePieceType = PhonePieceType.ANTENNA;

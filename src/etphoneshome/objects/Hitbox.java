@@ -4,6 +4,12 @@ public class Hitbox {
     private Location topLeftCorner; //Change l to L for real code
     private int height, width;
 
+    public Hitbox(Hitbox hitbox) {
+        this.topLeftCorner = new Location(hitbox.getTopLeftCorner());
+        this.height = hitbox.getHeight();
+        this.width = hitbox.getWidth();
+    }
+
     //Constructor
     public Hitbox(Location m, int h, int w) {
         topLeftCorner = m;

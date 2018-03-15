@@ -90,7 +90,7 @@ public class PhonePiece extends Collectible {
 			boolean a;
 			a= tester.getHitbox().areColliding(tester2.getHitbox());
 			System.out.println("should be true: " + a);
-			tester2.getLocation().setXcord(1000);
+			tester2.setLocation(new Location(1000, tester2.getLocation().getYcord()));
 			System.out.println("xcord should be 1000 is: " + tester2.getLocation().getXcord());
 			a= tester.getHitbox().areColliding(tester2.getHitbox());
 			System.out.println("should be false: "+ a);

@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
  * This class is a parent class for Anything that can be picked up by ET for score or progressing in the game
  * Parent class for {@code ReesesPieces} and {@code PhonePiece}
  */
-public class Collectible {
+public abstract class Collectible {
 	
 	
 	private final static int WIDTH = 40;
@@ -151,21 +151,20 @@ public class Collectible {
 	public static void main(String[] args) {
 		
 		Location testloc = new Location(100,100);
-		Collectible tester = new Collectible(testloc);
+		Collectible tester = new ReesesPieces(testloc);
 		System.out.println("x cord should be 100 is: " + tester.getLocation().getXcord());
 		System.out.println("y cord should be 100 is: " + tester.getLocation().getYcord());
 		
 		
 		Location testloc2 = new Location(200,200);
-		Collectible tester2 = new Collectible(testloc2);
+		Collectible tester2 = new ReesesPieces(testloc2);
 		System.out.println("x cord should be 200 is: " + tester2.getLocation().getXcord());
 		System.out.println("y cord should be 200 is: " + tester2.getLocation().getYcord());
 		
 		boolean a;
 		a= tester.getHitbox().areColliding(tester2.getHitbox());
 		System.out.println("should be false: " + a);
-		tester2.getLocation().setXcord(100);
-		tester2.getLocation().setYcord(120);
+		tester2.setLocation(new Location(100, 120));
 		System.out.println("xcord should be 100 is: " + tester2.getLocation().getXcord());
 		a= tester.getHitbox().areColliding(tester2.getHitbox());
 		System.out.println("should be true: "+ a);

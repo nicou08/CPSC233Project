@@ -3,10 +3,7 @@ package etphoneshome.listeners;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.managers.BackgroundManager;
-import etphoneshome.objects.Hitbox;
-import etphoneshome.objects.Obstacle;
-import etphoneshome.objects.Platform;
-import etphoneshome.objects.Velocity;
+import etphoneshome.objects.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
@@ -149,16 +146,14 @@ public class InputListener {
         } else {
             int height = (int) character.getRightEntitySprite().getHeight();
             int width = (int) character.getRightEntitySprite().getWidth();
-            Hitbox testCharacterHitbox = new Hitbox(character.getLocation().clone().addY(3), height, width);
+            Hitbox testCharacterHitbox = new Hitbox(new Location(character.getLocation().getXcord(), character.getLocation().getYcord() + 3), height, width);
             for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
-                    //for (Obstacle brick : platform.getBricks()) {
                         if (testCharacterHitbox.areColliding(platform.getHitbox())) {
                             character.setOnPlatform(true);
                             return true;
                         }
-                    //}
                 } else {
                     if (testCharacterHitbox.areColliding(obstacle.getHitbox())) {
                         character.setOnPlatform(true);

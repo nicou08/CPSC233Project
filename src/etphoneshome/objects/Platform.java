@@ -100,7 +100,7 @@ public class Platform extends Obstacle {
     private Location addBrickWidth(Location location) {
         Location newLocation = new Location(location.getXcord(), location.getYcord());
 
-        newLocation.addX(WIDTH);
+        newLocation = new Location(location.getXcord() + WIDTH, location.getYcord());
 
         return newLocation;
     }
@@ -224,35 +224,35 @@ public class Platform extends Obstacle {
 
         //top platform collision
         System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
-        c.addY(14);
+        c =new Location(c.getXcord(), c.getYcord() + 14);
         System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
-        c.addY(1);
+        c = new Location(c.getXcord(), c.getYcord() + 1);
         System.out.println("Should be true: " + colltest.areColliding(singleBrick.getHitbox()));
 
         //bottom platform collision
-        c.setYcord(160);
+        c = new Location(c.getXcord(), 160);
         System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
-        c.addY(-9);
+        c = new Location(c.getXcord(), c.getYcord() + -9);
         System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
-        c.addY(-5);
+        c = new Location(c.getXcord(), c.getYcord() + -5);
         System.out.println("Should be true: " + colltest.areColliding(singleBrick.getHitbox()));
 
         //left side collision
-        c.setYcord(130);
-        c.setXcord(90);
+        c = new Location(c.getXcord(), 130);
+        c = new Location(90, c.getYcord());
         System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
-        c.addX(4);
+        c= new Location(c.getXcord() +4, c.getYcord());
         System.out.println("Should be false: " + colltest.areColliding(singleBrick.getHitbox()));
-        c.addX(1);
+        c= new Location(c.getXcord() +1, c.getYcord());
         System.out.println("Should be true: " + colltest.areColliding(singleBrick.getHitbox()));
 
         //right side collision
-        c.setYcord(662);
-        c.setXcord(780);
+        c = new Location(c.getXcord(), 662);
+        c = new Location(780, c.getYcord());
         System.out.println("Should be false: " + colltest.areColliding(multiBrick.getHitbox()));
-        c.addY(3);
+        c = new Location(c.getXcord(), c.getYcord() + 3);
         System.out.println("Should be true: " + colltest.areColliding(multiBrick.getHitbox()));
-        c.addY(1);
+        c = new Location(c.getXcord(), c.getYcord() + 1);
         System.out.println("Should be true: " + colltest.areColliding(multiBrick.getHitbox()));
 
         //double platform top collision

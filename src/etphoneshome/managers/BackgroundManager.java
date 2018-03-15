@@ -27,12 +27,14 @@ public class BackgroundManager {
     }
 
     public void updateBackgroundLocation() {
-        this.backgroundLocation.add((int) Math.round(this.backgroundVelocity.getHorizontalVelocity()), (int) Math.round(this.backgroundVelocity.getVerticalVelocity()));
+        int newX = this.backgroundLocation.getXcord() + (int) this.backgroundVelocity.getHorizontalVelocity();
+        int newY = this.backgroundLocation.getYcord() + (int) this.backgroundVelocity.getVerticalVelocity();
         if (this.backgroundLocation.getXcord() <= this.graphicsRepainter.WIDTH * -2) {
-            this.backgroundLocation.setXcord(this.backgroundLocation.getXcord() + this.graphicsRepainter.WIDTH);
+            newX = this.backgroundLocation.getXcord() + this.graphicsRepainter.WIDTH;
         }
         if (this.backgroundLocation.getXcord() >= -this.graphicsRepainter.WIDTH) {
-            this.backgroundLocation.setXcord(this.backgroundLocation.getXcord() - this.graphicsRepainter.WIDTH);
+            newX = this.backgroundLocation.getXcord() - this.graphicsRepainter.WIDTH;
         }
+        this.backgroundLocation = new Location(newX, newY);
     }
 }
