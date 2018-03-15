@@ -128,6 +128,7 @@ public class GameManager {
                     return Direction.LEFT_OF;
 
                 }
+
                 if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
                     int newX = obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth() + 1;
                     if (obstacle instanceof Platform) {

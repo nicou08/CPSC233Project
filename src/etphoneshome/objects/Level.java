@@ -27,7 +27,7 @@ public class Level {
             }
         }
         this.enemies = new ArrayList<>(level.enemies);
-        this.phonePieces = new ArrayList<>(phonePieces);
+        this.phonePieces = new ArrayList<>(level.phonePieces);
     }
 
     public Level(String levelName) {
@@ -65,7 +65,7 @@ public class Level {
                         phonePieceType = PhonePieceType.valueOf(typeString);
                     }
                     int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
-                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new PhonePiece(new Location(0,0), phonePieceType).getHeight();
+                    int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new PhonePiece(new Location(0, 0), phonePieceType).getHeight();
                     this.phonePieces.add(new PhonePiece(new Location(xCord, yCord), phonePieceType));
                 }
             }
@@ -83,7 +83,12 @@ public class Level {
         return this.obstacles;
     }
 
-    public List<Enemy> getEnemies() { return this.enemies; }
+    public List<Enemy> getEnemies() {
+        return this.enemies;
+    }
 
+    public List<Collectible> getPhonePieces() {
+        return this.phonePieces;
+    }
 
 }

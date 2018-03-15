@@ -38,7 +38,7 @@ public class PhonePiece extends Collectible {
 	 * @param index index of the phone piece image
 	 */
 	public void setImage(int index) {
-		this.ImagePath = super.getSprites()[index];
+		this.ImagePath = this.getSprites()[index];
 		super.setTheImage(ImagePath);
 	}
 

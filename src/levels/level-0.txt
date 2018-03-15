@@ -19,11 +19,11 @@ collectibles:
     y-cord: 800
   phone-piece:
     type: CHASSIS
-    x-cord: 4040
+    x-cord: 8080
     y-cord: 700
   phone-piece:
     type: KEYPAD
-    x-cord: 3080
+    x-cord: 4040
     y-cord: 800
 enemies:
   police:

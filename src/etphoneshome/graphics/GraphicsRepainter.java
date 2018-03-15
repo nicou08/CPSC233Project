@@ -219,6 +219,7 @@ public class GraphicsRepainter extends Application {
             // repaint view
             this.repaintBackgroundAndObstacles(character);
             this.repaintEntities(character);
+            this.repaintCollectibles(character);
 
             // update score
             score.setText("" + character.getScore());
@@ -277,14 +278,6 @@ public class GraphicsRepainter extends Application {
         Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
         gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
 
-        for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
-            if (collectible instanceof ReesesPieces) {
-                ReesesPieces piece = (ReesesPieces) collectible;
-                gc.drawImage(piece.getTheImage(), piece.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
-                Location loc = new Location(piece.getLocation().getXcord() + (-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
-            }
-        }
-
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
                 Platform platform = (Platform) obstacle;
@@ -301,7 +294,23 @@ public class GraphicsRepainter extends Application {
                 }
             }
         }
+    }
 
+    public void repaintCollectibles(Character character) {
+        for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
+            if (collectible instanceof ReesesPieces) {
+                ReesesPieces piece = (ReesesPieces) collectible;
+                gc.drawImage(piece.getTheImage(), piece.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), piece.getLocation().getYcord());
+
+            } else if (collectible instanceof PhonePiece) {
+                PhonePiece phonePiece = (PhonePiece) collectible;
+                gc.drawImage(phonePiece.getTheImage(), phonePiece.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), phonePiece.getLocation().getYcord());
+            }
+
+            if (UILauncher.getDebugMode()) {
+                this.drawHitbox(character, collectible.getLocation(), (int) collectible.getTheImage().getHeight(), (int) collectible.getTheImage().getWidth(), Color.YELLOW);
+            }
+        }
     }
 
 

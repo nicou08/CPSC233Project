@@ -87,11 +87,22 @@ public class EntityManager {
         }
     }
 
+    /**
+     * Loads entities from a given level
+     * @param level Level to load entities from
+     */
     public void loadEntities(Level level) {
-        this.enemies.clear();
+        this.clearEntities();
         for (Enemy enemy : level.getEnemies()) {
             this.enemies.add(enemy);
         }
+    }
+
+    /**
+     * Clears all entities from the enemies list
+     */
+    public void clearEntities() {
+        this.enemies.clear();
     }
 
     /**

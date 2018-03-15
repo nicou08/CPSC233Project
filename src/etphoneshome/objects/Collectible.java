@@ -125,7 +125,7 @@ public abstract class Collectible {
 	 */
 	
 	public void setTheImage(String theImage) {
-		this.theImage = new Image (theImage);
+		this.theImage = new Image(theImage);
 		this.setHitbox(new Hitbox(this.getLocation(), (int) this.getTheImage().getWidth(), (int) this.getTheImage().getHeight()));
 	}
 	
@@ -134,7 +134,7 @@ public abstract class Collectible {
 	 * @return the image of the Collectible
 	 */
 	public Image getTheImage() {
-		Image copy = new Image("images/sprites/RP_brown.png");
+		Image copy = new Image(this.theImage.impl_getUrl());
 		return copy;
 	}
 

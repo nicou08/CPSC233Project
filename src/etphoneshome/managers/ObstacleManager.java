@@ -47,9 +47,16 @@ public class ObstacleManager {
      * Load all obstacles from level
      */
     public void loadObstacles(Level level) {
-        this.obstacles.clear();
+        this.clearObstacles();
         for (Obstacle obstacle : level.getObstacles()) {
             this.addObstacle(obstacle);
         }
+    }
+
+    /**
+     * Clears all the obstacles
+     */
+    public void clearObstacles() {
+        this.obstacles.clear();
     }
 }
