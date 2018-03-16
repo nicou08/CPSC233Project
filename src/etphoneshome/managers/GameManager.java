@@ -6,7 +6,6 @@ import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.graphics.GraphicsRepainter;
-import etphoneshome.listeners.InputListener;
 import etphoneshome.objects.*;
 
 import java.util.List;
@@ -168,9 +167,8 @@ public class GameManager {
     public static void main(String args[]) {
         Character character = new ET();
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
-        BackgroundManager backgroundManager = new BackgroundManager(graphicsRepainter);
-        InputListener inputListener = new InputListener(character, backgroundManager);
         EntityManager entityManager = new EntityManager(character);
+        BackgroundManager backgroundManager = new BackgroundManager(graphicsRepainter);
         GameManager gameManager = new GameManager(graphicsRepainter, entityManager, character);
 
         System.out.println("Testing out wasCharacterHurt");

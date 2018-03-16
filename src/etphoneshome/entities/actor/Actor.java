@@ -197,14 +197,27 @@ public abstract class Actor {
         return this.velocity;
     }
 
+    /**
+     * Returns true if the actor is facing right, and false otherwise
+     * @return {@code facingRight}
+     */
     public boolean isFacingRight() {
         return this.facingRight;
     }
 
+
+    /**
+     * Udpates the {@code facingRight} value
+     * @param facingRight new {@code facingRight} value
+     */
     public void setFacingRight(boolean facingRight) {
         this.facingRight = facingRight;
     }
 
+    /**
+     * Returns the hitbox object associated with this {@code Actor}
+     * @return {@code Hitbox}
+     */
     public Hitbox getHitbox() {
         return new Hitbox(this.hitbox);
     }

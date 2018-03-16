@@ -1,4 +1,5 @@
 etphoneshome
+etphoneshome.entities.Actor
 etphoneshome.entities.actor
 etphoneshome.entities.characters
 etphoneshome.entities.enemies

@@ -29,10 +29,12 @@ public class BackgroundManager {
     public void updateBackgroundLocation() {
         int newX = this.backgroundLocation.getXcord() + (int) this.backgroundVelocity.getHorizontalVelocity();
         int newY = this.backgroundLocation.getYcord() + (int) this.backgroundVelocity.getVerticalVelocity();
-        if (this.backgroundLocation.getXcord() <= this.graphicsRepainter.WIDTH * -2) {
+        this.backgroundLocation = new Location(newX, newY);
+        if (newX <= this.graphicsRepainter.WIDTH * -2) {
             newX = this.backgroundLocation.getXcord() + this.graphicsRepainter.WIDTH;
         }
-        if (this.backgroundLocation.getXcord() >= -this.graphicsRepainter.WIDTH) {
+        this.backgroundLocation = new Location(newX, newY);
+        if (newX >= -this.graphicsRepainter.WIDTH) {
             newX = this.backgroundLocation.getXcord() - this.graphicsRepainter.WIDTH;
         }
         this.backgroundLocation = new Location(newX, newY);

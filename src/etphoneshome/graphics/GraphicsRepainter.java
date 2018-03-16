@@ -207,8 +207,7 @@ public class GraphicsRepainter extends Application {
 
             // check if game was won
             if (levelManager.getPhonePiecesLeft() == 0 && characterLocation.getXcord() >= levelManager.getCurrentLevel().getEndCord()) {
-                character.getVelocity().setHorizontalVelocity(10);
-                character.getVelocity().setVerticalVelocity(0);
+                velocity.setHorizontalVelocity(10);
                 character.setLocation(new Location(characterLocation.getXcord() + (int) velocity.getHorizontalVelocity(), characterLocation.getYcord() + (int) velocity.getVerticalVelocity()));
                 levelManager.setLevelComplete(true);
             } else {
@@ -222,10 +221,10 @@ public class GraphicsRepainter extends Application {
                 } else if (direction == Direction.ABOVE || direction == Direction.BELOW) {
                     backgroundManager.updateBackgroundLocation();
                 }
-
-                gameManager.runGroundCheck(character, velocity);
-                gameManager.runCollectibleCheck();
             }
+
+            gameManager.runGroundCheck(character, velocity);
+            gameManager.runCollectibleCheck();
 
             // repaint view
             this.repaintBackgroundAndObstacles(character);

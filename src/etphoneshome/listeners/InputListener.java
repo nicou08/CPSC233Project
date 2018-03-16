@@ -3,6 +3,7 @@ package etphoneshome.listeners;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.managers.BackgroundManager;
+import etphoneshome.managers.GameManager;
 import etphoneshome.objects.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -24,13 +25,19 @@ public class InputListener {
     private BackgroundManager backgroundManager;
 
     /**
+     * Stores gameManager to be used to calculate ground level
+     */
+    private GameManager gameManager;
+
+    /**
      * Constructor for the class
      *
      * @param character gives InputListener the character associated with InputListener
      */
-    public InputListener(Character character, BackgroundManager backgroundManager) {
+    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager) {
         this.character = character;
         this.backgroundManager = backgroundManager;
+        this.gameManager = gameManager;
     }
 
     public void setCharacter(Character character) {
@@ -95,34 +102,34 @@ public class InputListener {
      * Update the character's velocity based on the tick of the game
      */
     public void updateVelocities() {
-        Velocity velocity = character.getVelocity();
+        Velocity velocity = this.character.getVelocity();
         if (velocity.getHorizontalVelocity() > 0) {
-            character.setFacingRight(true);
+            this.character.setFacingRight(true);
         } else if (velocity.getHorizontalVelocity() < 0) {
-            character.setFacingRight(false);
+            this.character.setFacingRight(false);
         }
 
-        if (character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
+        if (this.character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
             velocity.changeHorizontalVelocity(1);
-        } else if (!character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
+        } else if (!this.character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
             double newVelocity = velocity.getHorizontalVelocity() - 1 < 0 ? 0 : velocity.getHorizontalVelocity() - 1;
             velocity.setHorizontalVelocity(newVelocity);
         }
 
-        if (character.isHoldingLeft() && velocity.getHorizontalVelocity() <= 0 && velocity.getHorizontalVelocity() >= -10) {
+        if (this.character.isHoldingLeft() && velocity.getHorizontalVelocity() <= 0 && velocity.getHorizontalVelocity() >= -10) {
             velocity.changeHorizontalVelocity(-1);
-        } else if (!character.isHoldingLeft() && velocity.getHorizontalVelocity() < 0) {
+        } else if (!this.character.isHoldingLeft() && velocity.getHorizontalVelocity() < 0) {
             double newVelocity = velocity.getHorizontalVelocity() + 1 > 0 ? 0 : velocity.getHorizontalVelocity() + 1;
             velocity.setHorizontalVelocity(newVelocity);
         }
 
         // gravity
-        if (character.isJumping()) {
+        if (this.character.isJumping()) {
             velocity.changeVerticalVelocity(1);
         }
 
-        if (character.isHoldingUp() && !character.isJumping()) {
-            character.setJumping(true);
+        if (this.character.isHoldingUp() && !character.isJumping()) {
+            this.character.setJumping(true);
             velocity.setVerticalVelocity(-20);
         }
 
@@ -131,7 +138,7 @@ public class InputListener {
     }
 
     public void updateBackgroundVelocity() {
-        backgroundManager.getBackgroundVelocity().setHorizontalVelocity(character.getVelocity().getHorizontalVelocity() / -2.0);
+        backgroundManager.getBackgroundVelocity().setHorizontalVelocity(this.character.getVelocity().getHorizontalVelocity() / -2.0);
     }
 
     /**
@@ -140,29 +147,30 @@ public class InputListener {
      * @return whether the player is on the ground or not
      */
     public boolean onGround() {
-        if (character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getRightEntitySprite().getHeight()) {
+        if (this.character.getLocation().getYcord() >= this.gameManager.getGroundLevel(this.character)) {
+            this.character.setLocation(new Location(this.character.getLocation().getXcord(), this.gameManager.getGroundLevel(this.character)));
             return true;
         } else {
-            int height = (int) character.getRightEntitySprite().getHeight();
-            int width = (int) character.getRightEntitySprite().getWidth();
-            Hitbox testCharacterHitbox = new Hitbox(new Location(character.getLocation().getXcord(), character.getLocation().getYcord() + 3), height, width);
+            int height = (int) this.character.getRightEntitySprite().getHeight();
+            int width = (int) this.character.getRightEntitySprite().getWidth();
+            Hitbox testCharacterHitbox = new Hitbox(new Location(this.character.getLocation().getXcord(), this.character.getLocation().getYcord() + 3), height, width);
             for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
                         if (testCharacterHitbox.areColliding(platform.getHitbox())) {
-                            character.setOnPlatform(true);
+                            this.character.setOnPlatform(true);
                             return true;
                         }
                 } else {
                     if (testCharacterHitbox.areColliding(obstacle.getHitbox())) {
-                        character.setOnPlatform(true);
+                        this.character.setOnPlatform(true);
                         return true;
                     }
                 }
             }
-            if (character.isOnPlatform()) {
-                character.setOnPlatform(false);
-                character.setJumping(true);
+            if (this.character.isOnPlatform()) {
+                this.character.setOnPlatform(false);
+                this.character.setJumping(true);
             }
             return false;
         }

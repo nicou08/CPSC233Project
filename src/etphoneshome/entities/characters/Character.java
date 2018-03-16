@@ -20,18 +20,34 @@ public abstract class Character extends Actor {
         super(location);
     }
 
+    /**
+     * Returns true if the character is jumping
+     * @return {@code isJumping}
+     */
     public boolean isJumping() {
         return isJumping;
     }
 
+    /**
+     * Updates the {@code isJumping} value
+     * @param jumping
+     */
     public void setJumping(boolean jumping) {
         isJumping = jumping;
     }
 
+    /**
+     * Returns true if the user is holding down the left key
+     * @return {@code isHoldingLeft}
+     */
     public boolean isHoldingLeft() {
         return isHoldingLeft;
     }
 
+    /**
+     * Updates the {@code holdingLeft} value
+     * @param holdingLeft
+     */
     public void setHoldingLeft(boolean holdingLeft) {
         isHoldingLeft = holdingLeft;
         if (holdingLeft == true) {
@@ -39,38 +55,74 @@ public abstract class Character extends Actor {
         }
     }
 
+    /**
+     * Returns true if the user is holding down the right key
+     * @return {@code isHoldingRight}
+     */
     public boolean isHoldingRight() {
         return isHoldingRight;
     }
 
+    /**
+     * Updates the {@code holdingRight} value
+     * @param holdingRight
+     */
     public void setHoldingRight(boolean holdingRight) {
         isHoldingRight = holdingRight;
     }
 
+    /**
+     * Returns true if the user is holding down the up key
+     * @return {@code isHoldingUp}
+     */
     public boolean isHoldingUp() {
         return isHoldingUp;
     }
 
+    /**
+     * Updates the {@code holdingUp} value
+     * @param holdingUp
+     */
     public void setHoldingUp(boolean holdingUp) {
         isHoldingUp = holdingUp;
     }
 
+    /**
+     * Returns true if the character is on a platform
+     * @return {@code isHoldingRight}
+     */
     public boolean isOnPlatform() {
         return onPlatform;
     }
 
+    /**
+     * Updates the {@code onPlatform} value
+     * @param onPlatform
+     */
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;
     }
-    
+
+    /**
+     * Increments the score by the given amount {@code num}
+     * @param num
+     */
     public void addScore(int num) {
     	this.score += num;
     }
-    
+
+    /**
+     * Returns the current score of the character
+     * @return current score of the character
+     */
     public int getScore() {
     	return this.score;
     }
 
+    /**
+     * Updates the score to a certain value
+     * @param score New score value
+     */
     public void setScore(int score) {
         this.score = score;
     }

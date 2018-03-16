@@ -27,7 +27,6 @@ public class LevelManager {
 
     /**
      * Get a list of all the levels stored in the levels list
-     *
      * @return A list of all the levels stored in the levels list
      */
     public List<Level> getLevels() {
@@ -40,7 +39,6 @@ public class LevelManager {
 
     /**
      * Loads a level with the given level number
-     *
      * @param levelNum The level number to be loaded
      */
     public void loadLevel(int levelNum) {
@@ -76,7 +74,6 @@ public class LevelManager {
 
     /**
      * Returns the current loaded level
-     *
      * @return The current loaded level
      */
     public Level getCurrentLevel() {
@@ -85,7 +82,6 @@ public class LevelManager {
 
     /**
      * Get the number of phone pieces left to be collected
-     *
      * @return The number of phone pieces left to be collected
      */
     public int getPhonePiecesLeft() {
@@ -94,7 +90,6 @@ public class LevelManager {
 
     /**
      * Adds the given phonePieceType to the collectedPieces list
-     *
      * @param type the {@code PhonePieceType} to add to the collectedPieces list
      */
     public void addCollectedPhonePiece(PhonePieceType type) {
@@ -103,7 +98,6 @@ public class LevelManager {
 
     /**
      * Returns a list of the collected phone piece types
-     *
      * @return A list of the collected phone piece types
      */
     public List<PhonePieceType> getCollectedPhonePieceTypes() {
