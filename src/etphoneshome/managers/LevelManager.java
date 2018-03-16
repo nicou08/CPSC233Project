@@ -31,7 +31,7 @@ public class LevelManager {
 
     /**
      * add level to the game
-     * @param level
+     * @param level Level to be added
      */
     public void addLevel(Level level) {
         this.levels.add(level);

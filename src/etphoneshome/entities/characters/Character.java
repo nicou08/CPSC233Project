@@ -43,7 +43,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code isJumping} value
-     * @param jumping
+     * @param jumping New isJumping value
      */
     public void setJumping(boolean jumping) {
         isJumping = jumping;
@@ -59,7 +59,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code holdingLeft} value
-     * @param holdingLeft
+     * @param holdingLeft New holdingLeft value
      */
     public void setHoldingLeft(boolean holdingLeft) {
         isHoldingLeft = holdingLeft;
@@ -78,7 +78,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code holdingRight} value
-     * @param holdingRight
+     * @param holdingRight New holdingRight value
      */
     public void setHoldingRight(boolean holdingRight) {
         isHoldingRight = holdingRight;
@@ -94,7 +94,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code holdingUp} value
-     * @param holdingUp
+     * @param holdingUp New holdingUp value
      */
     public void setHoldingUp(boolean holdingUp) {
         isHoldingUp = holdingUp;
@@ -110,7 +110,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code onPlatform} value
-     * @param onPlatform
+     * @param onPlatform New onPlatform value
      */
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;
@@ -118,7 +118,7 @@ public abstract class Character extends Actor {
 
     /**
      * Increments the score by the given amount {@code num}
-     * @param num
+     * @param num Value to be added to score
      */
     public void addScore(int num) {
     	this.score += num;

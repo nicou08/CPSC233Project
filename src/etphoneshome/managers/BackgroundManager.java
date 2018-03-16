@@ -6,13 +6,14 @@ import etphoneshome.objects.Velocity;
 
 public class BackgroundManager {
 
-	/**
-	 * graphics asscoiated with {@code BackgroundManager}
-	 */
+    /**
+     * graphics asscoiated with {@code BackgroundManager}
+     */
     private GraphicsRepainter graphicsRepainter;
 
     /**
      * constructor that sets the graphicsRepainter of {@code BackgroundManager}
+     *
      * @param graphicsRepainter graphics of {@code Background Manager}
      */
     public BackgroundManager(GraphicsRepainter graphicsRepainter) {
@@ -27,6 +28,7 @@ public class BackgroundManager {
 
     /**
      * return velocity of background
+     *
      * @return velocity of background
      */
     public Velocity getBackgroundVelocity() {
@@ -35,6 +37,7 @@ public class BackgroundManager {
 
     /**
      * returns location of background
+     *
      * @return location of background
      */
     public Location getBackgroundLocation() {
@@ -45,17 +48,12 @@ public class BackgroundManager {
      * updates velocity of the background
      */
     public void updateBackgroundLocation() {
-    	//gets initial velocity
+        //gets initial velocity
         int newX = this.backgroundLocation.getXcord() + (int) this.backgroundVelocity.getHorizontalVelocity();
         int newY = this.backgroundLocation.getYcord() + (int) this.backgroundVelocity.getVerticalVelocity();
-<<<<<<< HEAD
+
         this.backgroundLocation = new Location(newX, newY);
         if (newX <= this.graphicsRepainter.WIDTH * -2) {
-=======
-       
-        
-        if (this.backgroundLocation.getXcord() <= this.graphicsRepainter.WIDTH * -2) {
->>>>>>> 16b754056efdea956b328a4ce79b12b7cd7a267d
             newX = this.backgroundLocation.getXcord() + this.graphicsRepainter.WIDTH;
         }
         this.backgroundLocation = new Location(newX, newY);

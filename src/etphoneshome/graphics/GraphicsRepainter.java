@@ -334,7 +334,7 @@ public class GraphicsRepainter extends Application {
 
     /**
      * repaints the collectibles of the level
-     * @param character
+     * @param character Character variable
      */
     public void repaintCollectibles(Character character) {
     	//drawing collectibles

@@ -44,8 +44,7 @@ public class Level {
      */
     public Level(String levelName) {
     	//gets the file
-        System.out.println("" + this.getClass().getClassLoader().getResource("").getPath());
-        File file = new File("etphoneshome\\objects\\level-0.txt");
+        File file = new File(new File("ET Phones Home").getAbsolutePath() + File.separator + "src" + File.separator + "levels" + File.separator + levelName + ".txt");
 
         //reads the file
         try {
