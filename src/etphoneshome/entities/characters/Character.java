@@ -5,17 +5,30 @@ import etphoneshome.objects.Location;
 
 
 /**
- * This is used for a generic character (non-enemy) class. It is derived from the {@code Actor} class.
+ * This is used for a generic character (non-enemy) class. It is derived from the {@code actor} class.
  */
 
 public abstract class Character extends Actor {
 
+	/**
+	 * booleans of {@code Character}
+	 */
     private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform;
     
+    /**
+     * score of {@code Character}
+     */
     private int score = 0;
 
+    /**
+     * empty default constructor
+     */
     public Character () {}
 
+    /**
+     * Constructor with initial Location of {@code Character}
+     * @param location location of {@code Character}
+     */
     public Character(Location location) {
         super(location);
     }

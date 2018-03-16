@@ -50,7 +50,7 @@ public class CollectiblesManager {
 
     /**
      * Spawn num number of reeses pieces at random locations.
-     * @param num
+     * @param num The amount of reeses pieces to spawn in the game
      */
     public void spawnRandomReesesPieces(int num) {
         Random random = new Random();
@@ -71,7 +71,7 @@ public class CollectiblesManager {
         for (Collectible collectible : level.getPhonePieces()) {
             this.collectibles.add(collectible);
         }
-        this.spawnRandomReesesPieces(20);
+        this.spawnRandomReesesPieces(10);
     }
 
     /**

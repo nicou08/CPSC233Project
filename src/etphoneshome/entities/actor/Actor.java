@@ -60,9 +60,16 @@ public abstract class Actor {
      */
     private Hitbox hitbox = new Hitbox(null, 0, 0);
 
+    /**
+     * empty default constructor
+     */
     public Actor() {
     }
 
+    /**
+     * constructor with intial location of {@code Actor}
+     * @param location initial location of {@code Actor}
+     */
     public Actor(Location location) {
         this.setLocation(location);
     }

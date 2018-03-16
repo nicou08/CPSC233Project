@@ -9,7 +9,9 @@ import javafx.scene.image.Image;
  */
 public abstract class Collectible {
 	
-	
+	/**
+	 * size of the {@code Collectible}
+	 */
 	private final static int WIDTH = 40;
 	private final static int HEIGHT = 40;
 	
@@ -23,8 +25,14 @@ public abstract class Collectible {
 	private String piece2 = "images/sprites/RP_brown.png";
 	private String piece3 = "images/sprites/RP_brown.png";
 	
+	/*
+	 * array of the images
+	 */
 	private String[] sprites = new String[3];
 	
+	/**
+	 * image of the collectible
+	 */
 	private Image theImage;
 	
 	/**
@@ -138,10 +146,18 @@ public abstract class Collectible {
 		return copy;
 	}
 
+	/**
+	 * returns height of {@code Collectible}
+	 * @return height of Collectible
+	 */
 	public int getHeight() {
 		return this.HEIGHT;
 	}
 	
+	/**
+	 * returns Width of the Collectible
+	 * @return width of {@code Collectible}
+	 */
 	public int getWidth() {
 		return this.WIDTH;
 	}

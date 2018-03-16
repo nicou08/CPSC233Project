@@ -7,20 +7,38 @@ public class Location {
     private int xcord;
     private int ycord;
 
+    
+    /**
+     * Constructor which creates a copy of the old one
+     * @param location new location
+     */
     public Location(Location location) {
         this.xcord = location.getXcord();
         this.ycord = location.getYcord();
     }
 
+    /**
+     * sets location based on an x and y coordinate
+     * @param xCord xcord of location
+     * @param yCord y cord of location
+     */
     public Location(int xCord, int yCord) {
         this.xcord = xCord;
         this.ycord = yCord;
     }
 
+    /**
+     * 
+     * @return x cord of location
+     */
     public int getXcord() {
         return xcord;
     }
 
+    /**
+     * 
+     * @return y cord of the location
+     */
     public int getYcord() {
         return ycord;
     }
@@ -47,6 +65,11 @@ public class Location {
         return this;
     }*/
 
+    /**
+     * calculates the distance of between 2 locations
+     * @param m location 2
+     * @return distance between the location
+     */
     public double getDistance(Location m) {
         /* The if statements are used to determine which value in the same axis is bigger
          * in order to not obtain negative differences

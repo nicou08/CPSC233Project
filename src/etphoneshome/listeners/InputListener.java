@@ -33,6 +33,7 @@ public class InputListener {
      * Constructor for the class
      *
      * @param character gives InputListener the character associated with InputListener
+     * @param backgroundManager stores the backgroundManager in order to use it later
      */
     public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager) {
         this.character = character;
@@ -40,6 +41,10 @@ public class InputListener {
         this.gameManager = gameManager;
     }
 
+    /**
+     * sets the character of {@code InputListener}
+     * @param character character of {@code InputListener}
+     */
     public void setCharacter(Character character) {
         this.character = character;
     }
@@ -102,21 +107,37 @@ public class InputListener {
      * Update the character's velocity based on the tick of the game
      */
     public void updateVelocities() {
+<<<<<<< HEAD
         Velocity velocity = this.character.getVelocity();
+=======
+    	
+    	//gets direction the character is facing
+        Velocity velocity = character.getVelocity();
+>>>>>>> 16b754056efdea956b328a4ce79b12b7cd7a267d
         if (velocity.getHorizontalVelocity() > 0) {
             this.character.setFacingRight(true);
         } else if (velocity.getHorizontalVelocity() < 0) {
             this.character.setFacingRight(false);
         }
 
+<<<<<<< HEAD
         if (this.character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
+=======
+        //changes velocity if moving right
+        if (character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
+>>>>>>> 16b754056efdea956b328a4ce79b12b7cd7a267d
             velocity.changeHorizontalVelocity(1);
         } else if (!this.character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
             double newVelocity = velocity.getHorizontalVelocity() - 1 < 0 ? 0 : velocity.getHorizontalVelocity() - 1;
             velocity.setHorizontalVelocity(newVelocity);
         }
 
+<<<<<<< HEAD
         if (this.character.isHoldingLeft() && velocity.getHorizontalVelocity() <= 0 && velocity.getHorizontalVelocity() >= -10) {
+=======
+        //changes velocity is moving left
+        if (character.isHoldingLeft() && velocity.getHorizontalVelocity() <= 0 && velocity.getHorizontalVelocity() >= -10) {
+>>>>>>> 16b754056efdea956b328a4ce79b12b7cd7a267d
             velocity.changeHorizontalVelocity(-1);
         } else if (!this.character.isHoldingLeft() && velocity.getHorizontalVelocity() < 0) {
             double newVelocity = velocity.getHorizontalVelocity() + 1 > 0 ? 0 : velocity.getHorizontalVelocity() + 1;
@@ -137,6 +158,9 @@ public class InputListener {
 
     }
 
+    /**
+     * moves the background of the stage
+     */
     public void updateBackgroundVelocity() {
         backgroundManager.getBackgroundVelocity().setHorizontalVelocity(this.character.getVelocity().getHorizontalVelocity() / -2.0);
     }
@@ -147,9 +171,16 @@ public class InputListener {
      * @return whether the player is on the ground or not
      */
     public boolean onGround() {
+<<<<<<< HEAD
         if (this.character.getLocation().getYcord() >= this.gameManager.getGroundLevel(this.character)) {
             this.character.setLocation(new Location(this.character.getLocation().getXcord(), this.gameManager.getGroundLevel(this.character)));
+=======
+    	//return true if on ground level
+        if (character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getRightEntitySprite().getHeight()) {
+>>>>>>> 16b754056efdea956b328a4ce79b12b7cd7a267d
             return true;
+         
+            //return true if on a platform
         } else {
             int height = (int) this.character.getRightEntitySprite().getHeight();
             int width = (int) this.character.getRightEntitySprite().getWidth();

@@ -3,15 +3,22 @@ package etphoneshome.entities.enemies;
 import etphoneshome.entities.actor.Actor;
 import etphoneshome.objects.Location;
 /**
- * This is used as the parent class for the enemies. It is derived from the {@code Actor} class.
+ * This is used as the parent class for the enemies. It is derived from the {@code actor} class.
  */
 
 public abstract class Enemy extends Actor {
 
+	/**
+	 * defualt constructor that sets FacingRight to false
+	 */
     public Enemy() {
         this.setFacingRight(false);
     }
 
+    /**
+     * Constructor that sets the initla location of {@code Enemy}
+     * @param location initial location of {@code Enemy}
+     */
     public Enemy(Location location) {
         super(location);
         this.setFacingRight(false);

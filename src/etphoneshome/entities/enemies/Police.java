@@ -7,11 +7,18 @@ import etphoneshome.objects.Location;
  */
 public class Police extends Enemy {
 
+	/**
+	 * default constructor that sets the sprites of {@code Police}
+	 */
     public Police() {
         this.setRightEntitySprite("/images/sprites/police_sprite_right.png");
         this.setLeftEntitySprite("/images/sprites/police_sprite_left.png");
     }
 
+    /**
+     * constructor thats sets location and sprites of {@code Police}
+     * @param location starting location of {@code Police}
+     */
     public Police(Location location) {
         super(location);
         this.setRightEntitySprite("/images/sprites/police_sprite_right.png");
