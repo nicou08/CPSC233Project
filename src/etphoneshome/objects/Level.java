@@ -12,21 +12,22 @@ import java.util.Scanner;
 
 public class Level {
 
-    private int levelNum;
+    private int levelNum, endCord;
     private List<Obstacle> obstacles = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
     private List<Collectible> phonePieces = new ArrayList<>();
 
     public Level(Level level) {
         this.levelNum = level.getLevelNum();
+
+        this.endCord = level.getEndCord();
+
         for (Obstacle obstacle : level.getObstacles()) {
-            if (obstacle instanceof Platform) {
-                this.obstacles.add(new Platform((Platform) obstacle));
-            } else {
-                this.obstacles.add(new Obstacle(obstacle));
-            }
+            this.obstacles.add(obstacle);
         }
+
         this.enemies = new ArrayList<>(level.enemies);
+
         this.phonePieces = new ArrayList<>(level.phonePieces);
     }
 
@@ -40,6 +41,9 @@ public class Level {
                 String line = scanner.nextLine();
                 if (line.startsWith("level-num: ")) {
                     this.levelNum = Integer.valueOf(line.replace("level-num: ", ""));
+                }
+                if (line.startsWith("end-cord: ")) {
+                    this.endCord = Integer.valueOf(line.replace("end-cord: ", ""));
                 }
                 if (line.equals("  platform:")) {
                     int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
@@ -77,6 +81,10 @@ public class Level {
 
     public int getLevelNum() {
         return this.levelNum;
+    }
+
+    public int getEndCord() {
+        return this.endCord;
     }
 
     public List<Obstacle> getObstacles() {

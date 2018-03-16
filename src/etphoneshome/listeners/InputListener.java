@@ -77,13 +77,13 @@ public class InputListener {
             @Override
             public void handle(KeyEvent e) {
                 String input = e.getText().toLowerCase();
-                if (input.equals("w") || input.equals("up")) {
+                if (input.equals("w")) {
                     character.setHoldingUp(false);
                 }
-                if (input.equals("a") || input.equals("left")) {
+                if (input.equals("a")) {
                     character.setHoldingLeft(false);
                 }
-                if (input.equals("d") || input.equals("right")) {
+                if (input.equals("d")) {
                     character.setHoldingRight(false);
 
                 }
@@ -133,7 +133,6 @@ public class InputListener {
     public void updateBackgroundVelocity() {
         backgroundManager.getBackgroundVelocity().setHorizontalVelocity(character.getVelocity().getHorizontalVelocity() / -2.0);
     }
-
 
     /**
      * Checks if player is on the ground or not

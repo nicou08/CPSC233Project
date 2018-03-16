@@ -74,7 +74,7 @@ public class UILauncher {
         UILauncher.levelManager.addLevel(new Level("level-0"));
         UILauncher.levelManager.loadLevel(0);
 
-        UILauncher.debugMode = true;
+        //UILauncher.debugMode = true;
         
         //launches game
         UILauncher.graphicsRepainter.goLaunch(args);

@@ -38,14 +38,14 @@ public class GameManager {
      * @return true if the character was hurt, else false
      */
     public boolean wasCharacterHurt() {
-    	Hitbox characterHitbox = character.getHitbox();
+        Hitbox characterHitbox = character.getHitbox();
 
-    	for (Enemy enemy : this.entityManager.getEnemyList()) {
-    		Hitbox enemyHitbox = enemy.getHitbox();
-    		boolean areColliding = characterHitbox.areColliding(enemyHitbox);
-    		if (areColliding) {
-    			return areColliding;
-    		}
+        for (Enemy enemy : this.entityManager.getEnemyList()) {
+            Hitbox enemyHitbox = enemy.getHitbox();
+            boolean areColliding = characterHitbox.areColliding(enemyHitbox);
+            if (areColliding) {
+                return areColliding;
+            }
         }
         return false;
     }
@@ -61,6 +61,7 @@ public class GameManager {
 
     /**
      * Updates the {@code gameOver} variable
+     *
      * @param gameOver New value for {@code gameOver}
      */
     public void setGameOver(boolean gameOver) {
@@ -74,11 +75,11 @@ public class GameManager {
      * @return Returns the ground level of the game
      */
     public int getGroundLevel(Actor actor) {
-        return this.graphicsRepainter.HEIGHT - 100 -  (int) actor.getRightEntitySprite().getHeight();
+        return this.graphicsRepainter.HEIGHT - 100 - (int) actor.getRightEntitySprite().getHeight();
     }
 
     public int getCenterXCord() {
-        return this.graphicsRepainter.WIDTH/2 -  (int) this.character.getRightEntitySprite().getWidth();
+        return this.graphicsRepainter.WIDTH / 2 - (int) this.character.getRightEntitySprite().getWidth()/2;
     }
 
     /**
@@ -93,24 +94,26 @@ public class GameManager {
             velocity.setVerticalVelocity(0);
         }
     }
-    
+
     public void runCollectibleCheck() {
-    	int height = (int) this.character.getRightEntitySprite().getHeight();
-    	int width = (int) this.character.getRightEntitySprite().getWidth();
-    	Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
-    	List<Collectible> collectibleList = UILauncher.getCollectiblesManager().getCollectiblesList();
-    	for(int i = collectibleList.size() - 1; i >= 0; i--) {
-    	    Collectible collectible = collectibleList.get(i);
-    		if (collectible instanceof ReesesPieces) {
-    			int colHeight = (int) collectible.getHeight();
-        		int colWidth = (int) collectible.getWidth();
-        		Hitbox col = new Hitbox(collectible.getLocation(),colWidth,colHeight);
-        		if (ET.areColliding(col)) {
-        			UILauncher.getCollectiblesManager().removeCollectible(collectible);
-        			character.addScore(100);
-        		}
-    		}
-    	}
+        int height = (int) this.character.getRightEntitySprite().getHeight();
+        int width = (int) this.character.getRightEntitySprite().getWidth();
+        Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
+        List<Collectible> collectibleList = UILauncher.getCollectiblesManager().getCollectiblesList();
+        for (int i = collectibleList.size() - 1; i >= 0; i--) {
+            Collectible collectible = collectibleList.get(i);
+            int colHeight = (int) collectible.getHeight();
+            int colWidth = (int) collectible.getWidth();
+            Hitbox col = new Hitbox(collectible.getLocation(), colWidth, colHeight);
+            if (ET.areColliding(col)) {
+                if (collectible instanceof ReesesPieces) {
+                    character.addScore(100);
+                } else if (collectible instanceof PhonePiece) {
+                    UILauncher.getLevelManager().addCollectedPhonePiece(((PhonePiece) collectible).getPhonePieceType());
+                }
+                UILauncher.getCollectiblesManager().removeCollectible(collectible);
+            }
+        }
     }
 
     public Direction runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
@@ -161,7 +164,7 @@ public class GameManager {
         }
         return null;
     }
-    
+
     public static void main(String args[]) {
         Character character = new ET();
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();

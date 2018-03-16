@@ -146,8 +146,6 @@ public abstract class Collectible {
 		return this.WIDTH;
 	}
 
-	
-
 	public static void main(String[] args) {
 		
 		Location testloc = new Location(100,100);

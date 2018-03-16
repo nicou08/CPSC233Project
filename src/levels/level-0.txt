@@ -1,4 +1,5 @@
 level-num: 0
+end-cord: 5000
 obstacles:
   platform:
     x-cord: 1920
@@ -19,7 +20,7 @@ collectibles:
     y-cord: 800
   phone-piece:
     type: CHASSIS
-    x-cord: 8080
+    x-cord: 3080
     y-cord: 700
   phone-piece:
     type: KEYPAD
