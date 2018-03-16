@@ -81,6 +81,7 @@ public class GraphicsRepainter extends Application {
 
         this.setupButtons(character);
 
+        //set label for the score
         score.setText("" + character.getScore());
         score.setFont(new Font("Arial", 20));
         score.setTranslateX(WIDTH / 2);
@@ -234,6 +235,7 @@ public class GraphicsRepainter extends Application {
             this.repaintEntities(character);
             this.repaintCollectibles(character);
 
+            //sets the view if you win the game
             if (levelManager.isLevelComplete() && character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() + WIDTH / 2 + character.getRightEntitySprite().getWidth() / 2) {
                 Image youWonImage = new Image("images/sprites/you-won.png");
                 gc.drawImage(youWonImage, WIDTH / 2 - (int) youWonImage.getWidth() / 2, HEIGHT / 2 - (int) youWonImage.getHeight() / 2);
@@ -264,6 +266,8 @@ public class GraphicsRepainter extends Application {
      * @param character {@code Character}
      */
     public void repaintEntities(Character character) {
+    	
+    	//gets the level of the game
         LevelManager levelManager = UILauncher.getLevelManager();
         if (levelManager.isLevelComplete()) {
             Level level = levelManager.getCurrentLevel();
@@ -276,6 +280,7 @@ public class GraphicsRepainter extends Application {
             }
         }
 
+        //debug modes sets outline around hitboxes (for testing)
         if (UILauncher.getDebugMode()) {
             Location loc = character.getLocation();
             int height = (int) character.getRightEntitySprite().getHeight();
@@ -283,6 +288,7 @@ public class GraphicsRepainter extends Application {
             this.drawHitbox(character, loc, height, width, Color.GREEN);
         }
 
+        //draws enemies
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
             if (enemy.isFacingRight()) {
                 gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
@@ -299,10 +305,16 @@ public class GraphicsRepainter extends Application {
         }
     }
 
+    /**
+     * draws the background, obstacles of the level
+     * @param character character the player is using
+     */
     public void repaintBackgroundAndObstacles(Character character) {
+    	//drawin background
         Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
         gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
 
+        //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
                 Platform platform = (Platform) obstacle;
@@ -321,7 +333,12 @@ public class GraphicsRepainter extends Application {
         }
     }
 
+    /**
+     * repaints the collectibles of the level
+     * @param character
+     */
     public void repaintCollectibles(Character character) {
+    	//drawing collectibles
         for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
             gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), collectible.getLocation().getYcord());
 

@@ -22,6 +22,7 @@ public class Hitbox {
         return width;
     }
 
+    //Getter
     public int getHeight() {
         return height;
     }
@@ -33,6 +34,10 @@ public class Hitbox {
         return this.topLeftCorner;
     }
 
+    /**
+     * sets the location of {@code Hitbox}
+     * @param newLocation top leftHandCorner of Hitbox
+     */
     public void setLocation(Location newLocation) {
         this.topLeftCorner = newLocation;
     }

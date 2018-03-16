@@ -11,11 +11,11 @@ import javafx.scene.image.Image;
  * This class is used as the parent class for the {@code Character} and the {@code Enemy}. Using the getLocation method
  * returns a location object. Using setLocation allows you to set the actor's location to a specified
  * location. Using getIsDead checks if this actor is currently dead. Using setIsDead allows you to
- * set whether this actor is currently dead. Using getHealth returns the current health of the {@code actor}.
- * Using setHealth allows you to set the health of the {@code actor} and updates isDead status accordingly.
- * Using takeSinglePointOfDamage applies a single point of damage to the {@code actor} health and updates isDead
- * status accordingly. Using getEntitySprite returns the image object of the {@code actor}. Using setEntitySprite allows
- * you to change the image object of the {@code actor} using a URL/file path address.
+ * set whether this actor is currently dead. Using getHealth returns the current health of the {@code Actor}.
+ * Using setHealth allows you to set the health of the {@code Actor} and updates isDead status accordingly.
+ * Using takeSinglePointOfDamage applies a single point of damage to the {@code Actor} health and updates isDead
+ * status accordingly. Using getEntitySprite returns the image object of the {@code Actor}. Using setEntitySprite allows
+ * you to change the image object of the {@code Actor} using a URL/file path address.
  */
 public abstract class Actor {
     JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
@@ -25,33 +25,33 @@ public abstract class Actor {
     private boolean isDead = false;    //Should be set to true if the actor dies
 
     /**
-     * Location associated with the {@code actor}
+     * Location associated with the {@code Actor}
      */
     private Location location = new Location(0, 0);
 
     /**
-     * Amount of lives/health associated with the {@code actor}
+     * Amount of lives/health associated with the {@code Actor}
      */
     private int health = 1;     //can be used for both characters and enemies. A default value of 1 is given
 
     /**
-     * A placeholder image associated with a generic {@code actor}
+     * A placeholder image associated with a generic {@code Actor}
      */
     private Image leftEntitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
 
     /**
-     * A placeholder image associated with a generic {@code actor}
+     * A placeholder image associated with a generic {@code Actor}
      */
     private Image rightEntitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
 
 
     /**
-     * A variable that tracks if the actor is facing right or left
+     * A variable that tracks if the Actor is facing right or left
      */
     private boolean facingRight = true;
 
     /**
-     * The velocity object associated with the {@code actor} with the default values of 0
+     * The velocity object associated with the {@code Actor} with the default values of 0
      */
     private Velocity velocity = new Velocity();
 
@@ -60,24 +60,31 @@ public abstract class Actor {
      */
     private Hitbox hitbox = new Hitbox(null, 0, 0);
 
+    /**
+     * empty default constructor
+     */
     public Actor() {
     }
 
+    /**
+     * constructor with intial location of {@code Actor}
+     * @param location initial location of {@code Actor}
+     */
     public Actor(Location location) {
         this.setLocation(location);
     }
 
     /**
-     * Returns the location object associated with the {@code actor}
+     * Returns the location object associated with the {@code Actor}
      *
-     * @return The location object associated with the {@code actor}
+     * @return The location object associated with the {@code Actor}
      */
     public Location getLocation() {
         return new Location(this.location);
     }
 
     /**
-     * Sets the location object associated with the {@code actor}
+     * Sets the location object associated with the {@code Actor}
      *
      * @param newLocation The new {@code location} object
      */
@@ -98,25 +105,25 @@ public abstract class Actor {
     /**
      * Sets the status of whether the actor is dead to a new status
      *
-     * @param newStatus The new status of whether the {@code actor} is dead
+     * @param newStatus The new status of whether the {@code Actor} is dead
      */
     public void setIsDead(boolean newStatus) {       //true means the actor is dead
         this.isDead = newStatus;
     }
 
     /**
-     * Returns the current health amount of the {@code actor}
+     * Returns the current health amount of the {@code Actor}
      *
-     * @return The current {@code health} of the {@code actor}
+     * @return The current {@code health} of the {@code Actor}
      */
     public int getHealth() {
         return this.health;
     }
 
     /**
-     * Sets the health of the {@code actor} to a new amount which must be non negative.
+     * Sets the health of the {@code Actor} to a new amount which must be non negative.
      *
-     * @param newHealth The new {@code health} amount for the {@code actor}
+     * @param newHealth The new {@code health} amount for the {@code Actor}
      */
     public void setHealth(int newHealth)    //This could be useful for instantly killing an enemy, setting initial-
     {                                       //-health or if we implement healing in the future
@@ -135,7 +142,7 @@ public abstract class Actor {
     }
 
     /**
-     * Applies 1 point of damage to the {@code actor} and checks if the actor is dead
+     * Applies 1 point of damage to the {@code Actor} and checks if the actor is dead
      */
     public void takeSinglePointOfDamage() {
         this.health = this.health - 1;
@@ -150,9 +157,9 @@ public abstract class Actor {
 
 
     /**
-     * Returns the (right-facing) image/sprite object associated with the {@code actor}
+     * Returns the (right-facing) image/sprite object associated with the {@code Actor}
      *
-     * @return The (right-facing) image/sprite object associated with the {@code actor}
+     * @return The (right-facing) image/sprite object associated with the {@code Actor}
      */
     public Image getRightEntitySprite() {
         return this.rightEntitySprite;
@@ -160,16 +167,16 @@ public abstract class Actor {
 
 
     /**
-     * Returns the (left-facing) image/sprite object associated with the {@code actor}
+     * Returns the (left-facing) image/sprite object associated with the {@code Actor}
      *
-     * @return The (left-facing) image/sprite object associated with the {@code actor}
+     * @return The (left-facing) image/sprite object associated with the {@code Actor}
      */
     public Image getLeftEntitySprite() {
         return this.leftEntitySprite;
     }
 
     /**
-     * Assigns a new (right-facing) image/sprite to the {@code actor}
+     * Assigns a new (right-facing) image/sprite to the {@code Actor}
      *
      * @param newSpriteURL The URL/file address of the new imagee/sprite
      */
@@ -179,7 +186,7 @@ public abstract class Actor {
     }
 
     /**
-     * Assigns a new (left-facing) image/sprite to the {@code actor}
+     * Assigns a new (left-facing) image/sprite to the {@code Actor}
      *
      * @param newSpriteURL The URL/file address of the new imagee/sprite
      */
@@ -189,22 +196,34 @@ public abstract class Actor {
     }
 
     /**
-     * Returns velocity of the {@code actor}
+     * Returns velocity of the {@code Actor}
      *
-     * @return The velocity of the {@code actor}
+     * @return The velocity of the {@code Actor}
      */
     public Velocity getVelocity() {
         return this.velocity;
     }
 
+    /**
+     * returns true if the {@code Actor} is facing right
+     * @return boolean of isFacingRight of {@code Actor}
+     */
     public boolean isFacingRight() {
         return this.facingRight;
     }
 
+    /**
+     * sets the isFacingRight of {@code Actor}
+     * @param facingRight true if {@code Actor} should be facing right
+     */
     public void setFacingRight(boolean facingRight) {
         this.facingRight = facingRight;
     }
 
+    /**
+     * returns the hitbox of {@code Actor}
+     * @return copy of hitbox of {@code Actor}
+     */
     public Hitbox getHitbox() {
         return new Hitbox(this.hitbox);
     }
@@ -216,18 +235,18 @@ public abstract class Actor {
 
         if (a.getIsDead()) //should be false originally
         {
-            System.out.println("This should not have been printed. actor should be alive (but is dead here)");
+            System.out.println("This should not have been printed. Actor should be alive (but is dead here)");
         } else {
-            System.out.println("actor is alive. This is the correct outcome");
+            System.out.println("Actor is alive. This is the correct outcome");
         }
 
         a.setIsDead(true);
 
         if (a.getIsDead()) //should be true
         {
-            System.out.println("actor is dead. This is the correct outcome.");
+            System.out.println("Actor is dead. This is the correct outcome.");
         } else {
-            System.out.println("actor is alive. This is not the correct outcome");
+            System.out.println("Actor is alive. This is not the correct outcome");
         }
 
         System.out.println("\n");

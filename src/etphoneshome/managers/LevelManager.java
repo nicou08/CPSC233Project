@@ -9,18 +9,38 @@ import java.util.List;
 
 public class LevelManager {
 
+	/**
+	 * list of the levels
+	 */
     private List<Level> levels = new ArrayList<>();
 
+    /**
+     * current level of the game
+     */
     private int currentLevelNum = -1;
 
+    /**
+     * list of phonePieces collected
+     */
     private List<PhonePieceType> collectedPieces = new ArrayList<>();
 
+    /**
+     * boolean to check if level is over
+     */
     private boolean levelComplete = false;
 
+    /**
+     * add level to the game
+     * @param level
+     */
     public void addLevel(Level level) {
         this.levels.add(level);
     }
 
+    /**
+     * remove a level from the game
+     * @param level level to remove
+     */
     public void removeLevel(Level level) {
         this.levels.remove(level);
     }

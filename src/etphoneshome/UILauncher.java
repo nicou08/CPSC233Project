@@ -153,6 +153,9 @@ public class UILauncher {
         return UILauncher.debugMode;
     }
     
+    /**
+     * @return collectibleManager returns the collectibles of {@code UILauncher}
+     */
     public static CollectiblesManager getCollectiblesManager() {
     	return UILauncher.collectibleManager;
     }

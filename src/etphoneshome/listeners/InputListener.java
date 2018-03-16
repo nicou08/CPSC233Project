@@ -34,6 +34,10 @@ public class InputListener {
         this.backgroundManager = backgroundManager;
     }
 
+    /**
+     * sets the character of {@code InputListener}
+     * @param character character of {@code InputListener}
+     */
     public void setCharacter(Character character) {
         this.character = character;
     }
@@ -96,6 +100,8 @@ public class InputListener {
      * Update the character's velocity based on the tick of the game
      */
     public void updateVelocities() {
+    	
+    	//gets direction the character is facing
         Velocity velocity = character.getVelocity();
         if (velocity.getHorizontalVelocity() > 0) {
             character.setFacingRight(true);
@@ -103,6 +109,7 @@ public class InputListener {
             character.setFacingRight(false);
         }
 
+        //changes velocity if moving right
         if (character.isHoldingRight() && velocity.getHorizontalVelocity() >= 0 && velocity.getHorizontalVelocity() <= 10) {
             velocity.changeHorizontalVelocity(1);
         } else if (!character.isHoldingRight() && velocity.getHorizontalVelocity() > 0) {
@@ -110,6 +117,7 @@ public class InputListener {
             velocity.setHorizontalVelocity(newVelocity);
         }
 
+        //changes velocity is moving left
         if (character.isHoldingLeft() && velocity.getHorizontalVelocity() <= 0 && velocity.getHorizontalVelocity() >= -10) {
             velocity.changeHorizontalVelocity(-1);
         } else if (!character.isHoldingLeft() && velocity.getHorizontalVelocity() < 0) {
@@ -131,6 +139,9 @@ public class InputListener {
 
     }
 
+    /**
+     * moves the background of the stage
+     */
     public void updateBackgroundVelocity() {
         backgroundManager.getBackgroundVelocity().setHorizontalVelocity(character.getVelocity().getHorizontalVelocity() / -2.0);
     }
@@ -141,8 +152,11 @@ public class InputListener {
      * @return whether the player is on the ground or not
      */
     public boolean onGround() {
+    	//return true if on ground level
         if (character.getLocation().getYcord() > UILauncher.getGraphicsRepainter().HEIGHT - 100 - character.getRightEntitySprite().getHeight()) {
             return true;
+         
+            //return true if on a platform
         } else {
             int height = (int) character.getRightEntitySprite().getHeight();
             int width = (int) character.getRightEntitySprite().getWidth();

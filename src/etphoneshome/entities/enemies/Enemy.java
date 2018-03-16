@@ -8,10 +8,17 @@ import etphoneshome.objects.Location;
 
 public abstract class Enemy extends Actor {
 
+	/**
+	 * defualt constructor that sets FacingRight to false
+	 */
     public Enemy() {
         this.setFacingRight(false);
     }
 
+    /**
+     * Constructor that sets the initla location of {@code Enemy}
+     * @param location initial location of {@code Enemy}
+     */
     public Enemy(Location location) {
         super(location);
         this.setFacingRight(false);
