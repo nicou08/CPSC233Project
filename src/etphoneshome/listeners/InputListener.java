@@ -27,6 +27,7 @@ public class InputListener {
      * Constructor for the class
      *
      * @param character gives InputListener the character associated with InputListener
+     * @param backgroundManager stores the backgroundManager in order to use it later
      */
     public InputListener(Character character, BackgroundManager backgroundManager) {
         this.character = character;

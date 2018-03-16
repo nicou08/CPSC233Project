@@ -5,7 +5,7 @@ import etphoneshome.objects.Location;
 
 
 /**
- * This is used for a generic character (non-enemy) class. It is derived from the {@code Actor} class.
+ * This is used for a generic character (non-enemy) class. It is derived from the {@code actor} class.
  */
 
 public abstract class Character extends Actor {

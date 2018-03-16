@@ -3,7 +3,7 @@ package etphoneshome.entities.enemies;
 import etphoneshome.entities.actor.Actor;
 import etphoneshome.objects.Location;
 /**
- * This is used as the parent class for the enemies. It is derived from the {@code Actor} class.
+ * This is used as the parent class for the enemies. It is derived from the {@code actor} class.
  */
 
 public abstract class Enemy extends Actor {

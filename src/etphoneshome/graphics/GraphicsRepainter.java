@@ -98,6 +98,7 @@ public class GraphicsRepainter extends Application {
 
     /**
      * Method used to setup buttons
+     * @param character The character object of the game
      */
     private void setupButtons(Character character) {
 
@@ -125,6 +126,7 @@ public class GraphicsRepainter extends Application {
 
     /**
      * Method used to setup button events
+     * @param character The character object of the game
      */
     private void setupButtonEvents(Character character) {
 
@@ -351,14 +353,16 @@ public class GraphicsRepainter extends Application {
     /**
      * Draws hitbox using given location, height, and width
      *
+     * @param character The character object of the game
      * @param loc    Top left corner {@code Location} of {@code Hitbox}
      * @param height Height of {@code Hitbox}
      * @param width  Width of {@code Hitbox}
+     * @param color  The color of the hitbox to be drawn
      */
     public void drawHitbox(Character character, Location loc, int height, int width, Color color) {
         loc = new Location(loc.getXcord() + (-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), loc.getYcord());
         gc.setStroke(color);
-        gc.setLineWidth(3);
+        gc.setLineWidth(2);
 
         gc.strokeLine(loc.getXcord(), loc.getYcord(), loc.getXcord(), loc.getYcord() + height);
 
