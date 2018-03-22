@@ -40,7 +40,7 @@ public class GraphicsRepainter extends Application {
     /**
      * images needed to play the game
      */
-    private final Image BACKGROUND = new Image("/images/backgrounds/backgroundRESIZED.jpg");
+
     private final Image GAMEOVER = new Image("/images/sprites/gameover.png");
 
     /**
@@ -76,7 +76,6 @@ public class GraphicsRepainter extends Application {
         //making character and setting it's starting point
         Character character = new ET();
         UILauncher.setCharacter(character);
-        Location characterLocation = character.getLocation();
         character.setLocation(new Location(UILauncher.getGameManager().getCenterXCord(), UILauncher.getGameManager().getGroundLevel(character)));
 
         this.setupButtons(character);
@@ -309,9 +308,9 @@ public class GraphicsRepainter extends Application {
      * @param character character the player is using
      */
     public void repaintBackgroundAndObstacles(Character character) {
-    	//drawin background
-        Location backgroundManagerLoc = UILauncher.getBackgroundManager().getBackgroundLocation();
-        gc.drawImage(this.BACKGROUND, backgroundManagerLoc.getXcord(), backgroundManagerLoc.getYcord());
+        BackgroundManager backgroundManager = UILauncher.getBackgroundManager();
+        Location backgroundLoc = backgroundManager.getBackgroundLocation();
+        gc.drawImage(backgroundManager.getBackgroundSprite(), backgroundLoc.getXcord(), backgroundLoc.getYcord());
 
         //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {

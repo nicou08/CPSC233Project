@@ -69,6 +69,7 @@ public class LevelManager {
                 UILauncher.getObstacleManager().loadObstacles(level);
                 UILauncher.getEntityManager().loadEntities(level);
                 UILauncher.getCollectiblesManager().loadCollectibles(level);
+                UILauncher.getBackgroundManager().loadBackground(level);
                 this.collectedPieces.clear();
                 this.levelComplete = false;
                 break;

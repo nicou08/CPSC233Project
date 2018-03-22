@@ -1,4 +1,5 @@
 level-num: 0
+background-sprite: images/backgrounds/background-forest-resized.png
 end-cord: 5000
 obstacles:
   platform:

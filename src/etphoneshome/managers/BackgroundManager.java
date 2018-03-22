@@ -1,10 +1,14 @@
 package etphoneshome.managers;
 
 import etphoneshome.graphics.GraphicsRepainter;
+import etphoneshome.objects.Level;
 import etphoneshome.objects.Location;
 import etphoneshome.objects.Velocity;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.image.Image;
 
 public class BackgroundManager {
+    JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
 
     /**
      * graphics asscoiated with {@code BackgroundManager}
@@ -25,6 +29,7 @@ public class BackgroundManager {
      */
     private Velocity backgroundVelocity = new Velocity();
     private Location backgroundLocation = new Location(0, 0);
+    private Image backgroundSprite = new Image("images/backgrounds/background.jpg");
 
     /**
      * return velocity of background
@@ -42,6 +47,23 @@ public class BackgroundManager {
      */
     public Location getBackgroundLocation() {
         return this.backgroundLocation;
+    }
+
+    /**
+     * Loads the background of a specific level
+     * @param level the level to load the background of
+     */
+    public void loadBackground(Level level) {
+        this.backgroundSprite = new Image(level.getBackgroundFilePath());
+    }
+
+
+    /**
+     * Returns the backgroundSprite
+     * @return backgroundSprite
+     */
+    public Image getBackgroundSprite() {
+        return this.backgroundSprite;
     }
 
     /**

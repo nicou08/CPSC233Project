@@ -16,6 +16,7 @@ public class Level {
 	 * Arrays of the objects in the level and the number of the level and the endcord to win the game
 	 */
     private int levelNum, endCord;
+    private String backgroundFilePath = "images/backgrounds/backgroundRESIZED.png";
     private List<Obstacle> obstacles = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
     private List<Collectible> phonePieces = new ArrayList<>();
@@ -56,6 +57,11 @@ public class Level {
                 if (line.startsWith("level-num: ")) {
                     this.levelNum = Integer.valueOf(line.replace("level-num: ", ""));
                 }
+                // path of background sprite
+                if (line.startsWith("background-sprite: ")) {
+                    this.backgroundFilePath = line.replace("background-sprite: ", "");
+                }
+
                 //end coordinate of level
                 if (line.startsWith("end-cord: ")) {
                     this.endCord = Integer.valueOf(line.replace("end-cord: ", ""));
@@ -100,9 +106,20 @@ public class Level {
         }
     }
 
-    //get the levl number
+    /**
+     * Gets the levelNum
+     * @return levelNum
+     */
     public int getLevelNum() {
         return this.levelNum;
+    }
+
+    /**
+     * Returns the backgroundFilePath paired with the {@code Level}
+     * @return backgroundFilePath
+     */
+    public String getBackgroundFilePath() {
+        return this.backgroundFilePath;
     }
 
     /**
