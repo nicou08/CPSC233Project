@@ -22,3 +22,4 @@ out/
 .idea/dictionaries/Stephen.xml
 .metadata/
 .recommenders/
+*.ini
