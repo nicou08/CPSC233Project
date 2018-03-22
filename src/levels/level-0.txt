@@ -1,6 +1,6 @@
 level-num: 0
 background-sprite: images/backgrounds/background-forest-resized.png
-end-cord: 5000
+end-cord: 4750
 obstacles:
   platform:
     x-cord: 1920

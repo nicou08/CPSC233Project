@@ -4,6 +4,7 @@ import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.managers.BackgroundManager;
 import etphoneshome.managers.GameManager;
+import etphoneshome.managers.LevelManager;
 import etphoneshome.objects.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -30,16 +31,22 @@ public class InputListener {
     private GameManager gameManager;
 
     /**
+     * Stores levelManager used to check if level is complete
+     */
+    private LevelManager levelManager;
+
+    /**
      * Constructor for the class
      *
      * @param character         gives InputListener the character associated with InputListener
      * @param backgroundManager stores the backgroundManager in order to use it later
-     * @param gameManager stores the gameManager object used to check the ground level
+     * @param gameManager       stores the gameManager object used to check the ground level
      */
-    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager) {
+    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager, LevelManager levelManager) {
         this.character = character;
         this.backgroundManager = backgroundManager;
         this.gameManager = gameManager;
+        this.levelManager = levelManager;
     }
 
     /**
@@ -66,15 +73,17 @@ public class InputListener {
         return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
-                String input = e.getText().toLowerCase();
-                if (input.equals("w") || input.equals("up")) {
-                    character.setHoldingUp(true);
-                }
-                if (input.equals("a") || input.equals("left")) {
-                    character.setHoldingLeft(true);
-                }
-                if (input.equals("d") || input.equals("right")) {
-                    character.setHoldingRight(true);
+                if (!levelManager.isLevelComplete()) {
+                    String input = e.getText().toLowerCase();
+                    if (input.equals("w") || input.equals("up")) {
+                        character.setHoldingUp(true);
+                    }
+                    if (input.equals("a") || input.equals("left")) {
+                        character.setHoldingLeft(true);
+                    }
+                    if (input.equals("d") || input.equals("right")) {
+                        character.setHoldingRight(true);
+                    }
                 }
             }
         };
@@ -90,16 +99,18 @@ public class InputListener {
         return new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent e) {
-                String input = e.getText().toLowerCase();
-                if (input.equals("w")) {
-                    character.setHoldingUp(false);
-                }
-                if (input.equals("a")) {
-                    character.setHoldingLeft(false);
-                }
-                if (input.equals("d")) {
-                    character.setHoldingRight(false);
+                if (!levelManager.isLevelComplete()) {
+                    String input = e.getText().toLowerCase();
+                    if (input.equals("w")) {
+                        character.setHoldingUp(false);
+                    }
+                    if (input.equals("a")) {
+                        character.setHoldingLeft(false);
+                    }
+                    if (input.equals("d")) {
+                        character.setHoldingRight(false);
 
+                    }
                 }
             }
         };

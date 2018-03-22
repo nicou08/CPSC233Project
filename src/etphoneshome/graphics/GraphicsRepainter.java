@@ -98,6 +98,7 @@ public class GraphicsRepainter extends Application {
 
     /**
      * Method used to setup buttons
+     *
      * @param character The character object of the game
      */
     private void setupButtons(Character character) {
@@ -126,6 +127,7 @@ public class GraphicsRepainter extends Application {
 
     /**
      * Method used to setup button events
+     *
      * @param character The character object of the game
      */
     private void setupButtonEvents(Character character) {
@@ -209,7 +211,8 @@ public class GraphicsRepainter extends Application {
 
             // check if game was won
             if (levelManager.getPhonePiecesLeft() == 0 && characterLocation.getXcord() >= levelManager.getCurrentLevel().getEndCord()) {
-                velocity.setHorizontalVelocity(10);
+                character.setHoldingRight(true);
+                inputListener.updateVelocities();
                 character.setLocation(new Location(characterLocation.getXcord() + (int) velocity.getHorizontalVelocity(), characterLocation.getYcord() + (int) velocity.getVerticalVelocity()));
                 levelManager.setLevelComplete(true);
             } else {
@@ -264,8 +267,8 @@ public class GraphicsRepainter extends Application {
      * @param character {@code Character}
      */
     public void repaintEntities(Character character) {
-    	
-    	//gets the level of the game
+
+        //gets the level of the game
         LevelManager levelManager = UILauncher.getLevelManager();
         if (levelManager.isLevelComplete()) {
             Level level = levelManager.getCurrentLevel();
@@ -288,10 +291,18 @@ public class GraphicsRepainter extends Application {
 
         //draws enemies
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
-            if (enemy.isFacingRight()) {
-                gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+            if (levelManager.isLevelComplete()) {
+                if (enemy.isFacingRight()) {
+                    gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
+                } else {
+                    gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
+                }
             } else {
-                gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+                if (enemy.isFacingRight()) {
+                    gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+                } else {
+                    gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+                }
             }
 
             if (UILauncher.getDebugMode()) {
@@ -305,19 +316,25 @@ public class GraphicsRepainter extends Application {
 
     /**
      * draws the background, obstacles of the level
+     *
      * @param character character the player is using
      */
     public void repaintBackgroundAndObstacles(Character character) {
         BackgroundManager backgroundManager = UILauncher.getBackgroundManager();
         Location backgroundLoc = backgroundManager.getBackgroundLocation();
         gc.drawImage(backgroundManager.getBackgroundSprite(), backgroundLoc.getXcord(), backgroundLoc.getYcord());
+        LevelManager levelManager = UILauncher.getLevelManager();
 
         //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
                 Platform platform = (Platform) obstacle;
                 for (Obstacle brick : platform.getBricks()) {
-                    gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
+                    if (levelManager.isLevelComplete()) {
+                        gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), brick.getLocation().getYcord());
+                    } else {
+                        gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
+                    }
                 }
                 Location loc = new Location(platform.getLocation());
 
@@ -333,12 +350,19 @@ public class GraphicsRepainter extends Application {
 
     /**
      * repaints the collectibles of the level
+     *
      * @param character Character variable
      */
     public void repaintCollectibles(Character character) {
-    	//drawing collectibles
+        LevelManager levelManager = UILauncher.getLevelManager();
+
+        //drawing collectibles
         for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
-            gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), collectible.getLocation().getYcord());
+            if (levelManager.isLevelComplete()) {
+                gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), collectible.getLocation().getYcord());
+            } else {
+                gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), collectible.getLocation().getYcord());
+            }
 
             if (UILauncher.getDebugMode()) {
                 this.drawHitbox(character, collectible.getLocation(), (int) collectible.getTheImage().getHeight(), (int) collectible.getTheImage().getWidth(), Color.YELLOW);
@@ -369,10 +393,10 @@ public class GraphicsRepainter extends Application {
      * Draws hitbox using given location, height, and width
      *
      * @param character The character object of the game
-     * @param loc    Top left corner {@code Location} of {@code Hitbox}
-     * @param height Height of {@code Hitbox}
-     * @param width  Width of {@code Hitbox}
-     * @param color  The color of the hitbox to be drawn
+     * @param loc       Top left corner {@code Location} of {@code Hitbox}
+     * @param height    Height of {@code Hitbox}
+     * @param width     Width of {@code Hitbox}
+     * @param color     The color of the hitbox to be drawn
      */
     public void drawHitbox(Character character, Location loc, int height, int width, Color color) {
         loc = new Location(loc.getXcord() + (-character.getLocation().getXcord()) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), loc.getYcord());

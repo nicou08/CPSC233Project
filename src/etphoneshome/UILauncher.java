@@ -70,7 +70,7 @@ public class UILauncher {
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
-        UILauncher.inputListener = new InputListener(character, backgroundManager, gameManager);
+        UILauncher.inputListener = new InputListener(character, backgroundManager, gameManager, levelManager);
         UILauncher.levelManager.addLevel(new Level("level-0"));
         UILauncher.levelManager.loadLevel(0);
 
