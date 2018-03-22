@@ -28,6 +28,8 @@ public class Level {
     public Level(Level level) {
         this.levelNum = level.getLevelNum();
 
+        this.backgroundFilePath = level.getBackgroundFilePath();
+
         this.endCord = level.getEndCord();
 
         for (Obstacle obstacle : level.getObstacles()) {
