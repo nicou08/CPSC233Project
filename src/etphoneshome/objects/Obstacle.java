@@ -13,7 +13,7 @@ public class Obstacle {
     /**
      * Sprite associated with the generic {@code Obstacle}
      */
-    private Image sprite = new Image("/images/sprites/genericObstacle.png");
+    private Image sprite = new Image(SpriteURL.GENERIC_OBSTACLE.getPath());
 
     /**
      * Location associated with the generic {@code Obstacle}

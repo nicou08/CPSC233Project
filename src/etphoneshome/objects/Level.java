@@ -16,7 +16,7 @@ public class Level {
 	 * Arrays of the objects in the level and the number of the level and the endcord to win the game
 	 */
     private int levelNum, endCord;
-    private String backgroundFilePath = "images/backgrounds/backgroundRESIZED.png";
+    private String backgroundFilePath = SpriteURL.BACKGROUND.getPath();
     private List<Obstacle> obstacles = new ArrayList<>();
     private List<Enemy> enemies = new ArrayList<>();
     private List<Collectible> phonePieces = new ArrayList<>();

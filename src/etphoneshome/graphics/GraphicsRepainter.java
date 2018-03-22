@@ -41,7 +41,7 @@ public class GraphicsRepainter extends Application {
      * images needed to play the game
      */
 
-    private final Image GAMEOVER = new Image("/images/sprites/gameover.png");
+    private final Image GAMEOVER = new Image(SpriteURL.GAMEOVER.getPath());
 
     /**
      * Instances needed to draw on the stage and make the screen
@@ -235,7 +235,7 @@ public class GraphicsRepainter extends Application {
 
             //sets the view if you win the game
             if (levelManager.isLevelComplete() && character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() + WIDTH / 2 + character.getRightEntitySprite().getWidth() / 2) {
-                Image youWonImage = new Image("images/sprites/you-won.png");
+                Image youWonImage = new Image(SpriteURL.YOU_WON.getPath());
                 gc.drawImage(youWonImage, WIDTH / 2 - (int) youWonImage.getWidth() / 2, HEIGHT / 2 - (int) youWonImage.getHeight() / 2);
                 timeline.pause();
             }

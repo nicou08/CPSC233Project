@@ -25,7 +25,7 @@ public class ReesesPieces extends Collectible {
 	 * Empty Constructor that sets the sprite associated with {@code ReesesPieces}
 	 */
 	public ReesesPieces() {
-		super.setImages("images/sprites/RP_brown.png", "images/sprites/RP_orange.png","images/sprites/RP_yellow.png" );
+		super.setImages(SpriteURL.RP_BROWN.getPath(), SpriteURL.RP_ORANGE.getPath(), SpriteURL.RP_YELLOW.getPath());
 		setImage();
 	}
 
@@ -35,7 +35,7 @@ public class ReesesPieces extends Collectible {
 	 */
 	public ReesesPieces(Location location) {
 		super(location);
-		super.setImages("images/sprites/RP_brown.png", "images/sprites/RP_orange.png","images/sprites/RP_yellow.png" );
+		super.setImages(SpriteURL.RP_BROWN.getPath(), SpriteURL.RP_ORANGE.getPath(), SpriteURL.RP_YELLOW.getPath());
 		setImage();
 	}
 	

@@ -3,6 +3,7 @@ package etphoneshome.entities.actor;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.objects.Hitbox;
 import etphoneshome.objects.Location;
+import etphoneshome.objects.SpriteURL;
 import etphoneshome.objects.Velocity;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
@@ -37,12 +38,12 @@ public abstract class Actor {
     /**
      * A placeholder image associated with a generic {@code actor}
      */
-    private Image leftEntitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
+    private Image leftEntitySprite = new Image(SpriteURL.PLACEHOLDER_SPRITE.getPath());
 
     /**
      * A placeholder image associated with a generic {@code actor}
      */
-    private Image rightEntitySprite = new Image("/images/sprites/PLACEHOLDERSPRITE.jpg");
+    private Image rightEntitySprite = new Image(SpriteURL.PLACEHOLDER_SPRITE.getPath());
 
 
     /**

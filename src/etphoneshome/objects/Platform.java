@@ -73,16 +73,16 @@ public class Platform extends Obstacle {
 
                 nextBrickLocation = this.addBrickWidth(nextBrickLocation);  //shifts the next brick location 60 pixels (WIDTH) to the right
 
-                bricks.get(i).setSprite("images/sprites/regularPlatform.png");   //sets every brick to the default
+                bricks.get(i).setSprite(SpriteURL.REGULAR_PLATFORM.getPath());   //sets every brick to the default
                 //sprite of the middle brick
             }
 
             //sets the correct sprites based off how many bricks are in the platform
             if (this.length == 1) {
-                bricks.get(0).setSprite("images/sprites/singlePlatform.png");
+                bricks.get(0).setSprite(SpriteURL.SINGLE_PLATFORM.getPath());
             } else if (this.length > 1) {
-                bricks.get(0).setSprite("images/sprites/leftEndPlatform.png");
-                bricks.get(this.length - 1).setSprite("images/sprites/rightEndPlatform.png");
+                bricks.get(0).setSprite(SpriteURL.LEFT_END_PLATFORM.getPath());
+                bricks.get(this.length - 1).setSprite(SpriteURL.RIGHT_END_PLATFORM.getPath());
             }
 
             //set the hitbox of the entire platform
@@ -118,14 +118,14 @@ public class Platform extends Obstacle {
 
             bricksCopy.add(new Platform(locationCopy));
 
-            bricksCopy.get(i).setSprite("images/sprites/regularPlatform.png");
+            bricksCopy.get(i).setSprite(SpriteURL.REGULAR_PLATFORM.getPath());
         }
         //sets the correct sprites based off how many bricks are in the platform
         if (this.length == 1) {
-            bricksCopy.get(0).setSprite("images/sprites/singlePlatform.png");
+            bricksCopy.get(0).setSprite(SpriteURL.SINGLE_PLATFORM.getPath());
         } else if (this.length > 1) {
-            bricksCopy.get(0).setSprite("images/sprites/leftEndPlatform.png");
-            bricksCopy.get(this.length - 1).setSprite("images/sprites/rightEndPlatform.png");
+            bricksCopy.get(0).setSprite(SpriteURL.LEFT_END_PLATFORM.getPath());
+            bricksCopy.get(this.length - 1).setSprite(SpriteURL.RIGHT_END_PLATFORM.getPath());
         }
 
         return bricksCopy;

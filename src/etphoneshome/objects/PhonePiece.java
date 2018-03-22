@@ -19,7 +19,7 @@ public class PhonePiece extends Collectible {
      * Empty constructor that will set the sprite to the phone Antenna
      */
     public PhonePiece() {
-        super.setImages("images/sprites/phoneAntenna.png", "images/sprites/phoneChassis.png", "images/sprites/phoneKeypad.png");
+        super.setImages(SpriteURL.PHONE_ANTENNA.getPath(), SpriteURL.PHONE_CHASSIS.getPath(), SpriteURL.PHONE_KEYPAD.getPath());
         this.phonePieceType = PhonePieceType.ANTENNA;
         this.setImage(PhonePieceType.ANTENNA);
     }
@@ -32,7 +32,7 @@ public class PhonePiece extends Collectible {
      */
     public PhonePiece(Location location, PhonePieceType phonePieceType) {
         super(location);
-        super.setImages("images/sprites/phoneAntenna.png", "images/sprites/phoneChassis.png", "images/sprites/phoneKeypad.png");
+        super.setImages(SpriteURL.PHONE_ANTENNA.getPath(), SpriteURL.PHONE_CHASSIS.getPath(), SpriteURL.PHONE_KEYPAD.getPath());
         this.phonePieceType = phonePieceType;
         setImage(phonePieceType);
     }
