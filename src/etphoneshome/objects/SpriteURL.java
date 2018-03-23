@@ -22,6 +22,7 @@ public enum SpriteURL {
     RP_ORANGE("images/sprites/collectibles/reese pieces/RP_orange.png"),
     RP_YELLOW("images/sprites/collectibles/reese pieces/RP_yellow.png"),
     HEART("images/sprites/heart.png"),
+    FLASK("images/sprites/flask.png"),
     GAMEOVER("images/sprites/end game sprites/gameover.png"),
     YOU_WON("images/sprites/end game sprites/you-won.png"),
     BACKGROUND("images/backgrounds/backgroundRESIZED.jpg");
