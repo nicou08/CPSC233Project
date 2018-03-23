@@ -230,6 +230,8 @@ public class GraphicsRepainter extends Application {
 
             gameManager.runGroundCheck(character, velocity);
             gameManager.runCollectibleCheck();
+            if(gameManager.runFlasksCheck())
+            	character.takeSinglePointOfDamage();
 
             // repaint view
             this.repaintBackgroundAndObstacles(character);
@@ -370,6 +372,11 @@ public class GraphicsRepainter extends Application {
         }
     }
 
+    public void repaintFlasks(Character character) {
+    	for (Flask flask : UILauncher.getFlaskManager().getFlaskList()) {
+    		gc.drawImage(flask.getSprite(),flask.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), flask.getLocation().getYcord() );
+    	}
+    }
 
     /**
      * Check if character is dead. If not dead, draw hearts and continue playing. If dead pause timeline and sets a playAgainButton on screen that will

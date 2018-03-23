@@ -145,6 +145,31 @@ public class GameManager {
             }
         }
     }
+    
+    public boolean runFlasksCheck() {
+    	
+    	//gets position and hitbox of ET
+    	int height = (int) this.character.getRightEntitySprite().getHeight();
+        int width = (int) this.character.getRightEntitySprite().getWidth();
+        Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
+        
+        //iterates through list of Flasks
+        List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
+        for (int i = flaskList.size()-1; i >= 0; i--) {
+        	Flask flask = flaskList.get(i);
+        	int flaskHeight = flask.getHeight();
+        	int flaskWidth = flask.getWidth();
+        	Hitbox flaskHit = flask.getHitbox();
+        	if(flask.getLocation().getYcord() == getGroundLevel(this.character)) {
+        		flaskList.remove(i);
+        	}
+        	if(ET.areColliding(flaskHit)) {
+        		return true;
+        	}
+        }
+        return false;
+        
+    }
 
     /**
      * checks if charcter hit an obstacle

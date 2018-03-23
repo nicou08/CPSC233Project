@@ -53,6 +53,11 @@ public class UILauncher {
      * Manages collectibles of the game
      */
     private static CollectiblesManager collectibleManager;
+    
+    /**
+     * Manages the attacks of the Scientists
+     */
+    private static FlaskManager flaskManager;
 
     /**
      * Tracks whether game is in debug mode or not
@@ -67,6 +72,7 @@ public class UILauncher {
         UILauncher.collectibleManager = new CollectiblesManager();
         UILauncher.obstacleManager = new ObstacleManager();
         UILauncher.levelManager = new LevelManager();
+        UILauncher.flaskManager= new FlaskManager();
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
@@ -158,5 +164,9 @@ public class UILauncher {
      */
     public static CollectiblesManager getCollectiblesManager() {
     	return UILauncher.collectibleManager;
+    }
+    
+    public static FlaskManager getFlaskManager() {
+    	return UILauncher.flaskManager;
     }
 }
