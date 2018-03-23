@@ -1,5 +1,8 @@
 package etphoneshome.graphics;
 
+import java.io.File;
+
+import Sound.Sound;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
@@ -20,6 +23,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -91,6 +96,13 @@ public class GraphicsRepainter extends Application {
         this.registerKeyEvents();
 
         //UILauncher.getCollectiblesManager().spawnRandomReesesPieces(10);
+        
+
+
+        Sound sound = new Sound();
+        sound.playTheme();
+        
+        
 
         //staring the actual game
         this.startTimeline(character);
