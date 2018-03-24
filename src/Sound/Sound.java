@@ -7,7 +7,11 @@ import javafx.scene.media.MediaPlayer;
 
 public class Sound {
 	
-	private static String theme = "C:\\Users\\agost\\Documents\\et-phones-home\\src\\Sounds\\MainSongET.wav";
+	/**
+	 * Variables for the main song
+	 * Thanks to @naisusumeru for their song "Town Hall Tower" on Beepbox.co
+	 */
+	private static String theme = "Sounds\\MainSongET.wav";
 	private static Media sound = new Media(new File(theme).toURI().toString());
 	private static MediaPlayer mediaPlayer = new MediaPlayer(sound);
 	
@@ -16,6 +20,9 @@ public class Sound {
 		mediaPlayer.play();
 	}
 	
+	public void stopTheme() {
+		mediaPlayer.stop();
+	}
 	
 
     

@@ -14,7 +14,7 @@ public class Flask {
 	private Velocity velocity ;
 	private Direction direction;
 	
-	private Image image;
+	private Image image = new Image(SpriteURL.FLASK.getPath());
 	
 	private Location location;
 	
