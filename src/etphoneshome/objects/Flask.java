@@ -51,6 +51,10 @@ public class Flask {
 		return HEIGHT;
 	}
 	
+	public Velocity getVelocity() {
+		return new Velocity(this.velocity.getHorizontalVelocity(),this.velocity.getVerticalVelocity());
+		}
+	
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

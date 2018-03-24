@@ -7,6 +7,11 @@ import etphoneshome.objects.SpriteURL;
  * This class is used for the Scientist type enemy. It is a derived class from the {@code Enemy} class
  */
 public class Scientist extends Enemy {
+	
+	/**
+	 * Variable to see if the specific {@code Scientist} has thrown a flask
+	 */
+	private boolean thrownFlask;
 
 	/**
 	 * default constructor that sets the sprites of {@code Scientist}
@@ -23,6 +28,23 @@ public class Scientist extends Enemy {
         super(location);
         this.setRightEntitySprite(SpriteURL.SCIENTIST_RIGHT.getPath());
         this.setLeftEntitySprite(SpriteURL.SCIENTIST_LEFT.getPath());
+    }
+    
+    /**
+     * get the thrownflask of the {@code Scientist}
+     * @return thrownFlask of {@code Scientist}
+     */
+    public boolean getThrownFlask() {
+    	return this.thrownFlask;
+
+	}
+    
+    /**
+     * Sets the status of thrownFlask of {@code Scientist}
+     * @param thrown if {@code Scientist} has thrown a flask
+     */
+    public void setThrownFlask(boolean thrown) {
+    	this.thrownFlask= thrown;
     }
 
 }

@@ -5,6 +5,7 @@ import etphoneshome.entities.actor.Actor;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
+import etphoneshome.entities.enemies.Scientist;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.objects.*;
 
@@ -170,6 +171,48 @@ public class GameManager {
         return false;
         
     }
+    
+    public void moveFlasks() {
+    	 List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
+         for (int i = flaskList.size()-1; i >= 0; i--) {
+        	 Flask flask = flaskList.get(i);
+        	 Location oldLoc = flask.getLocation();
+        	 int newX= (int) (oldLoc.getXcord()+flask.getVelocity().getHorizontalVelocity()-this.character.getVelocity().getHorizontalVelocity());
+        	 int newY = (int) (oldLoc.getYcord()+flask.getVelocity().getVerticalVelocity());
+        	 flask.setLocation(new Location(newX,newY));
+         }
+    }
+    
+    public void throwFlasks() {
+    	
+    	for (Enemy enemy: UILauncher.getEntityManager().getEnemyList()) {
+    		if (enemy instanceof Scientist) {
+    			if (!((Scientist) enemy).getThrownFlask()){
+    				if(character.getLocation().getDistance(enemy.getLocation())< 600) {
+    			
+    					//if enemy is to the right and facing character
+    					if(character.getLocation().getXcord()< enemy.getLocation().getXcord()) {
+    						if (!enemy.isFacingRight()) {
+    							Location newLoc = new Location(enemy.getLocation().getXcord(),enemy.getLocation().getYcord()-10);
+    							Flask flask = new Flask(newLoc, new Velocity(-7,5));
+    							UILauncher.getFlaskManager().addFlask(flask);
+    							((Scientist) enemy).setThrownFlask(true);
+    						}
+    					}
+    					else if(character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
+    						if (enemy.isFacingRight()) {
+    							Location newLoc = new Location((int) (enemy.getLocation().getXcord()+enemy.getRightEntitySprite().getWidth()),enemy.getLocation().getYcord()-10);
+    							Flask flask = new Flask(newLoc, new Velocity(7,5));
+    							UILauncher.getFlaskManager().addFlask(flask);
+    							((Scientist) enemy).setThrownFlask(true);
+    						}
+    					}
+    				}
+    			}
+    		}
+    	}
+    }
+
 
     /**
      * checks if charcter hit an obstacle

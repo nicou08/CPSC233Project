@@ -239,7 +239,9 @@ public class GraphicsRepainter extends Application {
                     backgroundManager.updateBackgroundLocation();
                 }
             }
-
+            
+            gameManager.throwFlasks();
+            gameManager.moveFlasks();
             gameManager.runGroundCheck(character, velocity);
             gameManager.runCollectibleCheck();
             if(gameManager.runFlasksCheck())
@@ -249,6 +251,7 @@ public class GraphicsRepainter extends Application {
             this.repaintBackgroundAndObstacles(character);
             this.repaintEntities(character);
             this.repaintCollectibles(character);
+            this.repaintFlasks(character);
 
             //sets the view if you win the game
             if (levelManager.isLevelComplete() && character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() + WIDTH / 2 + character.getRightEntitySprite().getWidth() / 2) {
