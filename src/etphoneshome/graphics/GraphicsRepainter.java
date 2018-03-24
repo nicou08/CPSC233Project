@@ -343,18 +343,70 @@ public class GraphicsRepainter extends Application {
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
                 Platform platform = (Platform) obstacle;
-                for (Obstacle brick : platform.getBricks()) {
+                if(levelManager.isLevelComplete())
+                {
+                    gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+
+                    if(platform.getLength() == 1)   //single platform of length 1
+                    {
+                        gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                    }
+                    else if(platform.getLength() > 1)
+                    {
+                        for(int i = 0; i <= platform.getLength(); i++)
+                        {
+                            if(i == 0)  //left end brick
+                            {
+                                gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                            }
+                            else if(i < platform.getLength() - 1)  //middle bricks
+                            {
+                                gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                            }
+                            else if(i == platform.getLength() - 1)  //right end bricks
+                            {
+                                gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if(platform.getLength() == 1)   //single platform of length 1
+                    {
+                        gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                    }
+                    else if(platform.getLength() > 1)
+                    {
+                        for(int i = 0; i <= platform.getLength(); i++)
+                        {
+                            if(i == 0)  //left end brick
+                            {
+                                gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                            }
+                            else if(i < platform.getLength() - 1)  //middle bricks
+                            {
+                                gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                            }
+                            else if(i == platform.getLength() - 1)  //right end bricks
+                            {
+                                gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                            }
+                        }
+                    }
+                }
+/*                for (Obstacle brick : platform.getBricks()) {
                     if (levelManager.isLevelComplete()) {
                         gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), brick.getLocation().getYcord());
                     } else {
                         gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
                     }
-                }
+*/
                 Location loc = new Location(platform.getLocation());
 
                 if (UILauncher.getDebugMode()) {
-                    int height = platform.getHeight();
-                    int width = platform.getWidth() * platform.getLength();
+                    int height = 30;
+                    int width = 60 * platform.getLength();
                     this.drawHitbox(character, loc, height, width, Color.ORANGE);
 
                 }

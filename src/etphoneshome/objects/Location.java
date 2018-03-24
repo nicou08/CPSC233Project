@@ -43,7 +43,7 @@ public class Location {
         return ycord;
     }
 
-/*    public void setXcord(int x) {
+    public void setXcord(int x) {
         xcord = x;
     }
 
@@ -63,7 +63,7 @@ public class Location {
         this.xcord += x;
         this.ycord += y;
         return this;
-    }*/
+    }
 
     /**
      * calculates the distance of between 2 locations

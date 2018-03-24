@@ -1,162 +1,102 @@
 package etphoneshome.objects;
 
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.image.Image;
-
 /**
- * This class is responsible for structures that the player and enemy cannot pass through, or can
- * move on top of (obstacles and platforms). It acts as the parent class to the {@code Platform} class.
+ * Class used to represent a generic obstacle with a location and a hitbox. Using the get location method
+ * returns the location object of the {@code Obstacle}. Using the set location method sets the location
+ * object of the {@code Obstacle} to the provided new location. Using the get hitbox method returns the
+ * hitbox object of the {@code Obstacle}. Using the set hitbox method lets you set the hitbox object of the
+ * {@code Obstacle} by either copying a provided hitbox object, or by providing a height and width.
+ * {@code Obstacle} is primarily used for the {@code Platform} object.
  */
-public class Obstacle {
-    JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
+public abstract class Obstacle
+{
+    /**
+     * Location object of the {@code Obstacle} set to a default location
+     */
+    private Location location = new Location(0,0);
 
     /**
-     * Sprite associated with the generic {@code Obstacle}
+     * Hitbox object of the {@code Obstacle} set to the default location with a default height and
+     * width for a {@code Platform} object
      */
-    private Image sprite = new Image(SpriteURL.GENERIC_OBSTACLE.getPath());
+    private Hitbox hitbox = new Hitbox(location, 30,60);
 
     /**
-     * Location associated with the generic {@code Obstacle}
+     * Empty Default constructor
      */
-    private Location location;
-
-    /**
-     * Hitbox associated with the generic {@code Obstacle}
-     */
-    private Hitbox hitbox;
-
-    public Obstacle(Obstacle obstacle) {
-        this.location = obstacle.getLocation();
-        this.hitbox = obstacle.getHitbox();
-    }
-
-    /**
-     * Main constructor to set just the Location
-     *
-     * @param location Location associated with the {@code Obstacle}
-     */
-    public Obstacle(Location location) {
-        this.location = new Location(location);
-    }
-
-    /**
-     * Constructor that sets the location and hitbox
-     *
-     * @param location Location of the {@code Obstacle}
-     * @param hitbox   Hitbox of the {@code Obstacle}
-     */
-    public Obstacle(Location location, Hitbox hitbox) {
-        this(location);
-
-        Hitbox hitboxCopy = new Hitbox(new Location(location.getXcord(), location.getYcord()), hitbox.getHeight(), hitbox.getWidth());
-
-        this.hitbox = hitboxCopy;
-    }
-
-    /**
-     * Returns the image object associated with the {@code Obstacle}
-     *
-     * @return Image object associated with the {@code Obstacle}
-     */
-    public Image getSprite() {
-        return this.sprite;
-    }
-
-    /**
-     * Sets the sprite of the {@code Obstacle} to the specified image URL
-     *
-     * @param spriteURL The image URL of the sprite
-     */
-    public void setSprite(String spriteURL) {
-        this.sprite = new Image(spriteURL);
-    }
-
-    /**
-     * Returns the location object associated with the {@code Obstacle}
-     *
-     * @return Location object associated with the {@code Obstacle}
-     */
-    public Location getLocation() {
-        Location copy = new Location(this.location.getXcord(), this.location.getYcord());
-
-        return copy;
-    }
-
-    /**
-     * Returns the Hitbox object associated with the {@code Obstacle}
-     *
-     * @return Hitbox object associated with the {@code Obstacle}
-     */
-    public Hitbox getHitbox() {
-        Location locationCopy = new Location(this.location.getXcord(), this.location.getYcord());
-        Hitbox hitboxCopy = new Hitbox(locationCopy, this.hitbox.getHeight(), this.hitbox.getWidth());
-
-        return hitboxCopy;
-    }
-
-    //MAIN METHOD USED SOLELY FOR TESTING OBSTACLE
-    public static void main(String[] args)
+    public Obstacle()
     {
-        System.out.println("TESTING CONSTRUCTORS....");
-        Location loc1 = new Location(100,100);
-        Location loc2 = new Location(300,300);
-        Location def = new Location(0,0);
 
-        Hitbox hb1 = new Hitbox(loc1, 10, 10);
-        Hitbox hb2 = new Hitbox(loc2, 25, 19);
-        Hitbox hdef = new Hitbox(def, 1, 1);
-        Hitbox fake = new Hitbox(def, 999, 888);
+    }
 
-        Obstacle defaultconstructor = new Obstacle(def);
+    /**
+     * Constructor to set the location and hitbox to the provided location and hitbox objects
+     * @param newLocation The new location for the {@code Obstacle}
+     * @param newHitbox The new hitbox for the {@code Obstacle}
+     */
+    public Obstacle(Location newLocation, Hitbox newHitbox)
+    {
+        this.setLocation(newLocation);
+        this.setHitbox(newHitbox);
+    }
 
-        Obstacle o1 = new Obstacle(loc1, hb1);
-        Obstacle o2 = new Obstacle(loc2, hb2);
+    /**
+     * Constructor to copy (by value) the location and hitbox from another {@code Obstacle}
+     * @param obstacleToCopy The {@code Obstacle} you wish to copy the location and hitbox from
+     */
+    public Obstacle(Obstacle obstacleToCopy)
+    {
+        this(obstacleToCopy.getLocation(), obstacleToCopy.getHitbox());
+    }
 
-        System.out.println("CONSTRUCTOR TESTING COMPLETE!");
+    /**
+     * Returns the location object of the {@code Obstacle}
+     * @return The location object of the {@code Obstacle}
+     */
+    public Location getLocation()
+    {
+        return this.location;
+    }
 
-        Obstacle o3 = new Obstacle(def, hdef);
+    /**
+     * Sets the location of the {@code Obstacle} to a new location object
+     * @param newLocation The new location object for the {@code Obstacle}
+     */
+    public void setLocation(Location newLocation)
+    {
+        this.location.setXcord(newLocation.getXcord());
+        this.location.setYcord(newLocation.getYcord());
+    }
 
-        o3.location = o1.getLocation();     //should pass a copy of o1.location!
+    /**
+     * Returns the hitbox object of the {@code Obstacle}
+     * @return The hitbox object of the {@code Obstacle}
+     */
+    public Hitbox getHitbox()
+    {
+        return this.hitbox;
+    }
 
+    /**
+     * Sets the hitbox of the {@code Obstacle} to the current location of the {@code Obstacle}, but
+     * with the specified height and width
+     * @param height The new height of the hitbox
+     * @param width The new width of the hitbox
+     */
+    public void setHitbox(int height, int width)
+    {
+        this.hitbox = new Hitbox(this.location, height, width);
+    }
 
-        Obstacle o4 = new Obstacle(def, hdef);
-        o4.location = o1.location;        //reference!
-
-        o1.location = new Location(998, 876);
-
-        System.out.println("TESTING ENCAPSULATION OF GETLOCATION METHOD....\n");
-
-        System.out.println("Should be 100: " + o3.location.getXcord());
-        System.out.println("Should be 100: " + o3.location.getYcord());
-
-        System.out.println("Should be 998: " + o4.location.getXcord());
-        System.out.println("Should be 876: " + o4.location.getYcord());
-
-        System.out.println("Should be 998: " + o1.location.getXcord());
-        System.out.println("Should be 876: " + o1.location.getYcord());
-
-        System.out.println("\nLOCATION ENCAPSULATION TESTING COMPLETE!\n");
-
-        System.out.println("TESTING ENCAPSULATION OF GETHITBOX METHOD....\n");
-
-        o3.hitbox = o2.getHitbox(); //SHOULD BE PASSED BY VALUE!
-        o4.hitbox = o2.hitbox;
-
-        o4.hitbox = fake;
-        o2.hitbox = o4.hitbox;
-
-        System.out.println("Should be 1: " + o3.hitbox.getHeight());
-        System.out.println("Should be 1: " + o3.hitbox.getWidth());
-        System.out.println("Should be 999: " + o4.hitbox.getHeight());
-        System.out.println("Should be 888: " + o4.hitbox.getWidth());
-        System.out.println("Should be 999: " + o2.hitbox.getHeight());
-        System.out.println("Should be 888: " + o2.hitbox.getWidth());
-
-        System.out.println("\nHITBOX ENCAPSULATION COMPLETE!");
-
-        System.out.println("\nOBSTACLE TESTING COMPLETE!");
-
-        System.exit(1);
+    /**
+     * Sets the hitbox of the {@code Obstacle} by copying (by value) the location, height and width
+     * from the provided hitbox
+     * @param hitboxToCopy The hitbox you wish to copy the values from
+     */
+    public void setHitbox(Hitbox hitboxToCopy)
+    {
+        Location copy = new Location(hitboxToCopy.getTopLeftCorner().getXcord(), hitboxToCopy.getTopLeftCorner().getYcord());
+        this.hitbox = new Hitbox(copy, hitboxToCopy.getHeight(), hitboxToCopy.getWidth());
     }
 
 }
