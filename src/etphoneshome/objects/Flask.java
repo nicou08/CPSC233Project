@@ -9,8 +9,8 @@ import javafx.scene.image.Image;
  */
 public class Flask {
 	
-	private static final int WIDTH = 20;
-	private static final int HEIGHT = 20;
+	private static final int WIDTH = 30;
+	private static final int HEIGHT = 40;
 	private Velocity velocity ;
 	private Direction direction;
 	

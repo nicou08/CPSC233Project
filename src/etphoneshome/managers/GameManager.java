@@ -206,9 +206,7 @@ public class GameManager {
                     if (obstacle instanceof Platform) {
                         Platform platform = (Platform) obstacle;
                         int xCord = platform.getLocation().getXcord();
-                        for (Obstacle brick : platform.getBricks()) {
-                            xCord += brick.getSprite().getWidth();
-                        }
+                        xCord += (60 * platform.getLength());
                         newX = xCord + 1;
                     }
                     int newY = oldLocation.getYcord() + (int) character.getVelocity().getVerticalVelocity();
