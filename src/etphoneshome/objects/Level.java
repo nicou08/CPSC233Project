@@ -47,7 +47,7 @@ public class Level {
      */
     public Level(String levelName) {
     	//gets the file
-        File file = new File(new File("ET Phones Home").getAbsolutePath() + File.separator + "src" + File.separator + "levels" + File.separator + levelName + ".txt");
+        File file = new File("levels\\level-0.txt");
 
         //reads the file
         try {
