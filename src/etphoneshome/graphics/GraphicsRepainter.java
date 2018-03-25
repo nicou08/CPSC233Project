@@ -342,6 +342,53 @@ public class GraphicsRepainter extends Application {
         gc.drawImage(backgroundManager.getBackgroundSprite(), backgroundLoc.getXcord(), backgroundLoc.getYcord());
         LevelManager levelManager = UILauncher.getLevelManager();
 
+        Image finishLineSprite;
+
+        //following if's set the finish line sprite based off the current level. Default sprite is level-0 sprite
+        if(levelManager.getCurrentLevel().getLevelNum() == 1)
+        {
+            finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_1.getPath());
+        }
+        else if(levelManager.getCurrentLevel().getLevelNum() == 2)
+        {
+            finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_2.getPath());
+        }
+        else if(levelManager.getCurrentLevel().getLevelNum() == 3)
+        {
+            finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_3.getPath());
+        }
+        else
+        {
+            finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_0.getPath());
+        }
+
+        //draws finish line based off phone pieces collected and current level number
+        if(levelManager.isLevelComplete())  //when the background stops and player keeps moving
+        {
+            gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), 370);
+        }
+        else if(levelManager.getPhonePiecesLeft() == 0 && (levelManager.getCurrentLevel().getLevelNum() == 0 || levelManager.getCurrentLevel().getLevelNum() == 3)) //this is used to make the finish line not randomly "pop" into the window
+        {
+            if(character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200)
+            {
+                gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+            }
+        }
+        else if(levelManager.getPhonePiecesLeft() == 2 && levelManager.getCurrentLevel().getLevelNum() == 1)    //collected 1 phone piece
+        {
+            if(character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200)
+            {
+                gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+            }
+        }
+        else if(levelManager.getPhonePiecesLeft() == 1 && levelManager.getCurrentLevel().getLevelNum() == 2)    //collected 2 phone pieces
+        {
+            if(character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200)
+            {
+                gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+            }
+        }
+
         //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {

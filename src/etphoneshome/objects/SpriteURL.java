@@ -25,7 +25,11 @@ public enum SpriteURL {
     FLASK("images/sprites/flask.png"),
     GAMEOVER("images/sprites/end game sprites/gameover.png"),
     YOU_WON("images/sprites/end game sprites/you-won.png"),
-    BACKGROUND("images/backgrounds/backgroundRESIZED.jpg");
+    BACKGROUND("images/backgrounds/backgroundRESIZED.jpg"),
+    FINISHLINE_LEVEL_0("images/sprites/end game sprites/finishLine_level_0.png"),
+    FINISHLINE_LEVEL_1(""),
+    FINISHLINE_LEVEL_2(""),
+    FINISHLINE_LEVEL_3("");
 
     private final String path;
 
