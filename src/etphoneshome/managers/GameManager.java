@@ -211,6 +211,12 @@ public class GameManager {
         }
     }
 
+    public boolean checkFlasks() {
+        this.moveFlasks();
+        this.throwFlasks();
+        return this.runFlasksCheck();
+    }
+
 
     /**
      * checks if charcter hit an obstacle
