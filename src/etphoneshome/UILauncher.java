@@ -72,11 +72,11 @@ public class UILauncher {
         UILauncher.collectibleManager = new CollectiblesManager();
         UILauncher.obstacleManager = new ObstacleManager();
         UILauncher.levelManager = new LevelManager();
-        UILauncher.flaskManager= new FlaskManager();
+        UILauncher.flaskManager = new FlaskManager();
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
-        UILauncher.inputListener = new InputListener(character, backgroundManager, gameManager, levelManager);
+        UILauncher.inputListener = new InputListener(character, backgroundManager, gameManager, levelManager, flaskManager);
         UILauncher.levelManager.addLevel(new Level("level-0"));
         UILauncher.levelManager.loadLevel(0);
 

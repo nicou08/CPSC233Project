@@ -1,8 +1,11 @@
 package etphoneshome.managers;
 
-import java.util.ArrayList;
-import java.util.List;
+import etphoneshome.entities.enemies.Scientist;
 import etphoneshome.objects.Flask;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class is responsible for handling the flasks thrown by the enemies.
@@ -16,14 +19,17 @@ public class FlaskManager {
 	/**
 	 * Arraylist that keeps all the flasks
 	 */
-	  private final List<Flask> flasks = new ArrayList<Flask>();
+	  private final HashMap<Scientist, Flask> flaskMap = new HashMap<Scientist, Flask>();
+	private final List<Flask> flasks = new ArrayList<Flask>();
 	  
 	  /**
 	   * add a flask to the {@code FlaskManager}
 	   * @param flask flask to add to the {@code FlaskManager}
 	   */
-	  public void addFlask(Flask flask) {
+	  public void addFlask(Scientist scientist, Flask flask) {
+		  this.flaskMap.put(scientist, flask);
 		  this.flasks.add(flask);
+		  scientist.setThrownFlask(true);
 	  }
 	  
 	  /**
@@ -31,6 +37,13 @@ public class FlaskManager {
 	   * @param flask flask to remove from {@code FlaskManager}
 	   */
 	  public void removeFlask(Flask flask) {
+		  for (Scientist scientist : this.flaskMap.keySet()) {
+		  	if (this.flaskMap.get(scientist) == flask) {
+		  		this.flaskMap.remove(scientist);
+		  		scientist.setThrownFlask(false);
+		  		break;
+			}
+		  }
 		  this.flasks.remove(flask);
 	  }
 
@@ -38,6 +51,7 @@ public class FlaskManager {
 	   * Clear all flasks from the {@code FlaskManager}
 	   */
 	  public void clearFlasks() {
+		  this.flaskMap.clear();
 		  this.flasks.clear();
 	  }
 	  

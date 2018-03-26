@@ -47,7 +47,10 @@ public class Level {
      */
     public Level(String levelName) {
     	//gets the file
-        File file = new File("levels\\level-0.txt");
+        File file = new File("levels" + File.separator + levelName + ".txt");
+        if (!file.exists()) {
+            file = new File("ET Phones Home" + File.separator + "src" + File.separator + "levels" + File.separator + levelName + ".txt");
+        }
 
         //reads the file
         try {

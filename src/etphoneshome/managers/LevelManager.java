@@ -9,9 +9,9 @@ import java.util.List;
 
 public class LevelManager {
 
-	/**
-	 * list of the levels
-	 */
+    /**
+     * list of the levels
+     */
     private List<Level> levels = new ArrayList<>();
 
     /**
@@ -31,6 +31,7 @@ public class LevelManager {
 
     /**
      * add level to the game
+     *
      * @param level Level to be added
      */
     public void addLevel(Level level) {
@@ -39,6 +40,7 @@ public class LevelManager {
 
     /**
      * remove a level from the game
+     *
      * @param level level to remove
      */
     public void removeLevel(Level level) {
@@ -47,6 +49,7 @@ public class LevelManager {
 
     /**
      * Get a list of all the levels stored in the levels list
+     *
      * @return A list of all the levels stored in the levels list
      */
     public List<Level> getLevels() {
@@ -59,22 +62,30 @@ public class LevelManager {
 
     /**
      * Loads a level with the given level number
+     *
      * @param levelNum The level number to be loaded
      */
     public void loadLevel(int levelNum) {
-        this.unloadLevel();
         for (Level level : this.getLevels()) {
             if (level.getLevelNum() == levelNum) {
-                this.currentLevelNum = levelNum;
-                UILauncher.getObstacleManager().loadObstacles(level);
-                UILauncher.getEntityManager().loadEntities(level);
-                UILauncher.getCollectiblesManager().loadCollectibles(level);
-                UILauncher.getBackgroundManager().loadBackground(level);
-                this.collectedPieces.clear();
-                this.levelComplete = false;
-                break;
+                this.loadLevel(level);
             }
         }
+    }
+
+    /**
+     * Loads the given level
+     * @param level The level to be loaded
+     */
+    public void loadLevel(Level level) {
+        this.unloadLevel();
+        this.currentLevelNum = level.getLevelNum();
+        UILauncher.getObstacleManager().loadObstacles(level);
+        UILauncher.getEntityManager().loadEntities(level);
+        UILauncher.getCollectiblesManager().loadCollectibles(level);
+        UILauncher.getBackgroundManager().loadBackground(level);
+        this.collectedPieces.clear();
+        this.levelComplete = false;
     }
 
     /**
@@ -95,6 +106,7 @@ public class LevelManager {
 
     /**
      * Returns the current loaded level
+     *
      * @return The current loaded level
      */
     public Level getCurrentLevel() {
@@ -103,6 +115,7 @@ public class LevelManager {
 
     /**
      * Get the number of phone pieces left to be collected
+     *
      * @return The number of phone pieces left to be collected
      */
     public int getPhonePiecesLeft() {
@@ -111,6 +124,7 @@ public class LevelManager {
 
     /**
      * Adds the given phonePieceType to the collectedPieces list
+     *
      * @param type the {@code PhonePieceType} to add to the collectedPieces list
      */
     public void addCollectedPhonePiece(PhonePieceType type) {
@@ -119,6 +133,7 @@ public class LevelManager {
 
     /**
      * Returns a list of the collected phone piece types
+     *
      * @return A list of the collected phone piece types
      */
     public List<PhonePieceType> getCollectedPhonePieceTypes() {
@@ -127,6 +142,7 @@ public class LevelManager {
 
     /**
      * Updates the levelComplete value
+     *
      * @param levelComplete New value for levelComplete variable
      */
     public void setLevelComplete(boolean levelComplete) {
@@ -135,6 +151,7 @@ public class LevelManager {
 
     /**
      * Returns true if the level is complete, and false otherwise
+     *
      * @return True if the level is complete, and false otherwise
      */
     public boolean isLevelComplete() {

@@ -1,8 +1,6 @@
 package etphoneshome.graphics;
 
-import java.io.File;
-
-import Sound.Sound;
+import etphoneshome.sound.Sound;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
@@ -23,8 +21,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -162,8 +158,9 @@ public class GraphicsRepainter extends Application {
             character.getVelocity().setVerticalVelocity(0);
             character.setScore(0);
             UILauncher.getGameManager().setGameOver(false);
-            UILauncher.getLevelManager().unloadLevel();
-            UILauncher.getLevelManager().loadLevel(0);
+            LevelManager levelManager = UILauncher.getLevelManager();
+            levelManager.loadLevel(levelManager.getCurrentLevel());
+            UILauncher.getFlaskManager().clearFlasks();
 
             //removes playAgainButton and starts timeline again
             root.getChildren().remove(playAgainButton);

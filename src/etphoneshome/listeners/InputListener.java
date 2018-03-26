@@ -3,6 +3,7 @@ package etphoneshome.listeners;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.managers.BackgroundManager;
+import etphoneshome.managers.FlaskManager;
 import etphoneshome.managers.GameManager;
 import etphoneshome.managers.LevelManager;
 import etphoneshome.objects.*;
@@ -36,17 +37,23 @@ public class InputListener {
     private LevelManager levelManager;
 
     /**
+     * Used to update the velocity of flasks (gravity)
+     */
+    private FlaskManager flaskManager;
+
+    /**
      * Constructor for the class
      *
      * @param character         gives InputListener the character associated with InputListener
      * @param backgroundManager stores the backgroundManager in order to use it later
      * @param gameManager       stores the gameManager object used to check the ground level
      */
-    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager, LevelManager levelManager) {
+    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager, LevelManager levelManager, FlaskManager flaskManager) {
         this.character = character;
         this.backgroundManager = backgroundManager;
         this.gameManager = gameManager;
         this.levelManager = levelManager;
+        this.flaskManager = flaskManager;
     }
 
     /**
@@ -156,7 +163,14 @@ public class InputListener {
         }
 
         this.updateBackgroundVelocity();
+        this.updateFlaskVelocities();
 
+    }
+
+    public void updateFlaskVelocities() {
+        for (Flask flask : this.flaskManager.getFlaskList()) {
+            flask.getVelocity().changeVerticalVelocity(1);
+        }
     }
 
     /**

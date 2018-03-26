@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class GameManager {
 
-	/*
-	 * sets the things needed for the checks
-	 */
+    /*
+     * sets the things needed for the checks
+     */
     private final GraphicsRepainter graphicsRepainter;
     private final EntityManager entityManager;
 
@@ -26,7 +26,7 @@ public class GameManager {
      * character of {@code GameManager}
      */
     private Character character;
-    
+
     /**
      * boolean of is the game over
      */
@@ -34,9 +34,10 @@ public class GameManager {
 
     /**
      * constructor that sets the objects needed for the checks and the character
+     *
      * @param graphicsRepainter graphics of {@code GameManager}
-     * @param entityManager entityManager of {@code GameManager}
-     * @param character character of {@code GameManager}
+     * @param entityManager     entityManager of {@code GameManager}
+     * @param character         character of {@code GameManager}
      */
     public GameManager(GraphicsRepainter graphicsRepainter, EntityManager entityManager, Character character) {
         this.graphicsRepainter = graphicsRepainter;
@@ -46,6 +47,7 @@ public class GameManager {
 
     /**
      * sets the character of {@code GameManager}
+     *
      * @param character associated with {@code GameManager}
      */
     public void setCharacter(Character character) {
@@ -100,10 +102,11 @@ public class GameManager {
 
     /**
      * gets the centre of the character
+     *
      * @return centre xcord of the character
      */
     public int getCenterXCord() {
-        return this.graphicsRepainter.WIDTH / 2 - (int) this.character.getRightEntitySprite().getWidth()/2;
+        return this.graphicsRepainter.WIDTH / 2 - (int) this.character.getRightEntitySprite().getWidth() / 2;
     }
 
     /**
@@ -123,12 +126,12 @@ public class GameManager {
      * Checks if any collectibles were picked up and adds score if they were
      */
     public void runCollectibleCheck() {
-    	
-    	//gets position and hitbox of the character
+
+        //gets position and hitbox of the character
         int height = (int) this.character.getRightEntitySprite().getHeight();
         int width = (int) this.character.getRightEntitySprite().getWidth();
         Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
-        
+
         //iterates through the list for ReesesPieces
         List<Collectible> collectibleList = UILauncher.getCollectiblesManager().getCollectiblesList();
         for (int i = collectibleList.size() - 1; i >= 0; i--) {
@@ -146,93 +149,89 @@ public class GameManager {
             }
         }
     }
-    
+
     public boolean runFlasksCheck() {
-    	
-    	//gets position and hitbox of ET
-    	int height = (int) this.character.getRightEntitySprite().getHeight();
+
+        //gets position and hitbox of ET
+        int height = (int) this.character.getRightEntitySprite().getHeight();
         int width = (int) this.character.getRightEntitySprite().getWidth();
         Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
-        
+
         //iterates through list of Flasks
         List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
-        for (int i = flaskList.size()-1; i >= 0; i--) {
-        	Flask flask = flaskList.get(i);
-        	int flaskHeight = flask.getHeight();
-        	int flaskWidth = flask.getWidth();
-        	Hitbox flaskHit = flask.getHitbox();
-        	if(flask.getLocation().getYcord() == getGroundLevel(this.character)) {
-        		flaskList.remove(i);
-        	}
-        	if(ET.areColliding(flaskHit)) {
-        		return true;
-        	}
+        for (int i = flaskList.size() - 1; i >= 0; i--) {
+            Flask flask = flaskList.get(i);
+            Hitbox flaskHit = flask.getHitbox();
+            if (flask.getLocation().getYcord() >= getGroundLevel(this.character)) {
+                UILauncher.getFlaskManager().removeFlask(flask);
+            }
+            if (ET.areColliding(flaskHit)) {
+                return true;
+            }
         }
         return false;
-        
+
     }
-    
+
     public void moveFlasks() {
-    	 List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
-         for (int i = flaskList.size()-1; i >= 0; i--) {
-        	 Flask flask = flaskList.get(i);
-        	 Location oldLoc = flask.getLocation();
-        	 int newX= (int) (oldLoc.getXcord()+flask.getVelocity().getHorizontalVelocity()-this.character.getVelocity().getHorizontalVelocity());
-        	 int newY = (int) (oldLoc.getYcord()+flask.getVelocity().getVerticalVelocity());
-        	 flask.setLocation(new Location(newX,newY));
-         }
+        for (Flask flask : UILauncher.getFlaskManager().getFlaskList()) {
+            Location old = flask.getLocation();
+            Velocity vel = flask.getVelocity();
+            flask.setLocation(new Location(old.getXcord() + (int) vel.getHorizontalVelocity(), old.getYcord() + (int) vel.getVerticalVelocity()));
+        }
     }
-    
+
     public void throwFlasks() {
-    	
-    	for (Enemy enemy: UILauncher.getEntityManager().getEnemyList()) {
-    		if (enemy instanceof Scientist) {
-    			if (!((Scientist) enemy).getThrownFlask()){
-    				if(character.getLocation().getDistance(enemy.getLocation())< 600) {
-    			
-    					//if enemy is to the right and facing character
-    					if(character.getLocation().getXcord()< enemy.getLocation().getXcord()) {
-    						if (!enemy.isFacingRight()) {
-    							Location newLoc = new Location(enemy.getLocation().getXcord(),enemy.getLocation().getYcord()-10);
-    							Flask flask = new Flask(newLoc, new Velocity(-7,5));
-    							UILauncher.getFlaskManager().addFlask(flask);
-    							((Scientist) enemy).setThrownFlask(true);
-    						}
-    					}
-    					else if(character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
-    						if (enemy.isFacingRight()) {
-    							Location newLoc = new Location((int) (enemy.getLocation().getXcord()+enemy.getRightEntitySprite().getWidth()),enemy.getLocation().getYcord()-10);
-    							Flask flask = new Flask(newLoc, new Velocity(7,5));
-    							UILauncher.getFlaskManager().addFlask(flask);
-    							((Scientist) enemy).setThrownFlask(true);
-    						}
-    					}
-    				}
-    			}
-    		}
-    	}
+
+        for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
+            if (enemy instanceof Scientist) {
+                Scientist scientist = (Scientist) enemy;
+                if (!scientist.getThrownFlask()) {
+                    if (character.getLocation().getDistance(enemy.getLocation()) < 600) {
+
+                        //if enemy is to the right and facing character
+                        if (character.getLocation().getXcord() < enemy.getLocation().getXcord()) {
+                            if (!enemy.isFacingRight()) {
+                                Location newLoc = new Location(enemy.getLocation().getXcord(), enemy.getLocation().getYcord() - 10);
+                                Flask flask = new Flask(newLoc, new Velocity(-5, -10));
+                                UILauncher.getFlaskManager().addFlask(scientist, flask);
+                                scientist.setThrownFlask(true);
+                            }
+                        } else if (character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
+                            if (enemy.isFacingRight()) {
+                                Location newLoc = new Location((int) (enemy.getLocation().getXcord() + enemy.getRightEntitySprite().getWidth()), enemy.getLocation().getYcord() - 10);
+                                Flask flask = new Flask(newLoc, new Velocity(5, -10));
+                                UILauncher.getFlaskManager().addFlask(scientist, flask);
+                                scientist.setThrownFlask(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
     /**
      * checks if charcter hit an obstacle
-     * @param character character of {@code GameManager}
+     *
+     * @param character   character of {@code GameManager}
      * @param oldLocation old location of Character
      * @param newLocation new location of character
      * @return Direction of obstacle
      */
     public Direction runObstacleCollisionCheck(Character character, Location oldLocation, Location newLocation) {
-    	
-    	//sets initial values
+
+        //sets initial values
         int height = (int) character.getRightEntitySprite().getHeight();
         int width = (int) character.getRightEntitySprite().getWidth();
         Hitbox oldCharacterHitbox = new Hitbox(oldLocation, height, width);
         Hitbox newCharacterHitbox = new Hitbox(newLocation, height, width);
-        
+
         //iterates through the list of obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             Hitbox obstacleHitbox = obstacle.getHitbox();
-           
+
             //if they're colliding
             if (newCharacterHitbox.areColliding(obstacleHitbox)) {
                 if (oldCharacterHitbox.toTheLeftOfOtherHitbox(obstacleHitbox)) {
@@ -242,7 +241,7 @@ public class GameManager {
                     return Direction.LEFT_OF;
 
                 }
-                
+
                 // if to the right of platform
                 if (oldCharacterHitbox.toTheRightOfOtherHitbox(obstacleHitbox)) {
                     int newX = obstacleHitbox.getTopLeftCorner().getXcord() + obstacleHitbox.getWidth() + 1;
@@ -265,7 +264,7 @@ public class GameManager {
                     character.setLocation(new Location(newX, newY));
                     return Direction.BELOW;
                 }
-                
+
                 //if ontop the obstacle
                 if (oldCharacterHitbox.aboveOtherHitbox(obstacleHitbox)) {
                     int newX = oldLocation.getXcord() + (int) character.getVelocity().getHorizontalVelocity();
