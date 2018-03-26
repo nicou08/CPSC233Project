@@ -23,3 +23,6 @@ out/
 .metadata/
 .recommenders/
 *.ini
+src/etphoneshome/objects/Flask.java.rej
+*.class
+src/etphoneshome/graphics/.gitignore
