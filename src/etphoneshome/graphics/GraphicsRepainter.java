@@ -240,11 +240,9 @@ public class GraphicsRepainter extends Application {
                 }
             }
             
-            gameManager.throwFlasks();
-            gameManager.moveFlasks();
             gameManager.runGroundCheck(character, velocity);
             gameManager.runCollectibleCheck();
-            if(gameManager.runFlasksCheck())
+            if(gameManager.checkFlasks())
             	character.takeSinglePointOfDamage();
 
             // repaint view

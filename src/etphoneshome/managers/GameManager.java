@@ -147,7 +147,7 @@ public class GameManager {
         }
     }
     
-    public boolean runFlasksCheck() {
+    private boolean runFlasksCheck() {
     	
     	//gets position and hitbox of ET
     	int height = (int) this.character.getRightEntitySprite().getHeight();
@@ -159,11 +159,11 @@ public class GameManager {
         for (int i = flaskList.size()-1; i >= 0; i--) {
         	Flask flask = flaskList.get(i);
         	int flaskHeight = flask.getHeight();
-        	int flaskWidth = flask.getWidth();
         	Hitbox flaskHit = flask.getHitbox();
-        	if(flask.getLocation().getYcord() == getGroundLevel(this.character)) {
+        	if(flask.getLocation().getYcord()+flaskHeight == getGroundLevel(this.character)) {
         		flaskList.remove(i);
         	}
+        	
         	if(ET.areColliding(flaskHit)) {
         		return true;
         	}
@@ -172,7 +172,7 @@ public class GameManager {
         
     }
     
-    public void moveFlasks() {
+    private void moveFlasks() {
     	 List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
          for (int i = flaskList.size()-1; i >= 0; i--) {
         	 Flask flask = flaskList.get(i);
@@ -183,7 +183,7 @@ public class GameManager {
          }
     }
     
-    public void throwFlasks() {
+    private void throwFlasks() {
     	
     	for (Enemy enemy: UILauncher.getEntityManager().getEnemyList()) {
     		if (enemy instanceof Scientist) {
@@ -194,7 +194,7 @@ public class GameManager {
     					if(character.getLocation().getXcord()< enemy.getLocation().getXcord()) {
     						if (!enemy.isFacingRight()) {
     							Location newLoc = new Location(enemy.getLocation().getXcord(),enemy.getLocation().getYcord()-10);
-    							Flask flask = new Flask(newLoc, new Velocity(-7,5));
+    							Flask flask = new Flask(newLoc, new Velocity(-5,5));
     							UILauncher.getFlaskManager().addFlask(flask);
     							((Scientist) enemy).setThrownFlask(true);
     						}
@@ -202,7 +202,7 @@ public class GameManager {
     					else if(character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
     						if (enemy.isFacingRight()) {
     							Location newLoc = new Location((int) (enemy.getLocation().getXcord()+enemy.getRightEntitySprite().getWidth()),enemy.getLocation().getYcord()-10);
-    							Flask flask = new Flask(newLoc, new Velocity(7,5));
+    							Flask flask = new Flask(newLoc, new Velocity(5,5));
     							UILauncher.getFlaskManager().addFlask(flask);
     							((Scientist) enemy).setThrownFlask(true);
     						}
@@ -213,6 +213,12 @@ public class GameManager {
     	}
     }
 
+    
+    public boolean checkFlasks() {
+    	throwFlasks();
+    	moveFlasks();
+    	return runFlasksCheck();
+    }
 
     /**
      * checks if charcter hit an obstacle

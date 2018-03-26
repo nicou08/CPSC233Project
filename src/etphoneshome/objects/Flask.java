@@ -4,7 +4,8 @@ import javafx.scene.image.Image;
 
 /**
  * This class is for the attack of the scientists in the game.
- * Using getLocation will return a copy of the location
+ * Using the getters you can get a copy of the Location, Height, Width, Copy of Hitbox and a copy of the velocity
+ * Using the Setters you can set the Location.
  * 
  */
 public class Flask {
@@ -12,8 +13,7 @@ public class Flask {
 	private static final int WIDTH = 30;
 	private static final int HEIGHT = 40;
 	private Velocity velocity ;
-	private Direction direction;
-	
+
 	private Image image = new Image(SpriteURL.FLASK.getPath());
 	
 	private Location location;
@@ -36,7 +36,7 @@ public class Flask {
 	}
 	
 	public Hitbox getHitbox() {
-		return this.hitbox;
+		return new Hitbox(this.location,WIDTH,HEIGHT);
 	}
 	
 	public Image getSprite() {
