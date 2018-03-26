@@ -10,6 +10,8 @@ public enum SpriteURL {
     PLACEHOLDER_SPRITE("images/sprites/entities/PLACEHOLDERSPRITE.jpg"),
     ET_LEFT("images/sprites/entities/character/et_sprite_left.png"),
     ET_RIGHT("images/sprites/entities/character/et_sprite_right.png"),
+    ET_HURT_LEFT("images/sprites/entities/character/et_hurt_sprite_left.png"),
+    ET_HURT_RIGHT("images/sprites/entities/character/et_hurt_sprite_right.png"),
     POLICE_LEFT("images/sprites/entities/enemies/police_sprite_left.png"),
     POLICE_RIGHT("images/sprites/entities/enemies/police_sprite_right.png"),
     SCIENTIST_LEFT("images/sprites/entities/enemies/scientist_sprite_left.png"),
