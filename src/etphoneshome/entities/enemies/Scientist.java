@@ -1,7 +1,7 @@
 package etphoneshome.entities.enemies;
 
 import etphoneshome.objects.Location;
-import etphoneshome.objects.SpriteURL;
+import etphoneshome.graphics.SpriteURL;
 
 /**
  * This class is used for the Scientist type enemy. It is a derived class from the {@code Enemy} class
@@ -30,6 +30,13 @@ public class Scientist extends Enemy {
         super(location);
         this.setRightEntitySprite(SpriteURL.SCIENTIST_RIGHT.getPath());
         this.setLeftEntitySprite(SpriteURL.SCIENTIST_LEFT.getPath());
+    }
+
+    public Scientist (Scientist scientist) {
+        super(scientist);
+        this.setRightEntitySprite(SpriteURL.SCIENTIST_RIGHT.getPath());
+        this.setLeftEntitySprite(SpriteURL.SCIENTIST_LEFT.getPath());
+        this.setThrownFlask(scientist.getThrownFlask());
     }
 
     /**

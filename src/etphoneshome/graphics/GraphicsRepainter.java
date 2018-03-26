@@ -147,12 +147,10 @@ public class GraphicsRepainter extends Application {
 
         playAgainButton.setOnMouseClicked(k -> {
 
-            UILauncher.getLevelManager().loadLevel(0);
-
             //resets character position and health
             character.setLocation(new Location(UILauncher.getGameManager().getCenterXCord(), UILauncher.getGameManager().getGroundLevel(character)));
             character.setIsDead(false);
-            character.setHealth(1);
+            character.setHealth(3);
             character.setFacingRight(true);
             character.getVelocity().setHorizontalVelocity(0);
             character.getVelocity().setVerticalVelocity(0);

@@ -3,7 +3,7 @@ package etphoneshome.entities.actor;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.objects.Hitbox;
 import etphoneshome.objects.Location;
-import etphoneshome.objects.SpriteURL;
+import etphoneshome.graphics.SpriteURL;
 import etphoneshome.objects.Velocity;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;

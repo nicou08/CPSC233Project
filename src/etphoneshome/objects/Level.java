@@ -3,6 +3,7 @@ package etphoneshome.objects;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.entities.enemies.Police;
 import etphoneshome.entities.enemies.Scientist;
+import etphoneshome.graphics.SpriteURL;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +13,9 @@ import java.util.Scanner;
 
 public class Level {
 
-	/**
-	 * Arrays of the objects in the level and the number of the level and the endcord to win the game
-	 */
+    /**
+     * Arrays of the objects in the level and the number of the level and the endcord to win the game
+     */
     private int levelNum, endCord;
     private String backgroundFilePath = SpriteURL.BACKGROUND.getPath();
     private List<Obstacle> obstacles = new ArrayList<>();
@@ -23,6 +24,7 @@ public class Level {
 
     /**
      * Constructor that sets the level and all the objects in it
+     *
      * @param level level of the new {@code level}
      */
     public Level(Level level) {
@@ -36,17 +38,24 @@ public class Level {
             this.obstacles.add(obstacle);
         }
 
-        this.enemies = new ArrayList<>(level.enemies);
+        for (Enemy enemy : level.getEnemies()) {
+            if (enemy instanceof Scientist) {
+                this.enemies.add(new Scientist((Scientist) enemy));
+            } else if (enemy instanceof Police) {
+                this.enemies.add(new Police((Police) enemy));
+            }
+        }
 
         this.phonePieces = new ArrayList<>(level.phonePieces);
     }
 
     /**
      * sets the name of the level
+     *
      * @param levelName name of the {@code Level}
      */
     public Level(String levelName) {
-    	//gets the file
+        //gets the file
         File file = new File("levels" + File.separator + levelName + ".txt");
         if (!file.exists()) {
             file = new File("ET Phones Home" + File.separator + "src" + File.separator + "levels" + File.separator + levelName + ".txt");
@@ -56,8 +65,8 @@ public class Level {
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
-            	
-            	//number of level
+
+                //number of level
                 String line = scanner.nextLine();
                 if (line.startsWith("level-num: ")) {
                     this.levelNum = Integer.valueOf(line.replace("level-num: ", ""));
@@ -85,14 +94,14 @@ public class Level {
                     Police police = (new Police(new Location(xCord, yCord)));
                     this.enemies.add(police);
                 }
-                
+
                 //scientist of level
                 if (line.equals("  scientist:")) {
                     int xCord = Integer.valueOf(scanner.nextLine().replace("    x-cord: ", ""));
                     int yCord = Integer.valueOf(scanner.nextLine().replace("    y-cord: ", "")) - (int) new Scientist().getRightEntitySprite().getHeight();
                     this.enemies.add(new Scientist(new Location(xCord, yCord)));
                 }
-                
+
                 //phone pieces of level
                 if (line.equals("  phone-piece:")) {
                     String typeString = scanner.nextLine().replace("    type: ", "");
@@ -113,6 +122,7 @@ public class Level {
 
     /**
      * Gets the levelNum
+     *
      * @return levelNum
      */
     public int getLevelNum() {
@@ -121,6 +131,7 @@ public class Level {
 
     /**
      * Returns the backgroundFilePath paired with the {@code Level}
+     *
      * @return backgroundFilePath
      */
     public String getBackgroundFilePath() {
@@ -129,6 +140,7 @@ public class Level {
 
     /**
      * get the end coordinate of the level
+     *
      * @return endCord of {@code Level}
      */
     public int getEndCord() {
@@ -137,6 +149,7 @@ public class Level {
 
     /**
      * get obstacles of the {@code level}
+     *
      * @return obstacles of the {@code level}
      */
     public List<Obstacle> getObstacles() {
@@ -145,13 +158,16 @@ public class Level {
 
     /**
      * get enemies of the {@code level}
+     *
      * @return enemies of the {@code level}
      */
     public List<Enemy> getEnemies() {
         return this.enemies;
     }
+
     /**
      * get phone pieces of the {@code level}
+     *
      * @return phone pieces of the {@code level}
      */
     public List<Collectible> getPhonePieces() {
