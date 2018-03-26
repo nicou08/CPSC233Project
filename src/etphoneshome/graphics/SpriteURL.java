@@ -1,4 +1,4 @@
-package etphoneshome.objects;
+package etphoneshome.graphics;
 
 public enum SpriteURL {
 

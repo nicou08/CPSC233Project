@@ -5,6 +5,7 @@ package etphoneshome.objects;
  * it has an image with height and width set to 40. with getters and setters for the image
  */
 
+import etphoneshome.graphics.SpriteURL;
 import javafx.scene.image.Image;
 import java.util.Random;
 

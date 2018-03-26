@@ -1,5 +1,6 @@
 package etphoneshome.objects;
 
+import etphoneshome.graphics.SpriteURL;
 import javafx.scene.image.Image;
 
 public class PhonePiece extends Collectible {

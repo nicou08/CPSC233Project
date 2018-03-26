@@ -1,7 +1,7 @@
 package etphoneshome.entities.characters;
 
 import etphoneshome.objects.Location;
-import etphoneshome.objects.SpriteURL;
+import etphoneshome.graphics.SpriteURL;
 
 /**
  * This class is used as the player's class. It is a derived class from the {@code Character} class.
