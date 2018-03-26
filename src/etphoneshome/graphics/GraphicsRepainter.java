@@ -1,16 +1,16 @@
 package etphoneshome.graphics;
 
-import etphoneshome.sound.Sound;
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.entities.characters.ET;
 import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.listeners.InputListener;
+import etphoneshome.managers.AnimationManager;
 import etphoneshome.managers.BackgroundManager;
 import etphoneshome.managers.GameManager;
 import etphoneshome.managers.LevelManager;
 import etphoneshome.objects.*;
-import javafx.animation.Animation;
+import etphoneshome.sound.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -76,6 +76,7 @@ public class GraphicsRepainter extends Application {
 
         //making character and setting it's starting point
         Character character = new ET();
+        character.setHealth(3);
         UILauncher.setCharacter(character);
         character.setLocation(new Location(UILauncher.getGameManager().getCenterXCord(), UILauncher.getGameManager().getGroundLevel(character)));
 
@@ -92,13 +93,11 @@ public class GraphicsRepainter extends Application {
         this.registerKeyEvents();
 
         //UILauncher.getCollectiblesManager().spawnRandomReesesPieces(10);
-        
 
 
         Sound sound = new Sound();
         sound.playTheme();
-        
-        
+
 
         //staring the actual game
         this.startTimeline(character);
@@ -201,7 +200,7 @@ public class GraphicsRepainter extends Application {
      * @param character the player the user will play as
      */
     public void startTimeline(Character character) {
-        this.timeline.setCycleCount(Animation.INDEFINITE);
+        this.timeline.setCycleCount(javafx.animation.Animation.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(Duration.millis(20), e -> {
 
@@ -209,6 +208,7 @@ public class GraphicsRepainter extends Application {
             BackgroundManager backgroundManager = UILauncher.getBackgroundManager();
             InputListener inputListener = UILauncher.getInputListener();
             LevelManager levelManager = UILauncher.getLevelManager();
+            AnimationManager animationManager = UILauncher.getAnimationManager();
 
             //getting location and velocity of character
             Velocity velocity = character.getVelocity();
@@ -234,11 +234,29 @@ public class GraphicsRepainter extends Application {
                     backgroundManager.updateBackgroundLocation();
                 }
             }
-            
+
             gameManager.runGroundCheck(character, velocity);
             gameManager.runCollectibleCheck();
-            if(gameManager.checkFlasks())
-            	character.takeSinglePointOfDamage();
+
+            // check if entity was hurt
+            if (gameManager.checkFlasks() || gameManager.wasCharacterHurt()) {
+                character.takeSinglePointOfDamage();
+                if (!character.getIsDead()) {
+                    character.setInvincible(true);
+                    if (character.isFacingRight()) {
+                        animationManager.setCharacterAnimation(new Animation(AnimationFrames.ET_HURT_RIGHT));
+                    } else {
+                        animationManager.setCharacterAnimation(new Animation(AnimationFrames.ET_HURT_LEFT));
+                    }
+                }
+            }
+
+            // increment animation ticks
+            animationManager.incrementAnimations();
+            animationManager.runGarbageCollector();
+            if (animationManager.getCharacterAnimation() == null) {
+                character.setInvincible(false);
+            }
 
             // repaint view
             this.repaintBackgroundAndObstacles(character);
@@ -255,11 +273,6 @@ public class GraphicsRepainter extends Application {
 
             // update score
             score.setText("" + character.getScore());
-
-            //will take health away if character touches an enemy
-            if (gameManager.wasCharacterHurt()) {
-                character.takeSinglePointOfDamage();
-            }
 
             this.runHealthCheck(character);
 
@@ -284,10 +297,16 @@ public class GraphicsRepainter extends Application {
             Level level = levelManager.getCurrentLevel();
             gc.drawImage(character.getRightEntitySprite(), character.getLocation().getXcord() - level.getEndCord() + UILauncher.getGameManager().getCenterXCord(), character.getLocation().getYcord());
         } else {
-            if (character.isFacingRight()) {
-                gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+            Animation characterAnimation = UILauncher.getAnimationManager().getCharacterAnimation();
+            if (characterAnimation != null) {
+                gc.drawImage(characterAnimation.getSprite(), WIDTH / 2 - characterAnimation.getSprite().getWidth() / 2, character.getLocation().getYcord());
             } else {
-                gc.drawImage(character.getLeftEntitySprite(), WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+                if (character.isFacingRight()) {
+                    gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+
+                } else {
+                    gc.drawImage(character.getLeftEntitySprite(), WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, character.getLocation().getYcord());
+                }
             }
         }
 
@@ -338,47 +357,34 @@ public class GraphicsRepainter extends Application {
         Image finishLineSprite;
 
         //following if's set the finish line sprite based off the current level. Default sprite is level-0 sprite
-        if(levelManager.getCurrentLevel().getLevelNum() == 1)
-        {
+        if (levelManager.getCurrentLevel().getLevelNum() == 1) {
             finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_1.getPath());
-        }
-        else if(levelManager.getCurrentLevel().getLevelNum() == 2)
-        {
+        } else if (levelManager.getCurrentLevel().getLevelNum() == 2) {
             finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_2.getPath());
-        }
-        else if(levelManager.getCurrentLevel().getLevelNum() == 3)
-        {
+        } else if (levelManager.getCurrentLevel().getLevelNum() == 3) {
             finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_3.getPath());
-        }
-        else
-        {
+        } else {
             finishLineSprite = new Image(SpriteURL.FINISHLINE_LEVEL_0.getPath());
         }
 
         //draws finish line based off phone pieces collected and current level number
-        if(levelManager.isLevelComplete())  //when the background stops and player keeps moving
+        if (levelManager.isLevelComplete())  //when the background stops and player keeps moving
         {
-            gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), 370);
-        }
-        else if(levelManager.getPhonePiecesLeft() == 0 && (levelManager.getCurrentLevel().getLevelNum() == 0 || levelManager.getCurrentLevel().getLevelNum() == 3)) //this is used to make the finish line not randomly "pop" into the window
+            gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), 370);
+        } else if (levelManager.getPhonePiecesLeft() == 0 && (levelManager.getCurrentLevel().getLevelNum() == 0 || levelManager.getCurrentLevel().getLevelNum() == 3)) //this is used to make the finish line not randomly "pop" into the window
         {
-            if(character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200)
-            {
-                gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+            if (character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
+                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
             }
-        }
-        else if(levelManager.getPhonePiecesLeft() == 2 && levelManager.getCurrentLevel().getLevelNum() == 1)    //collected 1 phone piece
+        } else if (levelManager.getPhonePiecesLeft() == 2 && levelManager.getCurrentLevel().getLevelNum() == 1)    //collected 1 phone piece
         {
-            if(character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200)
-            {
-                gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+            if (character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
+                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
             }
-        }
-        else if(levelManager.getPhonePiecesLeft() == 1 && levelManager.getCurrentLevel().getLevelNum() == 2)    //collected 2 phone pieces
+        } else if (levelManager.getPhonePiecesLeft() == 1 && levelManager.getCurrentLevel().getLevelNum() == 2)    //collected 2 phone pieces
         {
-            if(character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200)
-            {
-                gc.drawImage(finishLineSprite,(levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+            if (character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
+                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
             }
         }
 
@@ -386,52 +392,39 @@ public class GraphicsRepainter extends Application {
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
             if (obstacle instanceof Platform) {
                 Platform platform = (Platform) obstacle;
-                if(levelManager.isLevelComplete())
-                {
+                if (levelManager.isLevelComplete()) {
                     gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
 
-                    if(platform.getLength() == 1)   //single platform of length 1
+                    if (platform.getLength() == 1)   //single platform of length 1
                     {
                         gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
-                    }
-                    else if(platform.getLength() > 1)
-                    {
-                        for(int i = 0; i <= platform.getLength(); i++)
-                        {
-                            if(i == 0)  //left end brick
+                    } else if (platform.getLength() > 1) {
+                        for (int i = 0; i <= platform.getLength(); i++) {
+                            if (i == 0)  //left end brick
                             {
                                 gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
-                            }
-                            else if(i < platform.getLength() - 1)  //middle bricks
+                            } else if (i < platform.getLength() - 1)  //middle bricks
                             {
                                 gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
-                            }
-                            else if(i == platform.getLength() - 1)  //right end bricks
+                            } else if (i == platform.getLength() - 1)  //right end bricks
                             {
                                 gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
                             }
                         }
                     }
-                }
-                else
-                {
-                    if(platform.getLength() == 1)   //single platform of length 1
+                } else {
+                    if (platform.getLength() == 1)   //single platform of length 1
                     {
                         gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
-                    }
-                    else if(platform.getLength() > 1)
-                    {
-                        for(int i = 0; i <= platform.getLength(); i++)
-                        {
-                            if(i == 0)  //left end brick
+                    } else if (platform.getLength() > 1) {
+                        for (int i = 0; i <= platform.getLength(); i++) {
+                            if (i == 0)  //left end brick
                             {
                                 gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
-                            }
-                            else if(i < platform.getLength() - 1)  //middle bricks
+                            } else if (i < platform.getLength() - 1)  //middle bricks
                             {
                                 gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
-                            }
-                            else if(i == platform.getLength() - 1)  //right end bricks
+                            } else if (i == platform.getLength() - 1)  //right end bricks
                             {
                                 gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                             }
@@ -480,9 +473,9 @@ public class GraphicsRepainter extends Application {
     }
 
     public void repaintFlasks(Character character) {
-    	for (Flask flask : UILauncher.getFlaskManager().getFlaskList()) {
-    		gc.drawImage(flask.getSprite(),flask.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), flask.getLocation().getYcord() );
-    	}
+        for (Flask flask : UILauncher.getFlaskManager().getFlaskList()) {
+            gc.drawImage(flask.getSprite(), flask.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), flask.getLocation().getYcord());
+        }
     }
 
     /**
@@ -493,7 +486,11 @@ public class GraphicsRepainter extends Application {
      */
     public void runHealthCheck(Character character) {
         if (!character.getIsDead()) {
-            this.gc.drawImage(new Image("/images/sprites/heart.png"), 25, 25);
+            int x = 25;
+            for (int i = 0; i < character.getHealth(); i++) {
+                this.gc.drawImage(new Image("/images/sprites/heart.png"), x, 25);
+                x += 36 + 25;
+            }
         } else {
             gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
             root.getChildren().add(playAgainButton);

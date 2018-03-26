@@ -19,7 +19,7 @@ import javafx.scene.image.Image;
  * you to change the image object of the {@code actor} using a URL/file path address.
  */
 public abstract class Actor {
-    JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
+    private JFXPanel jfxPanel = new JFXPanel(); //this is needed for the class to run since there is an image attached
     /**
      * Status of whether this actor is dead
      */

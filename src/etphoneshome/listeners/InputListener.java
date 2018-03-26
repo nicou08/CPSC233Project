@@ -2,10 +2,7 @@ package etphoneshome.listeners;
 
 import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
-import etphoneshome.managers.BackgroundManager;
-import etphoneshome.managers.FlaskManager;
-import etphoneshome.managers.GameManager;
-import etphoneshome.managers.LevelManager;
+import etphoneshome.managers.*;
 import etphoneshome.objects.*;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
@@ -42,18 +39,24 @@ public class InputListener {
     private FlaskManager flaskManager;
 
     /**
+     * Used to update direction of character animation
+     */
+    private AnimationManager animationManager;
+
+    /**
      * Constructor for the class
      *
      * @param character         gives InputListener the character associated with InputListener
      * @param backgroundManager stores the backgroundManager in order to use it later
      * @param gameManager       stores the gameManager object used to check the ground level
      */
-    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager, LevelManager levelManager, FlaskManager flaskManager) {
+    public InputListener(Character character, BackgroundManager backgroundManager, GameManager gameManager, LevelManager levelManager, FlaskManager flaskManager, AnimationManager animationManager) {
         this.character = character;
         this.backgroundManager = backgroundManager;
         this.gameManager = gameManager;
         this.levelManager = levelManager;
         this.flaskManager = flaskManager;
+        this.animationManager = animationManager;
     }
 
     /**
@@ -116,7 +119,6 @@ public class InputListener {
                     }
                     if (input.equals("d")) {
                         character.setHoldingRight(false);
-
                     }
                 }
             }
@@ -131,8 +133,16 @@ public class InputListener {
 
         //gets direction the character is facing
         if (velocity.getHorizontalVelocity() > 0) {
+            if (!this.character.isFacingRight()) {
+                System.out.println("change from left to right");
+                animationManager.flipCharacterAnimationFrames(Direction.EAST);
+            }
             this.character.setFacingRight(true);
         } else if (velocity.getHorizontalVelocity() < 0) {
+            if (this.character.isFacingRight()) {
+                System.out.println("change from right to left");
+                animationManager.flipCharacterAnimationFrames(Direction.WEST);
+            }
             this.character.setFacingRight(false);
         }
 

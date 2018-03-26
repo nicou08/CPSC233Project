@@ -13,7 +13,7 @@ public abstract class Character extends Actor {
 	/**
 	 * booleans of {@code Character}
 	 */
-    private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform;
+    private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform, invincible;
     
     /**
      * score of {@code Character}
@@ -114,6 +114,22 @@ public abstract class Character extends Actor {
      */
     public void setOnPlatform(boolean onPlatform) {
         this.onPlatform = onPlatform;
+    }
+
+    /**
+     * Return true if the player was recently hurt and is temporarily invincible
+     * @return invincible value
+     */
+    public boolean isInvincible() {
+        return this.invincible;
+    }
+
+    /**
+     * Updates the invincible variable
+     * @param invincible New invincible variable
+     */
+    public void setInvincible(boolean invincible) {
+        this.invincible = invincible;
     }
 
     /**

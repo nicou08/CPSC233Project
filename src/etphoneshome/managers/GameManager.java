@@ -60,13 +60,15 @@ public class GameManager {
      * @return true if the character was hurt, else false
      */
     public boolean wasCharacterHurt() {
-        Hitbox characterHitbox = character.getHitbox();
+        if (!character.isInvincible()) {
+            Hitbox characterHitbox = character.getHitbox();
 
-        for (Enemy enemy : this.entityManager.getEnemyList()) {
-            Hitbox enemyHitbox = enemy.getHitbox();
-            boolean areColliding = characterHitbox.areColliding(enemyHitbox);
-            if (areColliding) {
-                return areColliding;
+            for (Enemy enemy : this.entityManager.getEnemyList()) {
+                Hitbox enemyHitbox = enemy.getHitbox();
+                boolean areColliding = characterHitbox.areColliding(enemyHitbox);
+                if (areColliding) {
+                    return areColliding;
+                }
             }
         }
         return false;
@@ -151,22 +153,22 @@ public class GameManager {
     }
 
     public boolean runFlasksCheck() {
+        if (!this.character.isInvincible()) {
 
-        //gets position and hitbox of ET
-        int height = (int) this.character.getRightEntitySprite().getHeight();
-        int width = (int) this.character.getRightEntitySprite().getWidth();
-        Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
+            //gets position and hitbox of ET
+            Hitbox ET = character.getHitbox();ddd
 
-        //iterates through list of Flasks
-        List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
-        for (int i = flaskList.size() - 1; i >= 0; i--) {
-            Flask flask = flaskList.get(i);
-            Hitbox flaskHit = flask.getHitbox();
-            if (flask.getLocation().getYcord() >= getGroundLevel(this.character)) {
-                UILauncher.getFlaskManager().removeFlask(flask);
-            }
-            if (ET.areColliding(flaskHit)) {
-                return true;
+            //iterates through list of Flasks
+            List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
+            for (int i = flaskList.size() - 1; i >= 0; i--) {
+                Flask flask = flaskList.get(i);
+                Hitbox flaskHit = flask.getHitbox();
+                if (flask.getLocation().getYcord() >= getGroundLevel(this.character)) {
+                    UILauncher.getFlaskManager().removeFlask(flask);
+                }
+                if (ET.areColliding(flaskHit)) {
+                    return true;
+                }
             }
         }
         return false;

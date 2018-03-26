@@ -60,6 +60,11 @@ public class UILauncher {
     private static FlaskManager flaskManager;
 
     /**
+     * Manages all game animations
+     */
+    private static AnimationManager animationManager;
+
+    /**
      * Tracks whether game is in debug mode or not
      */
     private static boolean debugMode;
@@ -73,10 +78,11 @@ public class UILauncher {
         UILauncher.obstacleManager = new ObstacleManager();
         UILauncher.levelManager = new LevelManager();
         UILauncher.flaskManager = new FlaskManager();
+        UILauncher.animationManager = new AnimationManager();
         UILauncher.entityManager = new EntityManager(character);
         UILauncher.backgroundManager = new BackgroundManager(graphicsRepainter);
         UILauncher.gameManager = new GameManager(graphicsRepainter, entityManager, character);
-        UILauncher.inputListener = new InputListener(character, backgroundManager, gameManager, levelManager, flaskManager);
+        UILauncher.inputListener = new InputListener(character, backgroundManager, gameManager, levelManager, flaskManager, animationManager);
         UILauncher.levelManager.addLevel(new Level("level-0"));
         UILauncher.levelManager.loadLevel(0);
 
@@ -165,8 +171,18 @@ public class UILauncher {
     public static CollectiblesManager getCollectiblesManager() {
     	return UILauncher.collectibleManager;
     }
-    
+
+    /**
+     * @return flaskManager returns the flask manager associated with {@code UILauncher}
+     */
     public static FlaskManager getFlaskManager() {
     	return UILauncher.flaskManager;
+    }
+
+    /**
+     * @return animationManager returns the animation manager associated with {@code UILauncher}
+     */
+    public static AnimationManager getAnimationManager() {
+        return UILauncher.animationManager;
     }
 }
