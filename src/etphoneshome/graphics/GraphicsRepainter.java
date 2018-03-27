@@ -10,7 +10,7 @@ import etphoneshome.managers.BackgroundManager;
 import etphoneshome.managers.GameManager;
 import etphoneshome.managers.LevelManager;
 import etphoneshome.objects.*;
-import etphoneshome.sound.Sound;
+import etphoneshome.sound.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -67,6 +67,8 @@ public class GraphicsRepainter extends Application {
      * A button used for exiting the game
      */
     private Button exitButton;
+    
+    private Sound sound = new Sound();
 
     public void start(Stage stage) {
 
@@ -95,7 +97,7 @@ public class GraphicsRepainter extends Application {
         //UILauncher.getCollectiblesManager().spawnRandomReesesPieces(10);
 
 
-        Sound sound = new Sound();
+        
         sound.playTheme();
 
 
@@ -158,6 +160,7 @@ public class GraphicsRepainter extends Application {
             LevelManager levelManager = UILauncher.getLevelManager();
             levelManager.loadLevel(levelManager.getCurrentLevel());
             UILauncher.getFlaskManager().clearFlasks();
+            sound.playTheme();
 
             //removes playAgainButton and starts timeline again
             root.getChildren().remove(playAgainButton);
@@ -241,6 +244,7 @@ public class GraphicsRepainter extends Application {
             // check if entity was hurt
             if (gameManager.checkFlasks() || gameManager.wasCharacterHurt()) {
                 character.takeSinglePointOfDamage();
+                sound.takeDamageSound();
                 if (!character.getIsDead()) {
                     character.setInvincible(true);
                     if (character.isFacingRight()) {
@@ -268,6 +272,7 @@ public class GraphicsRepainter extends Application {
             if (levelManager.isLevelComplete() && character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() + WIDTH / 2 + character.getRightEntitySprite().getWidth() / 2) {
                 Image youWonImage = new Image(SpriteURL.YOU_WON.getPath());
                 gc.drawImage(youWonImage, WIDTH / 2 - (int) youWonImage.getWidth() / 2, HEIGHT / 2 - (int) youWonImage.getHeight() / 2);
+                sound.playWin();
                 timeline.pause();
             }
 
@@ -493,6 +498,8 @@ public class GraphicsRepainter extends Application {
             }
         } else {
             gc.drawImage(GAMEOVER, WIDTH / 2 - GAMEOVER.getWidth() / 2, HEIGHT / 2 - GAMEOVER.getHeight() / 2);
+            sound.playETDeath();
+            sound.stopTheme();
             root.getChildren().add(playAgainButton);
             timeline.pause();
             UILauncher.getGameManager().setGameOver(true);

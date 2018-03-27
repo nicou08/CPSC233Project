@@ -8,6 +8,7 @@ import etphoneshome.entities.enemies.Enemy;
 import etphoneshome.entities.enemies.Scientist;
 import etphoneshome.graphics.GraphicsRepainter;
 import etphoneshome.objects.*;
+import etphoneshome.sound.Sound;
 
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class GameManager {
      * boolean of is the game over
      */
     private boolean gameOver = false;
+    
+    private Sound sound = new Sound();
 
     /**
      * constructor that sets the objects needed for the checks and the character
@@ -144,8 +147,10 @@ public class GameManager {
             if (ET.areColliding(col)) {
                 if (collectible instanceof ReesesPieces) {
                     character.addScore(100);
+                    sound.playReese();
                 } else if (collectible instanceof PhonePiece) {
                     UILauncher.getLevelManager().addCollectedPhonePiece(((PhonePiece) collectible).getPhonePieceType());
+                    sound.playPhone();
                 }
                 UILauncher.getCollectiblesManager().removeCollectible(collectible);
             }
@@ -156,7 +161,7 @@ public class GameManager {
         if (!this.character.isInvincible()) {
 
             //gets position and hitbox of ET
-            Hitbox ET = character.getHitbox();ddd
+            Hitbox ET = character.getHitbox();
 
             //iterates through list of Flasks
             List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
