@@ -45,6 +45,7 @@ public class ObstacleManager {
 
     /**
      * Load all obstacles from level
+     *
      * @param level The given level to load obstacles from
      */
     public void loadObstacles(Level level) {

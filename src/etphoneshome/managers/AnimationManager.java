@@ -87,7 +87,7 @@ public class AnimationManager {
             }
         }
 
-        for (Enemy enemy: tobeRemoved) {
+        for (Enemy enemy : tobeRemoved) {
             this.enemyDeathAnimations.remove(enemy);
             this.entityManager.removeEnemy(enemy);
         }

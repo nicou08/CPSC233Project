@@ -1,7 +1,7 @@
 package etphoneshome.entities.enemies;
 
-import etphoneshome.objects.Location;
 import etphoneshome.graphics.SpriteURL;
+import etphoneshome.objects.Location;
 
 /**
  * This class is used for the Police type enemy. It is a derived class from the {@code Enemy} class

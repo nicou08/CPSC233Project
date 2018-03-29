@@ -6,8 +6,7 @@ package etphoneshome.objects;
  * width is 60 pixels) of the {@code Platform}. Using the set length method sets the {@code Platform}
  * length to the specified value. The length of a {@code Platform} must be a minimum of 1.
  */
-public class Platform extends Obstacle
-{
+public class Platform extends Obstacle {
     /**
      * The length (in units where height = 30 pixels and width = 60 pixels) of the {@code Platform}
      */
@@ -16,24 +15,22 @@ public class Platform extends Obstacle
     /**
      * Default constructor which calls the default constructor of {@code Obstacle}
      */
-    public Platform()
-    {
+    public Platform() {
         super();
     }
 
     /**
      * Constructor to set the location (and hitbox automatically) and length of the {@code Platform}
-     * @param location The location of the {@code Platform}
+     *
+     * @param location  The location of the {@code Platform}
      * @param newLength The length of the {@code Platform}
      */
-    public Platform(Location location, int newLength)
-    {
+    public Platform(Location location, int newLength) {
         super(location, new Hitbox(new Location(location.getXcord(), location.getYcord()), 30, 60 * newLength));
 
-        if(newLength >= 1)
+        if (newLength >= 1) {
             this.length = newLength;
-        else
-        {
+        } else {
             System.out.println("Platform length must be at least 1! Platform length is set to 1");
             this.length = 1;
             this.setHitbox(new Hitbox(new Location(location.getXcord(), location.getYcord()), 30, 60 * this.length));
@@ -43,36 +40,35 @@ public class Platform extends Obstacle
     /**
      * Constructor which copies all values of a given {@code Platform} and creates a new {@code Platform}
      * from those values
+     *
      * @param platformToCopy The {@code Platform} you wish to copy values from
      */
-    public Platform(Platform platformToCopy)
-    {
+    public Platform(Platform platformToCopy) {
         this(platformToCopy.getLocation(), platformToCopy.getLength());
     }
 
     /**
      * Returns the length (in units where height = 30 pixels and width = 60 pixels) of the {@code Platform}
+     *
      * @return The length (in units where height = 30 pixels and width = 60 pixels) of the {@code Platform}
      */
-    public int getLength()
-    {
+    public int getLength() {
         return this.length;
     }
 
 
     //MAIN METHOD USED TO TEST BOTH PLATFORM AND OBSTACLE
-    public static void main(String[] args)
-    {
-        Location l1 = new Location(999,888);
-        Location l2 = new Location(111,222);
+    public static void main(String[] args) {
+        Location l1 = new Location(999, 888);
+        Location l2 = new Location(111, 222);
 
         System.out.println("TESTING PLATFORM AND OBSTACLE CONSTRUCTORS....\n");
         Platform p1 = new Platform();   //location at 0,0 and hitbox at 0,0 with height = 30 and width = 60 and length = 1
-        Platform p2 = new Platform(l1,5);
-        Platform p3 = new Platform(l2,3);
+        Platform p2 = new Platform(l1, 5);
+        Platform p3 = new Platform(l2, 3);
         Platform p4 = new Platform(p3);
-        Platform p5 = new Platform(l1,0);
-        Platform p6 = new Platform(l1,-1);
+        Platform p5 = new Platform(l1, 0);
+        Platform p6 = new Platform(l1, -1);
         System.out.println("\nPLATFORM AND OBSTACLE CONSTRUCTOR TESTING COMPLETE!\n");
 
         System.out.println("TESTING RESULTS OF PLATFORM AND OBSTACLE CONSTRUCTORS....\n");

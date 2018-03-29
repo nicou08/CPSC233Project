@@ -10,11 +10,11 @@ import etphoneshome.objects.Location;
 
 public abstract class Character extends Actor {
 
-	/**
-	 * booleans of {@code Character}
-	 */
+    /**
+     * booleans of {@code Character}
+     */
     private boolean isJumping, isHoldingLeft, isHoldingRight, isHoldingUp, onPlatform, invincible;
-    
+
     /**
      * score of {@code Character}
      */
@@ -23,10 +23,12 @@ public abstract class Character extends Actor {
     /**
      * empty default constructor
      */
-    public Character () {}
+    public Character() {
+    }
 
     /**
      * Constructor with initial Location of {@code Character}
+     *
      * @param location location of {@code Character}
      */
     public Character(Location location) {
@@ -35,6 +37,7 @@ public abstract class Character extends Actor {
 
     /**
      * Returns true if the character is jumping
+     *
      * @return {@code isJumping}
      */
     public boolean isJumping() {
@@ -43,6 +46,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code isJumping} value
+     *
      * @param jumping New isJumping value
      */
     public void setJumping(boolean jumping) {
@@ -51,6 +55,7 @@ public abstract class Character extends Actor {
 
     /**
      * Returns true if the user is holding down the left key
+     *
      * @return {@code isHoldingLeft}
      */
     public boolean isHoldingLeft() {
@@ -59,6 +64,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code holdingLeft} value
+     *
      * @param holdingLeft New holdingLeft value
      */
     public void setHoldingLeft(boolean holdingLeft) {
@@ -70,6 +76,7 @@ public abstract class Character extends Actor {
 
     /**
      * Returns true if the user is holding down the right key
+     *
      * @return {@code isHoldingRight}
      */
     public boolean isHoldingRight() {
@@ -78,6 +85,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code holdingRight} value
+     *
      * @param holdingRight New holdingRight value
      */
     public void setHoldingRight(boolean holdingRight) {
@@ -86,6 +94,7 @@ public abstract class Character extends Actor {
 
     /**
      * Returns true if the user is holding down the up key
+     *
      * @return {@code isHoldingUp}
      */
     public boolean isHoldingUp() {
@@ -94,6 +103,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code holdingUp} value
+     *
      * @param holdingUp New holdingUp value
      */
     public void setHoldingUp(boolean holdingUp) {
@@ -102,6 +112,7 @@ public abstract class Character extends Actor {
 
     /**
      * Returns true if the character is on a platform
+     *
      * @return {@code isHoldingRight}
      */
     public boolean isOnPlatform() {
@@ -110,6 +121,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the {@code onPlatform} value
+     *
      * @param onPlatform New onPlatform value
      */
     public void setOnPlatform(boolean onPlatform) {
@@ -118,6 +130,7 @@ public abstract class Character extends Actor {
 
     /**
      * Return true if the player was recently hurt and is temporarily invincible
+     *
      * @return invincible value
      */
     public boolean isInvincible() {
@@ -126,6 +139,7 @@ public abstract class Character extends Actor {
 
     /**
      * Updates the invincible variable
+     *
      * @param invincible New invincible variable
      */
     public void setInvincible(boolean invincible) {
@@ -134,22 +148,25 @@ public abstract class Character extends Actor {
 
     /**
      * Increments the score by the given amount {@code num}
+     *
      * @param num Value to be added to score
      */
     public void addScore(int num) {
-    	this.score += num;
+        this.score += num;
     }
 
     /**
      * Returns the current score of the character
+     *
      * @return current score of the character
      */
     public int getScore() {
-    	return this.score;
+        return this.score;
     }
 
     /**
      * Updates the score to a certain value
+     *
      * @param score New score value
      */
     public void setScore(int score) {
@@ -157,22 +174,25 @@ public abstract class Character extends Actor {
     }
 
     //main tests the class methods
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Character c = new ET();
         //test the getter and setter for isDead
 
-        if(c.getIsDead()) //should be false originally
+        if (c.getIsDead()) //should be false originally
+        {
             System.out.println("This should not have been printed. Character should be alive (but is dead here)");
-        else
+        } else {
             System.out.println("Character is alive. This is the correct outcome");
+        }
 
         c.setIsDead(true);
 
-        if(c.getIsDead()) //should be true
+        if (c.getIsDead()) //should be true
+        {
             System.out.println("Character is dead. This is the correct outcome.");
-        else
+        } else {
             System.out.println("Character is alive. This is not the correct outcome");
+        }
 
         System.out.println("\n");
 

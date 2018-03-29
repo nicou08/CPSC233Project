@@ -72,9 +72,9 @@ public class EntityManager {
      */
     public void spawnRandomEntities(double amount) {
         Random random = new Random();
-        int xCord = UILauncher.getGraphicsRepainter().WIDTH/2 + 70;
+        int xCord = UILauncher.getGraphicsRepainter().WIDTH / 2 + 70;
         for (double i = 0; i < amount; i++) {
-            xCord = random.nextInt(1920) + (int) new Police().getLeftEntitySprite().getWidth() +xCord;
+            xCord = random.nextInt(1920) + (int) new Police().getLeftEntitySprite().getWidth() + xCord;
             double type = random.nextInt(2);
             Enemy enemy;
             if (type == 0) {
@@ -89,6 +89,7 @@ public class EntityManager {
 
     /**
      * Loads entities from a given level
+     *
      * @param level Level to load entities from
      */
     public void loadEntities(Level level) {

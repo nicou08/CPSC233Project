@@ -8,9 +8,9 @@ import etphoneshome.objects.Location;
  */
 
 public abstract class Enemy extends Actor {
-    
+
     /**
-     * defualt constructor that sets FacingRight to false
+     * default constructor that sets FacingRight to false
      */
     public Enemy() {
         this.setFacingRight(false);
@@ -42,16 +42,20 @@ public abstract class Enemy extends Actor {
         //test the getter and setter for isDead
 
         if (c.getIsDead()) //should be false originally
+        {
             System.out.println("This should not have been printed. Enemy should be alive (but is dead here)");
-        else
+        } else {
             System.out.println("Enemy is alive. This is the correct outcome");
+        }
 
         c.setIsDead(true);
 
         if (c.getIsDead()) //should be true
+        {
             System.out.println("Enemy is dead. This is the correct outcome.");
-        else
+        } else {
             System.out.println("Enemy is alive. This is not the correct outcome");
+        }
 
         System.out.println("\n");
 

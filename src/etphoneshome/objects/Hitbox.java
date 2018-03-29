@@ -29,13 +29,13 @@ public class Hitbox {
 
     //TEMPORARY METHOD USED FOR QUICKER TESTING OF PLATFORM CLASS. REMOVE AFTER TESTING IS FINISHED
 
-    public Location getTopLeftCorner()
-    {
+    public Location getTopLeftCorner() {
         return this.topLeftCorner;
     }
 
     /**
      * sets the location of {@code Hitbox}
+     *
      * @param newLocation top leftHandCorner of Hitbox
      */
     public void setLocation(Location newLocation) {
@@ -76,7 +76,7 @@ public class Hitbox {
         return true; // boxes overlap
 
     }
-    
+
     public boolean belowOtherHitbox(Hitbox otherHitbox) {
         int topSideY = topLeftCorner.getYcord();
         int otherBottomSideY = otherHitbox.topLeftCorner.getYcord() + otherHitbox.getHeight();

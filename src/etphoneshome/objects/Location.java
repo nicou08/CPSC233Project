@@ -7,9 +7,10 @@ public class Location {
     private int xcord;
     private int ycord;
 
-    
+
     /**
      * Constructor which creates a copy of the old one
+     *
      * @param location new location
      */
     public Location(Location location) {
@@ -19,6 +20,7 @@ public class Location {
 
     /**
      * sets location based on an x and y coordinate
+     *
      * @param xCord xcord of location
      * @param yCord y cord of location
      */
@@ -28,7 +30,6 @@ public class Location {
     }
 
     /**
-     * 
      * @return x cord of location
      */
     public int getXcord() {
@@ -36,7 +37,6 @@ public class Location {
     }
 
     /**
-     * 
      * @return y cord of the location
      */
     public int getYcord() {
@@ -67,6 +67,7 @@ public class Location {
 
     /**
      * calculates the distance of between 2 locations
+     *
      * @param m location 2
      * @return distance between the location
      */

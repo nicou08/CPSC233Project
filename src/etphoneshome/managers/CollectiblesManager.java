@@ -1,10 +1,10 @@
 package etphoneshome.managers;
 
 import etphoneshome.UILauncher;
-import etphoneshome.entities.enemies.Enemy;
-import etphoneshome.entities.enemies.Police;
-import etphoneshome.entities.enemies.Scientist;
-import etphoneshome.objects.*;
+import etphoneshome.objects.Collectible;
+import etphoneshome.objects.Level;
+import etphoneshome.objects.Location;
+import etphoneshome.objects.ReesesPieces;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +50,7 @@ public class CollectiblesManager {
 
     /**
      * Spawn num number of reeses pieces at random locations.
+     *
      * @param num The amount of reeses pieces to spawn in the game
      */
     public void spawnRandomReesesPieces(int num) {
@@ -64,6 +65,7 @@ public class CollectiblesManager {
 
     /**
      * Load the collectibles from a given level
+     *
      * @param level The level to load the collectibles from
      */
     public void loadCollectibles(Level level) {

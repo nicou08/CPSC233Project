@@ -75,6 +75,7 @@ public class LevelManager {
 
     /**
      * Loads the given level
+     *
      * @param level The level to be loaded
      */
     public void loadLevel(Level level) {

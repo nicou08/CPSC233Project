@@ -51,6 +51,7 @@ public class BackgroundManager {
 
     /**
      * Loads the background of a specific level
+     *
      * @param level the level to load the background of
      */
     public void loadBackground(Level level) {
@@ -60,6 +61,7 @@ public class BackgroundManager {
 
     /**
      * Returns the backgroundSprite
+     *
      * @return backgroundSprite
      */
     public Image getBackgroundSprite() {

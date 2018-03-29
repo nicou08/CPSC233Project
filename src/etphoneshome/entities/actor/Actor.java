@@ -1,9 +1,9 @@
 package etphoneshome.entities.actor;
 
 import etphoneshome.entities.characters.ET;
+import etphoneshome.graphics.SpriteURL;
 import etphoneshome.objects.Hitbox;
 import etphoneshome.objects.Location;
-import etphoneshome.graphics.SpriteURL;
 import etphoneshome.objects.Velocity;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
@@ -69,6 +69,7 @@ public abstract class Actor {
 
     /**
      * constructor with intial location of {@code actor}
+     *
      * @param location initial location of {@code actor}
      */
     public Actor(Location location) {
@@ -207,6 +208,7 @@ public abstract class Actor {
 
     /**
      * Returns true if the actor is facing right, and false otherwise
+     *
      * @return {@code facingRight}
      */
     public boolean isFacingRight() {
@@ -216,6 +218,7 @@ public abstract class Actor {
 
     /**
      * Udpates the {@code facingRight} value
+     *
      * @param facingRight new {@code facingRight} value
      */
     public void setFacingRight(boolean facingRight) {
@@ -224,6 +227,7 @@ public abstract class Actor {
 
     /**
      * Returns the hitbox object associated with this {@code actor}
+     *
      * @return {@code Hitbox}
      */
     public Hitbox getHitbox() {
