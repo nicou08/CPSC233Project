@@ -6,9 +6,13 @@ import java.util.ArrayList;
 
 public enum AnimationFrames {
 
-    POLICE_DEATH_LEFT(""),
+    POLICE_DEATH_LEFT(10, SpriteURL.POLICE_HURT_LEFT.getPath(), SpriteURL.POLICE_LEFT.getPath(), SpriteURL.POLICE_HURT_LEFT.getPath(), SpriteURL.POLICE_LEFT.getPath(), SpriteURL.POLICE_HURT_LEFT.getPath()),
 
-    POLICE_DEATH_RIGHT(""),
+    POLICE_DEATH_RIGHT(10, SpriteURL.POLICE_HURT_RIGHT.getPath(), SpriteURL.POLICE_RIGHT.getPath(), SpriteURL.POLICE_HURT_RIGHT.getPath(), SpriteURL.POLICE_RIGHT.getPath(), SpriteURL.POLICE_HURT_RIGHT.getPath()),
+
+    SCIENTIST_DEATH_LEFT(10, SpriteURL.SCIENTIST_HURT_LEFT.getPath(), SpriteURL.SCIENTIST_LEFT.getPath(), SpriteURL.SCIENTIST_HURT_LEFT.getPath(), SpriteURL.SCIENTIST_LEFT.getPath(), SpriteURL.SCIENTIST_HURT_LEFT.getPath()),
+
+    SCIENTIST_DEATH_RIGHT(10, SpriteURL.SCIENTIST_HURT_RIGHT.getPath(), SpriteURL.SCIENTIST_RIGHT.getPath(), SpriteURL.SCIENTIST_HURT_RIGHT.getPath(), SpriteURL.SCIENTIST_RIGHT.getPath(), SpriteURL.SCIENTIST_HURT_RIGHT.getPath()),
 
     ET_HURT_LEFT(10, SpriteURL.ET_HURT_LEFT.getPath(), SpriteURL.ET_LEFT.getPath(), SpriteURL.ET_HURT_LEFT.getPath(), SpriteURL.ET_LEFT.getPath(), SpriteURL.ET_HURT_LEFT.getPath()),
 

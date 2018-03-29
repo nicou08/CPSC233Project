@@ -10,7 +10,7 @@ import etphoneshome.managers.BackgroundManager;
 import etphoneshome.managers.GameManager;
 import etphoneshome.managers.LevelManager;
 import etphoneshome.objects.*;
-import etphoneshome.sound.*;
+import etphoneshome.sound.Sound;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -67,7 +67,7 @@ public class GraphicsRepainter extends Application {
      * A button used for exiting the game
      */
     private Button exitButton;
-    
+
     private Sound sound = new Sound();
 
     public void start(Stage stage) {
@@ -97,7 +97,6 @@ public class GraphicsRepainter extends Application {
         //UILauncher.getCollectiblesManager().spawnRandomReesesPieces(10);
 
 
-        
         sound.playTheme();
 
 
@@ -215,21 +214,22 @@ public class GraphicsRepainter extends Application {
 
             //getting location and velocity of character
             Velocity velocity = character.getVelocity();
-            Location characterLocation = character.getLocation();
+            Location oldLocation = character.getLocation();
 
             //Will update velocity if the user is holding a movement key (w, a, s, d)
 
             // check if game was won
-            if (levelManager.getPhonePiecesLeft() == 0 && characterLocation.getXcord() >= levelManager.getCurrentLevel().getEndCord()) {
+            if (levelManager.getPhonePiecesLeft() == 0 && oldLocation.getXcord() >= levelManager.getCurrentLevel().getEndCord()) {
                 character.setHoldingRight(true);
                 inputListener.updateVelocities();
-                character.setLocation(new Location(characterLocation.getXcord() + (int) velocity.getHorizontalVelocity(), characterLocation.getYcord() + (int) velocity.getVerticalVelocity()));
+                Location newLocation = new Location(oldLocation.getXcord() + (int) velocity.getHorizontalVelocity(), oldLocation.getYcord() + (int) velocity.getVerticalVelocity());
+                character.setLocation(newLocation);
                 levelManager.setLevelComplete(true);
             } else {
                 inputListener.updateVelocities();
-                Location newLocation = new Location(characterLocation.getXcord() + (int) velocity.getHorizontalVelocity(), characterLocation.getYcord() + (int) velocity.getVerticalVelocity());
+                Location newLocation = new Location(oldLocation.getXcord() + (int) velocity.getHorizontalVelocity(), oldLocation.getYcord() + (int) velocity.getVerticalVelocity());
                 //updates location of character based on the velocity
-                Direction direction = gameManager.runObstacleCollisionCheck(character, characterLocation, newLocation);
+                Direction direction = gameManager.runObstacleCollisionCheck(character, oldLocation, newLocation);
                 if (direction == null) {
                     character.setLocation(newLocation);
                     backgroundManager.updateBackgroundLocation();
@@ -238,6 +238,7 @@ public class GraphicsRepainter extends Application {
                 }
             }
 
+            gameManager.runEnemyCheck(oldLocation);
             gameManager.runGroundCheck(character, velocity);
             gameManager.runCollectibleCheck();
 
@@ -298,6 +299,7 @@ public class GraphicsRepainter extends Application {
 
         //gets the level of the game
         LevelManager levelManager = UILauncher.getLevelManager();
+        AnimationManager animationManager = UILauncher.getAnimationManager();
         if (levelManager.isLevelComplete()) {
             Level level = levelManager.getCurrentLevel();
             gc.drawImage(character.getRightEntitySprite(), character.getLocation().getXcord() - level.getEndCord() + UILauncher.getGameManager().getCenterXCord(), character.getLocation().getYcord());
@@ -326,17 +328,21 @@ public class GraphicsRepainter extends Application {
         //draws enemies
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
             if (levelManager.isLevelComplete()) {
-                if (enemy.isFacingRight()) {
-                    gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
-                } else {
-                    gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
+                Image sprite = enemy.getRightEntitySprite();
+                if (animationManager.getEnemyDeathAnimation(enemy) != null) {
+                    sprite = animationManager.getEnemyDeathAnimation(enemy).getSprite();
+                } else if (!enemy.isFacingRight()) {
+                    sprite = enemy.getLeftEntitySprite();
                 }
+                gc.drawImage(sprite, enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
             } else {
-                if (enemy.isFacingRight()) {
-                    gc.drawImage(enemy.getRightEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
-                } else {
-                    gc.drawImage(enemy.getLeftEntitySprite(), enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+                Image sprite = enemy.getRightEntitySprite();
+                if (animationManager.getEnemyDeathAnimation(enemy) != null) {
+                    sprite = animationManager.getEnemyDeathAnimation(enemy).getSprite();
+                } else if (!enemy.isFacingRight()) {
+                    sprite = enemy.getLeftEntitySprite();
                 }
+                gc.drawImage(sprite, enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
             }
 
             if (UILauncher.getDebugMode()) {

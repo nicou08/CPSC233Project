@@ -8,7 +8,7 @@ import etphoneshome.objects.Location;
  */
 
 public abstract class Enemy extends Actor {
-
+    
     /**
      * defualt constructor that sets FacingRight to false
      */

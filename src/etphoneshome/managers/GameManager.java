@@ -22,6 +22,11 @@ public class GameManager {
      */
     private final GraphicsRepainter graphicsRepainter;
     private final EntityManager entityManager;
+    private final CollectiblesManager collectiblesManager;
+    private final LevelManager levelManager;
+    private final FlaskManager flaskManager;
+    private final ObstacleManager obstacleManager;
+    private final AnimationManager animationManager;
 
     /**
      * character of {@code GameManager}
@@ -32,7 +37,7 @@ public class GameManager {
      * boolean of is the game over
      */
     private boolean gameOver = false;
-    
+
     private Sound sound = new Sound();
 
     /**
@@ -42,9 +47,14 @@ public class GameManager {
      * @param entityManager     entityManager of {@code GameManager}
      * @param character         character of {@code GameManager}
      */
-    public GameManager(GraphicsRepainter graphicsRepainter, EntityManager entityManager, Character character) {
+    public GameManager(GraphicsRepainter graphicsRepainter, EntityManager entityManager, CollectiblesManager collectiblesManager, LevelManager levelManager, FlaskManager flaskManager, ObstacleManager obstacleManager, AnimationManager animationManager, Character character) {
         this.graphicsRepainter = graphicsRepainter;
         this.entityManager = entityManager;
+        this.collectiblesManager = collectiblesManager;
+        this.levelManager = levelManager;
+        this.flaskManager = flaskManager;
+        this.obstacleManager = obstacleManager;
+        this.animationManager = animationManager;
         this.character = character;
     }
 
@@ -67,14 +77,29 @@ public class GameManager {
             Hitbox characterHitbox = character.getHitbox();
 
             for (Enemy enemy : this.entityManager.getEnemyList()) {
-                Hitbox enemyHitbox = enemy.getHitbox();
-                boolean areColliding = characterHitbox.areColliding(enemyHitbox);
-                if (areColliding) {
-                    return areColliding;
+                if (!enemy.getIsDead()) {
+                    Hitbox enemyHitbox = enemy.getHitbox();
+                    boolean areColliding = characterHitbox.areColliding(enemyHitbox);
+                    if (areColliding) {
+                        return areColliding;
+                    }
                 }
             }
         }
         return false;
+    }
+
+    public void runEnemyCheck(Location oldLocation) {
+        Hitbox oldCharacterHitbox = character.getHitbox(), newCharacterHitbox = character.getHitbox();
+        oldCharacterHitbox.setLocation(oldLocation);
+
+        for (Enemy enemy : this.entityManager.getEnemyList()) {
+            Hitbox enemyHitbox = enemy.getHitbox();
+            if (oldCharacterHitbox.aboveOtherHitbox(enemyHitbox) && newCharacterHitbox.areColliding(enemyHitbox)) {
+                enemy.setIsDead(true);
+                this.animationManager.addEnemyDeathAnimation(enemy);
+            }
+        }
     }
 
     /**
@@ -121,7 +146,7 @@ public class GameManager {
      * @param velocity  {@code Velocity} of character
      */
     public void runGroundCheck(Character character, Velocity velocity) {
-        if (UILauncher.getInputListener().onGround() && character.isJumping()) {
+        if (this.onGround() && character.isJumping()) {
             character.setJumping(false);
             velocity.setVerticalVelocity(0);
         }
@@ -138,7 +163,7 @@ public class GameManager {
         Hitbox ET = new Hitbox(this.character.getLocation(), height, width);
 
         //iterates through the list for ReesesPieces
-        List<Collectible> collectibleList = UILauncher.getCollectiblesManager().getCollectiblesList();
+        List<Collectible> collectibleList = this.collectiblesManager.getCollectiblesList();
         for (int i = collectibleList.size() - 1; i >= 0; i--) {
             Collectible collectible = collectibleList.get(i);
             int colHeight = (int) collectible.getHeight();
@@ -149,10 +174,10 @@ public class GameManager {
                     character.addScore(100);
                     sound.playReese();
                 } else if (collectible instanceof PhonePiece) {
-                    UILauncher.getLevelManager().addCollectedPhonePiece(((PhonePiece) collectible).getPhonePieceType());
+                    this.levelManager.addCollectedPhonePiece(((PhonePiece) collectible).getPhonePieceType());
                     sound.playPhone();
                 }
-                UILauncher.getCollectiblesManager().removeCollectible(collectible);
+                this.collectiblesManager.removeCollectible(collectible);
             }
         }
     }
@@ -164,12 +189,12 @@ public class GameManager {
             Hitbox ET = character.getHitbox();
 
             //iterates through list of Flasks
-            List<Flask> flaskList = UILauncher.getFlaskManager().getFlaskList();
+            List<Flask> flaskList = this.flaskManager.getFlaskList();
             for (int i = flaskList.size() - 1; i >= 0; i--) {
                 Flask flask = flaskList.get(i);
                 Hitbox flaskHit = flask.getHitbox();
                 if (flask.getLocation().getYcord() >= getGroundLevel(this.character)) {
-                    UILauncher.getFlaskManager().removeFlask(flask);
+                    this.flaskManager.removeFlask(flask);
                 }
                 if (ET.areColliding(flaskHit)) {
                     return true;
@@ -181,7 +206,7 @@ public class GameManager {
     }
 
     public void moveFlasks() {
-        for (Flask flask : UILauncher.getFlaskManager().getFlaskList()) {
+        for (Flask flask : this.flaskManager.getFlaskList()) {
             Location old = flask.getLocation();
             Velocity vel = flask.getVelocity();
             flask.setLocation(new Location(old.getXcord() + (int) vel.getHorizontalVelocity(), old.getYcord() + (int) vel.getVerticalVelocity()));
@@ -190,7 +215,7 @@ public class GameManager {
 
     public void throwFlasks() {
 
-        for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
+        for (Enemy enemy : this.entityManager.getEnemyList()) {
             if (enemy instanceof Scientist) {
                 Scientist scientist = (Scientist) enemy;
                 if (!scientist.getThrownFlask()) {
@@ -201,14 +226,14 @@ public class GameManager {
                             if (!enemy.isFacingRight()) {
                                 Location newLoc = new Location(enemy.getLocation().getXcord(), enemy.getLocation().getYcord() - 10);
                                 Flask flask = new Flask(newLoc, new Velocity(-5, -10));
-                                UILauncher.getFlaskManager().addFlask(scientist, flask);
+                                this.flaskManager.addFlask(scientist, flask);
                                 scientist.setThrownFlask(true);
                             }
                         } else if (character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
                             if (enemy.isFacingRight()) {
                                 Location newLoc = new Location((int) (enemy.getLocation().getXcord() + enemy.getRightEntitySprite().getWidth()), enemy.getLocation().getYcord() - 10);
                                 Flask flask = new Flask(newLoc, new Velocity(5, -10));
-                                UILauncher.getFlaskManager().addFlask(scientist, flask);
+                                this.flaskManager.addFlask(scientist, flask);
                                 scientist.setThrownFlask(true);
                             }
                         }
@@ -242,7 +267,7 @@ public class GameManager {
         Hitbox newCharacterHitbox = new Hitbox(newLocation, height, width);
 
         //iterates through the list of obstacles
-        for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
+        for (Obstacle obstacle : this.obstacleManager.getObstacleList()) {
             Hitbox obstacleHitbox = obstacle.getHitbox();
 
             //if they're colliding
@@ -290,12 +315,54 @@ public class GameManager {
         return null;
     }
 
+    /**
+     * Checks if player is on the ground or not
+     *
+     * @return whether the player is on the ground or not
+     */
+    public boolean onGround() {
+
+        //return true if on ground level
+        if (this.character.getLocation().getYcord() >= this.getGroundLevel(this.character)) {
+            this.character.setLocation(new Location(this.character.getLocation().getXcord(), this.getGroundLevel(this.character)));
+            return true;
+        } else {
+            int height = (int) this.character.getRightEntitySprite().getHeight();
+            int width = (int) this.character.getRightEntitySprite().getWidth();
+            Hitbox testCharacterHitbox = new Hitbox(new Location(this.character.getLocation().getXcord(), this.character.getLocation().getYcord() + 3), height, width);
+            for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
+                if (obstacle instanceof Platform) {
+                    Platform platform = (Platform) obstacle;
+                    if (testCharacterHitbox.areColliding(platform.getHitbox())) {
+                        this.character.setOnPlatform(true);
+                        return true;
+                    }
+                } else {
+                    if (testCharacterHitbox.areColliding(obstacle.getHitbox())) {
+                        this.character.setOnPlatform(true);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if (this.character.isOnPlatform()) {
+            this.character.setOnPlatform(false);
+            this.character.setJumping(true);
+        }
+        return false;
+    }
+
     public static void main(String args[]) {
         Character character = new ET();
         GraphicsRepainter graphicsRepainter = new GraphicsRepainter();
+        FlaskManager flaskManager = new FlaskManager();
+        LevelManager levelManager = new LevelManager();
         EntityManager entityManager = new EntityManager(character);
-        BackgroundManager backgroundManager = new BackgroundManager(graphicsRepainter);
-        GameManager gameManager = new GameManager(graphicsRepainter, entityManager, character);
+        CollectiblesManager collectiblesManager = new CollectiblesManager();
+        ObstacleManager obstacleManager = new ObstacleManager();
+        AnimationManager animationManager = new AnimationManager(entityManager);
+        GameManager gameManager = new GameManager(graphicsRepainter, entityManager, collectiblesManager, levelManager, flaskManager, obstacleManager, animationManager, character);
 
         System.out.println("Testing out wasCharacterHurt");
 

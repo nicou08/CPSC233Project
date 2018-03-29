@@ -1,9 +1,10 @@
 package etphoneshome.listeners;
 
-import etphoneshome.UILauncher;
 import etphoneshome.entities.characters.Character;
 import etphoneshome.managers.*;
-import etphoneshome.objects.*;
+import etphoneshome.objects.Direction;
+import etphoneshome.objects.Flask;
+import etphoneshome.objects.Velocity;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
 
@@ -134,13 +135,11 @@ public class InputListener {
         //gets direction the character is facing
         if (velocity.getHorizontalVelocity() > 0) {
             if (!this.character.isFacingRight()) {
-                System.out.println("change from left to right");
                 animationManager.flipCharacterAnimationFrames(Direction.EAST);
             }
             this.character.setFacingRight(true);
         } else if (velocity.getHorizontalVelocity() < 0) {
             if (this.character.isFacingRight()) {
-                System.out.println("change from right to left");
                 animationManager.flipCharacterAnimationFrames(Direction.WEST);
             }
             this.character.setFacingRight(false);
@@ -188,44 +187,6 @@ public class InputListener {
      */
     public void updateBackgroundVelocity() {
         backgroundManager.getBackgroundVelocity().setHorizontalVelocity(this.character.getVelocity().getHorizontalVelocity() / -2.0);
-    }
-
-    /**
-     * Checks if player is on the ground or not
-     *
-     * @return whether the player is on the ground or not
-     */
-    public boolean onGround() {
-
-        //return true if on ground level
-        if (this.character.getLocation().getYcord() >= this.gameManager.getGroundLevel(this.character)) {
-            this.character.setLocation(new Location(this.character.getLocation().getXcord(), this.gameManager.getGroundLevel(this.character)));
-            return true;
-        } else {
-            int height = (int) this.character.getRightEntitySprite().getHeight();
-            int width = (int) this.character.getRightEntitySprite().getWidth();
-            Hitbox testCharacterHitbox = new Hitbox(new Location(this.character.getLocation().getXcord(), this.character.getLocation().getYcord() + 3), height, width);
-            for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
-                if (obstacle instanceof Platform) {
-                    Platform platform = (Platform) obstacle;
-                    if (testCharacterHitbox.areColliding(platform.getHitbox())) {
-                        this.character.setOnPlatform(true);
-                        return true;
-                    }
-                } else {
-                    if (testCharacterHitbox.areColliding(obstacle.getHitbox())) {
-                        this.character.setOnPlatform(true);
-                        return true;
-                    }
-                }
-            }
-        }
-
-        if (this.character.isOnPlatform()) {
-            this.character.setOnPlatform(false);
-            this.character.setJumping(true);
-        }
-        return false;
     }
 }
 
