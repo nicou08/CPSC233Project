@@ -98,6 +98,7 @@ public class GameManager {
             if (oldCharacterHitbox.aboveOtherHitbox(enemyHitbox) && newCharacterHitbox.areColliding(enemyHitbox)) {
                 enemy.setIsDead(true);
                 this.animationManager.addEnemyDeathAnimation(enemy);
+                character.getVelocity().setVerticalVelocity(-15);
             }
         }
     }
