@@ -38,6 +38,9 @@ public class GraphicsRepainter extends Application {
     public final int HEIGHT = 1080;
     private Label score = new Label();
 
+
+    private int RENDER_RANGE;
+
     /**
      * images needed to play the game
      */
@@ -81,6 +84,8 @@ public class GraphicsRepainter extends Application {
         character.setHealth(3);
         UILauncher.setCharacter(character);
         character.setLocation(new Location(UILauncher.getGameManager().getCenterXCord(), UILauncher.getGameManager().getGroundLevel(character)));
+
+        RENDER_RANGE = (this.WIDTH) + (int) character.getRightEntitySprite().getWidth();
 
         this.setupButtons(character);
 
@@ -328,7 +333,7 @@ public class GraphicsRepainter extends Application {
         //draws enemies
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
 
-            if(Math.abs(character.getLocation().getXcord() - enemy.getLocation().getXcord()) <= 1300) {
+            if(Math.abs(character.getLocation().getXcord() - enemy.getLocation().getXcord()) <= RENDER_RANGE) {
 
                 if (levelManager.isLevelComplete()) {
                     Image sprite = enemy.getRightEntitySprite();
@@ -408,7 +413,7 @@ public class GraphicsRepainter extends Application {
         //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
 
-            if(Math.abs(character.getLocation().getXcord() - obstacle.getLocation().getXcord()) <= 1300) {
+            if(Math.abs(character.getLocation().getXcord() - obstacle.getLocation().getXcord()) <= RENDER_RANGE) {
 
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
@@ -483,7 +488,7 @@ public class GraphicsRepainter extends Application {
         //drawing collectibles
         for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
 
-            if(Math.abs(character.getLocation().getXcord() - collectible.getLocation().getXcord()) <= 1300) {
+            if(Math.abs(character.getLocation().getXcord() - collectible.getLocation().getXcord()) <= RENDER_RANGE) {
 
                 if (levelManager.isLevelComplete()) {
                     gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), collectible.getLocation().getYcord());
