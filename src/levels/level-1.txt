@@ -1,0 +1,110 @@
+level-num: 1
+background-sprite: images/backgrounds/background-forest-resized.png
+end-cord: 20000
+obstacles:
+  platform:
+    x-cord: 1530
+    y-cord: 800
+    length: 3
+  platform:
+    x-cord: 1830
+    y-cord: 700
+    length: 4
+  platform:
+    x-cord: 2260
+    y-cord: 800
+    length: 5
+  platform:
+    x-cord: 3500
+    y-cord: 872
+    length: 1
+  platform:
+    x-cord: 3500
+    y-cord: 898
+    length: 1
+  platform:
+    x-cord: 3500
+    y-cord: 924
+    length: 1
+  platform:
+    x-cord: 3500
+    y-cord: 950
+    length: 1
+  platform:
+    x-cord: 3710
+    y-cord: 700
+    length: 4
+  platform:
+    x-cord: 4100
+    y-cord: 872
+    length: 1
+  platform:
+    x-cord: 4100
+    y-cord: 898
+    length: 1
+  platform:
+    x-cord: 4100
+    y-cord: 924
+    length: 1
+  platform:
+    x-cord: 4100
+    y-cord: 950
+    length: 1
+  platform:
+    x-cord: 4360
+    y-cord: 600
+    length: 5
+  platform:
+    x-cord: 5200
+    y-cord: 800
+    length: 4
+  platform:
+    x-cord: 5750
+    y-cord: 630
+    length: 5
+  platform:
+    x-cord: 7520
+    y-cord: 800
+    length: 2
+  platform:
+    x-cord: 7740
+    y-cord: 680
+    length: 2
+  platform:
+    x-cord: 7960
+    y-cord: 560
+    length: 2
+  platform:
+    x-cord: 8600
+    y-cord: 750
+    length: 8
+collectibles:
+  phone-piece:
+    type: KEYPAD
+    x-cord: 4040
+    y-cord: 800
+enemies:
+  police:
+    x-cord: 1970
+    y-cord: 700
+  police:
+    x-cord: 2110
+    y-cord: 980
+  police:
+    x-cord: 3160
+    y-cord: 980
+  police:
+    x-cord: 3690
+    y-cord: 980
+  police:
+    x-cord: 4560
+    y-cord: 600
+  police:
+    x-cord: 5840
+    y-cord: 630
+  police:
+    x-cord: 6300
+    y-cord: 980
+  police:
+    x-cord: 8850
+    y-cord: 750
