@@ -9,7 +9,7 @@ import java.io.File;
 public class Sound {
 
     /**
-     * Variables for the main song
+     * Variables for the sounds/music in the game
      * Thanks to @naisusumeru for their song "Town Hall Tower" on Beepbox.co
      */
     private static String theme = new File("sounds\\MainSongET.wav").exists() ? "sounds\\MainSongET.wav" : "ET Phones Home\\src\\sounds\\MainSongET.wav";

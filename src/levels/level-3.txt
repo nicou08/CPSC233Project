@@ -1,0 +1,59 @@
+level-num: 3
+background-sprite: images/backgrounds/background-forest-resized.png
+end-cord: 55000
+obstacles:
+  platform:
+    x-cord: 1920
+    y-cord: 800
+    length: 10
+  platform:
+    x-cord: 2880
+    y-cord: 700
+    length: 10
+  platform:
+    x-cord: 2700
+    y-cord: 600
+    length: 2
+      platform:
+    x-cord: 2500
+    y-cord: 500
+    length: 2
+      platform:
+    x-cord: 2700
+    y-cord: 400
+    length: 4
+      platform:
+    x-cord: 3400
+    y-cord: 400
+    length: 10
+      platform:
+    x-cord: 3840
+    y-cord: 800
+    length: 5
+      platform:
+    x-cord: 4250
+    y-cord: 700
+    length: 10
+collectibles:
+  phone-piece:
+    type: ANTENNA
+    x-cord: 3850
+    y-cord: 350
+  phone-piece:
+    type: CHASSIS
+    x-cord: 3080
+    y-cord: 700
+  phone-piece:
+    type: KEYPAD
+    x-cord: 4040
+    y-cord: 800
+enemies:
+  police:
+    x-cord: 3700
+    y-cord: 280
+  scientist:
+    x-cord: 3180
+    y-cord: 700
+  police:
+    x-cord: 4140
+    y-cord: 800
