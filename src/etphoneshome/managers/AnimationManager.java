@@ -53,13 +53,13 @@ public class AnimationManager {
     }
 
     public void addEnemyDeathAnimation(Enemy enemy) {
-        if (enemy instanceof Police) {
+        if (enemy instanceof Police && !enemy.getIsDead()) {
             if (enemy.isFacingRight()) {
                 this.enemyDeathAnimations.put(enemy, new Animation(AnimationFrames.POLICE_DEATH_RIGHT));
             } else {
                 this.enemyDeathAnimations.put(enemy, new Animation(AnimationFrames.POLICE_DEATH_LEFT));
             }
-        } else if (enemy instanceof Scientist) {
+        } else if (enemy instanceof Scientist && !enemy.getIsDead()) {
             if (enemy.isFacingRight()) {
                 this.enemyDeathAnimations.put(enemy, new Animation(AnimationFrames.SCIENTIST_DEATH_RIGHT));
             } else {

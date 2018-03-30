@@ -96,8 +96,11 @@ public class GameManager {
         for (Enemy enemy : this.entityManager.getEnemyList()) {
             Hitbox enemyHitbox = enemy.getHitbox();
             if (oldCharacterHitbox.aboveOtherHitbox(enemyHitbox) && newCharacterHitbox.areColliding(enemyHitbox)) {
-                enemy.setIsDead(true);
+            	if (!enemy.getIsDead()) {
+            		character.addScore(100);
+            	}
                 this.animationManager.addEnemyDeathAnimation(enemy);
+                enemy.setIsDead(true);
                 character.getVelocity().setVerticalVelocity(-15);
             }
         }
