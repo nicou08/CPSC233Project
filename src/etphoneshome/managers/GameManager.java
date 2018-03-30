@@ -98,6 +98,7 @@ public class GameManager {
             if (oldCharacterHitbox.aboveOtherHitbox(enemyHitbox) && newCharacterHitbox.areColliding(enemyHitbox)) {
             	if (!enemy.getIsDead()) {
             		character.addScore(100);
+            		sound.playEnemyDeath();
             	}
                 this.animationManager.addEnemyDeathAnimation(enemy);
                 enemy.setIsDead(true);

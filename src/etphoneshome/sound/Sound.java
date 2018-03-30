@@ -35,6 +35,11 @@ public class Sound {
     private static String phonePickUp = new File("sounds\\PhonePickUp.wav").exists() ? "sounds\\PhonePickUp.wav" : "ET Phones Home\\src\\sounds\\PhonePickUp.wav";
     private static Media phonePickUpMedia = new Media(new File(phonePickUp).toURI().toString());
     private static MediaPlayer phonePlayer = new MediaPlayer(phonePickUpMedia);
+    
+    private static String enemyDeath = new File("sounds\\EnemyDeath.wav").exists() ? "sounds\\EnemyDeath.wav" : "ET Phones Home\\src\\sounds\\EnemyDeath.wav";
+    private static Media enemyDeathMedia = new Media(new File(enemyDeath).toURI().toString());
+    private static MediaPlayer enemyDeathPlayer = new MediaPlayer(enemyDeathMedia);
+
 
 
     public void playTheme() {
@@ -72,11 +77,17 @@ public class Sound {
         phonePlayer.play();
     }
 
+    public void playEnemyDeath() {
+    	checkStatus(enemyDeathPlayer);
+    	enemyDeathPlayer.play();
+    }
     private void checkStatus(MediaPlayer media1) {
         if (media1.getStatus() == Status.PLAYING) {
             media1.stop();
         }
     }
+    
+   
 
 
     public static void main(String[] args) {
