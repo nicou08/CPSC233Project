@@ -96,10 +96,10 @@ public class GameManager {
         for (Enemy enemy : this.entityManager.getEnemyList()) {
             Hitbox enemyHitbox = enemy.getHitbox();
             if (oldCharacterHitbox.aboveOtherHitbox(enemyHitbox) && newCharacterHitbox.areColliding(enemyHitbox)) {
-            	if (!enemy.getIsDead()) {
-            		character.addScore(100);
-            		sound.playEnemyDeath();
-            	}
+                if (!enemy.getIsDead()) {
+                    character.addScore(100);
+                    sound.playEnemyDeath();
+                }
                 this.animationManager.addEnemyDeathAnimation(enemy);
                 enemy.setIsDead(true);
                 character.getVelocity().setVerticalVelocity(-15);
@@ -222,24 +222,26 @@ public class GameManager {
 
         for (Enemy enemy : this.entityManager.getEnemyList()) {
             if (enemy instanceof Scientist) {
-                Scientist scientist = (Scientist) enemy;
-                if (!scientist.getThrownFlask()) {
-                    if (character.getLocation().getDistance(enemy.getLocation()) < 600) {
+                if (!enemy.getIsDead()) {
+                    Scientist scientist = (Scientist) enemy;
+                    if (!scientist.getThrownFlask()) {
+                        if (character.getLocation().getDistance(enemy.getLocation()) < 600) {
 
-                        //if enemy is to the right and facing character
-                        if (character.getLocation().getXcord() < enemy.getLocation().getXcord()) {
-                            if (!enemy.isFacingRight()) {
-                                Location newLoc = new Location(enemy.getLocation().getXcord(), enemy.getLocation().getYcord() - 10);
-                                Flask flask = new Flask(newLoc, new Velocity(-5, -10));
-                                this.flaskManager.addFlask(scientist, flask);
-                                scientist.setThrownFlask(true);
-                            }
-                        } else if (character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
-                            if (enemy.isFacingRight()) {
-                                Location newLoc = new Location((int) (enemy.getLocation().getXcord() + enemy.getRightEntitySprite().getWidth()), enemy.getLocation().getYcord() - 10);
-                                Flask flask = new Flask(newLoc, new Velocity(5, -10));
-                                this.flaskManager.addFlask(scientist, flask);
-                                scientist.setThrownFlask(true);
+                            //if enemy is to the right and facing character
+                            if (character.getLocation().getXcord() < enemy.getLocation().getXcord()) {
+                                if (!enemy.isFacingRight()) {
+                                    Location newLoc = new Location(enemy.getLocation().getXcord(), enemy.getLocation().getYcord() - 10);
+                                    Flask flask = new Flask(newLoc, new Velocity(-5, -10));
+                                    this.flaskManager.addFlask(scientist, flask);
+                                    scientist.setThrownFlask(true);
+                                }
+                            } else if (character.getLocation().getXcord() > enemy.getLocation().getXcord()) {
+                                if (enemy.isFacingRight()) {
+                                    Location newLoc = new Location((int) (enemy.getLocation().getXcord() + enemy.getRightEntitySprite().getWidth()), enemy.getLocation().getYcord() - 10);
+                                    Flask flask = new Flask(newLoc, new Velocity(5, -10));
+                                    this.flaskManager.addFlask(scientist, flask);
+                                    scientist.setThrownFlask(true);
+                                }
                             }
                         }
                     }

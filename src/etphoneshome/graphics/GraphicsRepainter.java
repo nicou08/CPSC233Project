@@ -240,7 +240,7 @@ public class GraphicsRepainter extends Application {
                     if (newLocation.getXcord() < 0) {
                         newLocation.setXcord(0);
                         character.setLocation(newLocation);
-                    } else if (newLocation.getXcord() >= gameManager.getCenterXCord() - (int) character.getRightEntitySprite().getWidth() / 2) {
+                    } else if (newLocation.getXcord() >= gameManager.getCenterXCord()) {
                         backgroundManager.updateBackgroundLocation();
                     }
                 } else if (direction == Direction.ABOVE || direction == Direction.BELOW) {
@@ -321,11 +321,11 @@ public class GraphicsRepainter extends Application {
 
         //gets the level of the game
         LevelManager levelManager = UILauncher.getLevelManager();
-        if (levelManager.isLevelComplete()) {
-            Level level = levelManager.getCurrentLevel();
-            gc.drawImage(sprite, loc.getXcord() - level.getEndCord() + UILauncher.getGameManager().getCenterXCord(), loc.getYcord());
-        } else if (loc.getXcord() < gameManager.getCenterXCord()) {
+        Level level = levelManager.getCurrentLevel();
+        if (loc.getXcord() < gameManager.getCenterXCord()) {
             gc.drawImage(sprite, loc.getXcord(), loc.getYcord());
+        } else if (loc.getXcord() > level.getEndCord()) {
+            gc.drawImage(sprite, loc.getXcord() - level.getEndCord() + UILauncher.getGameManager().getCenterXCord(), loc.getYcord());
         } else {
             gc.drawImage(sprite, WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, loc.getYcord());
         }
@@ -348,10 +348,12 @@ public class GraphicsRepainter extends Application {
                     sprite = enemy.getLeftEntitySprite();
                 }
 
-                if (levelManager.isLevelComplete()) {
+                if (loc.getXcord() < gameManager.getCenterXCord()) {
                     gc.drawImage(sprite, enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
+                } else if (loc.getXcord() < gameManager.getCenterXCord()) {
+                    gc.drawImage(sprite, enemy.getLocation().getXcord() - gameManager.getCenterXCord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
                 } else {
-                    gc.drawImage(sprite, enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
+                    gc.drawImage(sprite, enemy.getLocation().getXcord() - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
                 }
             }
 
@@ -371,9 +373,13 @@ public class GraphicsRepainter extends Application {
      */
     public void repaintBackgroundAndObstacles(Character character) {
         BackgroundManager backgroundManager = UILauncher.getBackgroundManager();
+        LevelManager levelManager = UILauncher.getLevelManager();
+        GameManager gameManager = UILauncher.getGameManager();
+
         Location backgroundLoc = backgroundManager.getBackgroundLocation();
         gc.drawImage(backgroundManager.getBackgroundSprite(), backgroundLoc.getXcord(), backgroundLoc.getYcord());
-        LevelManager levelManager = UILauncher.getLevelManager();
+
+        Location loc = character.getLocation();
 
         Image finishLineSprite;
 
@@ -389,80 +395,81 @@ public class GraphicsRepainter extends Application {
         }
 
         //draws finish line based off phone pieces collected and current level number
-        if (levelManager.isLevelComplete())  //when the background stops and player keeps moving
-        {
+        if (levelManager.isLevelComplete()) { //when the background stops and player keeps moving
             gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), 370);
-        } else if (levelManager.getPhonePiecesLeft() == 0 && (levelManager.getCurrentLevel().getLevelNum() == 0 || levelManager.getCurrentLevel().getLevelNum() == 3)) //this is used to make the finish line not randomly "pop" into the window
-        {
-            if (character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
-                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+        } else if (levelManager.getPhonePiecesLeft() == 0 && (levelManager.getCurrentLevel().getLevelNum() == 0 || levelManager.getCurrentLevel().getLevelNum() == 3)) { //this is used to make the finish line not randomly "pop" into the window
+            if (loc.getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
+                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
             }
-        } else if (levelManager.getPhonePiecesLeft() == 2 && levelManager.getCurrentLevel().getLevelNum() == 1)    //collected 1 phone piece
-        {
-            if (character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
-                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+        } else if (levelManager.getPhonePiecesLeft() == 2 && levelManager.getCurrentLevel().getLevelNum() == 1) {   //collected 1 phone piece
+            if (loc.getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
+                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
             }
-        } else if (levelManager.getPhonePiecesLeft() == 1 && levelManager.getCurrentLevel().getLevelNum() == 2)    //collected 2 phone pieces
-        {
-            if (character.getLocation().getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
-                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
+        } else if (levelManager.getPhonePiecesLeft() == 1 && levelManager.getCurrentLevel().getLevelNum() == 2) {   //collected 2 phone pieces
+            if (loc.getXcord() >= levelManager.getCurrentLevel().getEndCord() - 1200) {
+                gc.drawImage(finishLineSprite, (levelManager.getCurrentLevel().getEndCord() + 500) - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), 370);
             }
         }
 
         //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
 
-            if (Math.abs(character.getLocation().getXcord() - obstacle.getLocation().getXcord()) <= RENDER_RANGE) {
+            if (Math.abs(loc.getXcord() - obstacle.getLocation().getXcord()) <= RENDER_RANGE) {
 
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
-                    if (levelManager.isLevelComplete()) {
-                        gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                    int endCord = levelManager.getCurrentLevel().getEndCord();
+                    if (loc.getXcord() > endCord) {
+                        gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - endCord, platform.getLocation().getYcord());
 
-                        if (platform.getLength() == 1)   //single platform of length 1
-                        {
-                            gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                        if (platform.getLength() == 1) {  //single platform of length 1
+                            gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - endCord, platform.getLocation().getYcord());
+                        } else if (platform.getLength() > 1) {
+                            for (int i = 0; i <= platform.getLength(); i++) {
+                                if (i == 0) { //left end brick
+                                    gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - endCord, platform.getLocation().getYcord());
+                                } else if (i < platform.getLength() - 1) { //middle bricks
+                                    gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - endCord, platform.getLocation().getYcord());
+                                } else if (i == platform.getLength() - 1) { //right end bricks
+                                    gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - endCord, platform.getLocation().getYcord());
+                                }
+                            }
+                        }
+                    } else if (loc.getXcord() < gameManager.getCenterXCord()) {
+                        if (platform.getLength() == 1) {  //single platform of length 1
+                            gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() - gameManager.getCenterXCord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                         } else if (platform.getLength() > 1) {
                             for (int i = 0; i <= platform.getLength(); i++) {
                                 if (i == 0)  //left end brick
                                 {
-                                    gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                                    gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - gameManager.getCenterXCord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                                 } else if (i < platform.getLength() - 1)  //middle bricks
                                 {
-                                    gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                                    gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - gameManager.getCenterXCord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                                 } else if (i == platform.getLength() - 1)  //right end bricks
                                 {
-                                    gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), platform.getLocation().getYcord());
+                                    gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - gameManager.getCenterXCord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                                 }
                             }
                         }
                     } else {
-                        if (platform.getLength() == 1)   //single platform of length 1
-                        {
-                            gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                        if (platform.getLength() == 1) {  //single platform of length 1
+                            gc.drawImage(new Image(SpriteURL.SINGLE_PLATFORM.getPath()), platform.getLocation().getXcord() - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                         } else if (platform.getLength() > 1) {
                             for (int i = 0; i <= platform.getLength(); i++) {
                                 if (i == 0)  //left end brick
                                 {
-                                    gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                                    gc.drawImage(new Image(SpriteURL.LEFT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                                 } else if (i < platform.getLength() - 1)  //middle bricks
                                 {
-                                    gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                                    gc.drawImage(new Image(SpriteURL.REGULAR_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                                 } else if (i == platform.getLength() - 1)  //right end bricks
                                 {
-                                    gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
+                                    gc.drawImage(new Image(SpriteURL.RIGHT_END_PLATFORM.getPath()), (60 * i) + platform.getLocation().getXcord() - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), platform.getLocation().getYcord());
                                 }
                             }
                         }
                     }
-/*                for (Obstacle brick : platform.getBricks()) {
-                    if (levelManager.isLevelComplete()) {
-                        gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), brick.getLocation().getYcord());
-                    } else {
-                        gc.drawImage(brick.getSprite(), brick.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), brick.getLocation().getYcord());
-                    }
-*/
-                    Location loc = new Location(platform.getLocation());
 
                     if (UILauncher.getDebugMode()) {
                         int height = 30;
@@ -483,16 +490,20 @@ public class GraphicsRepainter extends Application {
      */
     public void repaintCollectibles(Character character) {
         LevelManager levelManager = UILauncher.getLevelManager();
+        GameManager gameManager = UILauncher.getGameManager();
+        Location loc = character.getLocation();
 
         //drawing collectibles
         for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
 
-            if (Math.abs(character.getLocation().getXcord() - collectible.getLocation().getXcord()) <= RENDER_RANGE) {
+            if (Math.abs(loc.getXcord() - collectible.getLocation().getXcord()) <= RENDER_RANGE) {
 
-                if (levelManager.isLevelComplete()) {
+                if (loc.getXcord() > levelManager.getCurrentLevel().getEndCord()) {
                     gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), collectible.getLocation().getYcord());
+                } else if (loc.getXcord() <= gameManager.getCenterXCord()) {
+                    gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() - gameManager.getCenterXCord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), collectible.getLocation().getYcord());
                 } else {
-                    gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), collectible.getLocation().getYcord());
+                    gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() - loc.getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), collectible.getLocation().getYcord());
                 }
 
                 if (UILauncher.getDebugMode()) {
