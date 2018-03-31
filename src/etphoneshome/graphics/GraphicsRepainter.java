@@ -237,7 +237,12 @@ public class GraphicsRepainter extends Application {
                 Direction direction = gameManager.runObstacleCollisionCheck(character, oldLocation, newLocation);
                 if (direction == null) {
                     character.setLocation(newLocation);
-                    backgroundManager.updateBackgroundLocation();
+                    if (newLocation.getXcord() < 0) {
+                        newLocation.setXcord(0);
+                        character.setLocation(newLocation);
+                    } else if (newLocation.getXcord() >= gameManager.getCenterXCord() - (int) character.getRightEntitySprite().getWidth() / 2) {
+                        backgroundManager.updateBackgroundLocation();
+                    }
                 } else if (direction == Direction.ABOVE || direction == Direction.BELOW) {
                     backgroundManager.updateBackgroundLocation();
                 }
@@ -301,30 +306,32 @@ public class GraphicsRepainter extends Application {
      * @param character {@code Character}
      */
     public void repaintEntities(Character character) {
+        Location loc = character.getLocation();
+        GameManager gameManager = UILauncher.getGameManager();
+        AnimationManager animationManager = UILauncher.getAnimationManager();
+
+        Animation characterAnimation = animationManager.getCharacterAnimation();
+        Image sprite = character.getRightEntitySprite();
+
+        if (characterAnimation != null) {
+            sprite = characterAnimation.getSprite();
+        } else if (!character.isFacingRight()) {
+            sprite = character.getLeftEntitySprite();
+        }
 
         //gets the level of the game
         LevelManager levelManager = UILauncher.getLevelManager();
-        AnimationManager animationManager = UILauncher.getAnimationManager();
         if (levelManager.isLevelComplete()) {
             Level level = levelManager.getCurrentLevel();
-            gc.drawImage(character.getRightEntitySprite(), character.getLocation().getXcord() - level.getEndCord() + UILauncher.getGameManager().getCenterXCord(), character.getLocation().getYcord());
+            gc.drawImage(sprite, loc.getXcord() - level.getEndCord() + UILauncher.getGameManager().getCenterXCord(), loc.getYcord());
+        } else if (loc.getXcord() < gameManager.getCenterXCord()) {
+            gc.drawImage(sprite, loc.getXcord(), loc.getYcord());
         } else {
-            Animation characterAnimation = UILauncher.getAnimationManager().getCharacterAnimation();
-            if (characterAnimation != null) {
-                gc.drawImage(characterAnimation.getSprite(), WIDTH / 2 - characterAnimation.getSprite().getWidth() / 2, character.getLocation().getYcord());
-            } else {
-                if (character.isFacingRight()) {
-                    gc.drawImage(character.getRightEntitySprite(), WIDTH / 2 - character.getRightEntitySprite().getWidth() / 2, character.getLocation().getYcord());
-
-                } else {
-                    gc.drawImage(character.getLeftEntitySprite(), WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, character.getLocation().getYcord());
-                }
-            }
+            gc.drawImage(sprite, WIDTH / 2 - character.getLeftEntitySprite().getWidth() / 2, loc.getYcord());
         }
 
         //debug modes sets outline around hitboxes (for testing)
         if (UILauncher.getDebugMode()) {
-            Location loc = character.getLocation();
             int height = (int) character.getRightEntitySprite().getHeight();
             int width = (int) character.getRightEntitySprite().getWidth();
             this.drawHitbox(character, loc, height, width, Color.GREEN);
@@ -333,31 +340,23 @@ public class GraphicsRepainter extends Application {
         //draws enemies
         for (Enemy enemy : UILauncher.getEntityManager().getEnemyList()) {
 
-            if(Math.abs(character.getLocation().getXcord() - enemy.getLocation().getXcord()) <= RENDER_RANGE) {
+            if (Math.abs(character.getLocation().getXcord() - enemy.getLocation().getXcord()) <= RENDER_RANGE) {
+                sprite = enemy.getRightEntitySprite();
+                if (animationManager.getEnemyDeathAnimation(enemy) != null) {
+                    sprite = animationManager.getEnemyDeathAnimation(enemy).getSprite();
+                } else if (!enemy.isFacingRight()) {
+                    sprite = enemy.getLeftEntitySprite();
+                }
 
                 if (levelManager.isLevelComplete()) {
-                    Image sprite = enemy.getRightEntitySprite();
-                    if (animationManager.getEnemyDeathAnimation(enemy) != null) {
-                        sprite = animationManager.getEnemyDeathAnimation(enemy).getSprite();
-                    } else if (!enemy.isFacingRight()) {
-                        sprite = enemy.getLeftEntitySprite();
-                    }
                     gc.drawImage(sprite, enemy.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), enemy.getLocation().getYcord());
                 } else {
-                    Image sprite = enemy.getRightEntitySprite();
-                    if (animationManager.getEnemyDeathAnimation(enemy) != null) {
-                        sprite = animationManager.getEnemyDeathAnimation(enemy).getSprite();
-                    } else if (!enemy.isFacingRight()) {
-                        sprite = enemy.getLeftEntitySprite();
-                    }
                     gc.drawImage(sprite, enemy.getLocation().getXcord() - character.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2), enemy.getLocation().getYcord());
                 }
             }
 
 
-
             if (UILauncher.getDebugMode()) {
-                Location loc = enemy.getLocation();
                 int height = (int) enemy.getRightEntitySprite().getHeight();
                 int width = (int) enemy.getRightEntitySprite().getWidth();
                 this.drawHitbox(character, loc, height, width, Color.RED);
@@ -413,7 +412,7 @@ public class GraphicsRepainter extends Application {
         //drawing obstacles
         for (Obstacle obstacle : UILauncher.getObstacleManager().getObstacleList()) {
 
-            if(Math.abs(character.getLocation().getXcord() - obstacle.getLocation().getXcord()) <= RENDER_RANGE) {
+            if (Math.abs(character.getLocation().getXcord() - obstacle.getLocation().getXcord()) <= RENDER_RANGE) {
 
                 if (obstacle instanceof Platform) {
                     Platform platform = (Platform) obstacle;
@@ -473,7 +472,7 @@ public class GraphicsRepainter extends Application {
                     }
                 }
             }
-            }
+        }
 
     }
 
@@ -488,7 +487,7 @@ public class GraphicsRepainter extends Application {
         //drawing collectibles
         for (Collectible collectible : UILauncher.getCollectiblesManager().getCollectiblesList()) {
 
-            if(Math.abs(character.getLocation().getXcord() - collectible.getLocation().getXcord()) <= RENDER_RANGE) {
+            if (Math.abs(character.getLocation().getXcord() - collectible.getLocation().getXcord()) <= RENDER_RANGE) {
 
                 if (levelManager.isLevelComplete()) {
                     gc.drawImage(collectible.getTheImage(), collectible.getLocation().getXcord() + (this.WIDTH / 2 - (int) character.getRightEntitySprite().getWidth() / 2) - levelManager.getCurrentLevel().getEndCord(), collectible.getLocation().getYcord());
